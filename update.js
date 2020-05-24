@@ -135,5 +135,5 @@ function updatescaleinc() {
   d("scaleincpcost").textContent = e(getscaleincpcost());
 }
 function updateversion() {
-  d("version").textContent = "Version: v" + user.version;
+  d("version").textContent = "Version: v" + user.version + "-alpha";
 }
