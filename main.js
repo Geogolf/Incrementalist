@@ -28,7 +28,7 @@ const currencyids = ["ip", "pp", "ap", "tp", "dp", "gp"];
 const currencynames = ["Increment", "Prestige", "Ascension", "Transcension", "Divinity", "WIP"];
 const tabs = ["auto", "scale", "sac", "ach", "ip", "pp", "ap", "tp", "dp", "gp"];
 const goals = {
-  ip: [100, 2000, 2000, 10000, 25000, 100000, 500000, 1e6, 1e7, 1e8, 1e9, 1e10],
+  ip: [100, 2000, 2000, 10000, 25000, 100000, 500000, 1e6/*, 1e7, 1e8, 1e9, 1e10*/],
   pp: [],
   ap: [],
   tp: [],
@@ -36,7 +36,7 @@ const goals = {
   gp: [],
 }
 const unlocks = {
-  ip: ["incp2", "btabauto", "ipsec", "incp3", "automationincp", "btabscale", "incp4", "incp5", "incm1", "incm2", "automationscaleincp", "incm3"],
+  ip: ["incp2", "btabauto", "ipsec", "incp3", "automationincp", "btabscale", "incp4", "incp5"/*, "incm1", "incm2", "automationscaleincp", "incm3"*/],
   pp: [],
   ap: [],
   tp: [],
