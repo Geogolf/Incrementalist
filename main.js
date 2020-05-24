@@ -161,9 +161,6 @@ function progressbar() {
 //run on page load
 hide();
 user = getUser();
-user.ip.x = user.ip.x.plus(1e9);
-user.ip.pp = user.ip.pp.plus(1e9);
-user.ip.total = user.ip.total.plus(1e9);
 tab(user.tab);
 h("settings");
 updates();
