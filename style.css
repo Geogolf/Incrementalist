@@ -1,0 +1,206 @@
+body {
+  background-color: rgb(0, 0, 0);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  font-family: arial;
+}
+table {margin-left: auto; margin-right: auto; empty-cells: hide}
+hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
+
+.text40 {font-size: 40px}
+.text36 {font-size: 36px}
+.text32 {font-size: 32px}
+.text28 {font-size: 28px}
+.text24 {font-size: 24px}
+.text22 {font-size: 22px}
+.text20 {font-size: 20px}
+.text18 {font-size: 18px}
+.text16 {font-size: 16px}
+.text14 {font-size: 14px}
+.text12 {font-size: 12px}
+.text8 {font-size: 8px}
+.text {color: rgb(200, 200, 200)}
+.redText {color: rgb(220, 20, 60)}
+.orangeText {color: rgb(255, 165, 0)}
+.yellowText {color: rgb(222, 222, 0)}
+.greenText {color: rgb(50, 200, 50)}
+.blueText {color: rgb(25, 25, 255)}
+.purpleText {color: rgb(150, 0, 210)}
+.goldText {color: rgb(210, 175, 55)}
+.monospace {font-family: monospace}
+.ch {text-align: center}
+.cv {position: absolute; top: 50%; transform: translateY(-50%)}
+.chv {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)}
+.cvh {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)}
+
+
+#gear {position: absolute; top: 0px; right: 10px; cursor: pointer}
+.setting {
+  color: rgb(150, 150, 150);
+  background-color: rgb(25, 25, 25);
+  border-color: rgb(35, 140, 35);
+  border-width: 2px;
+  border-style: solid;
+  width: 150px;
+  height: 75px;
+  font-size: 24px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color .2s;
+}
+.pb {
+  background-color: rgb(100, 100, 100);
+  width: 240px;
+  position: relative;
+  margin-top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 20px;
+}
+#pbip {
+  background-color: rgb(150, 0, 210);
+  width: 0%;
+  height: 100%;
+}
+#pbpp {
+  background-color: rgb(150, 0, 210);
+  width: 0%;
+  height: 100%;
+}
+#pbap {
+  background-color: rgb(150, 0, 210);
+  width: 0%;
+  height: 100%;
+}
+#pbtp {
+  background-color: rgb(150, 0, 210);
+  width: 0%;
+  height: 100%;
+}
+#pbdp {
+  background-color: rgb(150, 0, 210);
+  width: 0%;
+  height: 100%;
+}
+#pbgp {
+  background-color: rgb(150, 0, 210);
+  width: 0%;
+  height: 100%;
+}
+.tab {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(200, 200, 200);
+  border-width: 2px;
+  border-radius: 5px;
+  border-style: solid;
+  padding: 5px;
+  margin: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 155px;
+  cursor: pointer;
+  outline: none;
+  transition: color .2s, background-color .2s;
+}
+.tab:hover {color: rgb(200, 200, 200); background-color: rgb(0, 0, 0)}
+.tabpurple {
+  color: rgb(150, 0, 210);
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(150, 0, 210);
+  /*transition: background-color 0.75s, border-color 0.75s;*/
+}
+.tabpurple:hover {color: rgb(0, 0, 0); background-color: rgb(150, 0, 210)}
+.tabblue {
+  color: rgb(25, 25, 255);
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(25, 25, 255);
+}
+.tabblue:hover {color: rgb(0, 0, 0); background-color: rgb(25, 25, 255)}
+.tabgreen {
+  color: rgb(50, 200, 50);
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(50, 200, 50);
+}
+.tabgreen:hover {color: rgb(0, 0, 0); background-color: rgb(50, 200, 50)}
+.tabyellow {
+  color: rgb(222, 222, 0);
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(222, 222, 0);
+}
+.tabyellow:hover {color: rgb(0, 0, 0); background-color: rgb(222, 222, 0)}
+.taborange {
+  color: rgb(255, 165, 0);
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(255, 165, 0);
+}
+.taborange:hover {color: rgb(0, 0, 0); background-color: rgb(255, 165, 0)}
+.tabred {
+  color: rgb(220, 20, 60);
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(220, 20, 60);
+}
+.tabred:hover {color: rgb(0, 0, 0); background-color: rgb(220, 20, 60)}
+.title {
+  background-color: rgb(50, 50, 50);
+  border: none;
+  border-radius: 15px;
+  height: 30px;
+  width: 200px;
+  outline: none;
+}
+.automation {
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(150, 0, 210);
+  border-width: 2px;
+  border-radius: 10px;
+  border-style: solid;
+  width: 200px;
+  margin-top: 10px;
+  cursor: pointer;
+  outline: none;
+}
+.click {
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(150, 0, 210);
+  border-width: 2px;
+  border-radius: 10px;
+  border-style: solid;
+  height: 100px;
+  width: 200px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color .2s ;
+}
+.click:hover {background-color: rgb(25, 25, 25)}
+.click:active {background-color: rgb(10, 10, 10)}
+.increment {
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(100, 90, 150);
+  border-width: 2px;
+  border-radius: 10px;
+  border-style: solid;
+  width: 200px;
+  margin: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color .2s;
+}
+.increment:hover {background-color: rgb(25, 25, 25)}
+.increment:active {background-color: rgb(10, 10, 10)}
+.autobutton {
+  border-color: rgb(100, 100, 100);
+  border-width: 1px;
+  border-style: solid;
+  width: 35px;
+  height: 15px;
+}
+
+#version {color: rgb(100, 100, 100); position: fixed; bottom: 3px; left: 5px}
+#loading {position: fixed; top: 0px; left: 0px; background-color: rgb(0, 0, 0); width: 100%; height: 100%; opacity: 1; z-index: 1; transition: opacity 0.75s}
+#game {opacity: 0; transition: opacity 0.75s}
