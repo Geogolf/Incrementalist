@@ -17,4 +17,4 @@ function hide() {
   for (let i = 0; i < unlocks.gp.length; i++) {h(unlocks.gp[i])};
 }
 const tempHide = ["pp", "space1", "ap", "space2", "tp", "space3", "dp", "space4", "gp", "incm4", "incm5", "ince1", "ince2", "ince3", "ince4", "ince5", "btabsac", "btabpp", "btabap", "btabtp", "btabdp", "btabgp", "automationincm", "automationince", "scaleincm", "scaleince", "incm1", "incm2", "automationscaleincp", "incm3"];
-for (let i = 0; i < tempHide.length; i++) {h(tempHide[i])}
+for (let i = 0; i < tempHide.length; i++) {document.getElementById(tempHide[i]).style.display = "none"}
