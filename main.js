@@ -217,6 +217,7 @@ wel("focus", () => {focused = true; h("display"); loadOffline()});
 brokenCheck();
 load();
 updater();
+tab("ip");
 h("settings");
 d("loading").style.opacity = 0;
 d("game").style.opacity = 1;
