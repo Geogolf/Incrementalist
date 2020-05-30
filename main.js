@@ -146,8 +146,8 @@ function unlockautomate(layer) {
     else {for (let i = 1; i <= 5; i++) {h("automateincm" + i)}} 
     if (user.automation.inc.e) {}
     else {for (let i = 1; i <= 5; i++) {h("automateince" + i)}} 
-    if (user.automation.scale.inc.p) {s("automationscaleincp"); if (sac.gte(1e9)) {s("automatescaleincp")}} else {h("automatescaleincp")}
-    if (user.automation.scale.inc.m) {s("automationscaleincm"); if (sac.gte(1e27)) {s("automatescaleincm")}} else {h("automatescaleincm")}
+    if (user.automation.scale.inc.p) {s("automationscaleincp"); if (sac.gte(1e9)) {s("automatescaleincp")} else {h("automatescaleincp")}} else {h("automatescaleincp")}
+    if (user.automation.scale.inc.m) {s("automationscaleincm"); if (sac.gte(1e27)) {s("automatescaleincm")} else {h("automatescaleincm")}} else {h("automatescaleincm")}
     if (user.automation.scale.inc.e) {s("automationscaleince"); s("automatescaleince")} else {h("automatescaleince")}
   }
 }
