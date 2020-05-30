@@ -6,7 +6,12 @@ function load() {
   brokenUser = data;
   focused = true;
   if (data != null) {loadData(data)}
-  else {save()}
+  else {
+    updates();
+    unlocking();
+    user.time = Date.now();
+    save();
+  }
 }
 function ndify(obj) {
   for (key in obj.ip) {user.ip[key] = nd(obj.ip[key])}
