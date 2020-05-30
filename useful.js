@@ -26,6 +26,7 @@ function e(obj, exp, dec) {
     return obj.m.toFixed(exp) + "e" + obj.e.toExponential(exp)/*.replace("1e+", "e")*/.replace("e+", "e");
   }
   else if (obj.e >= 6) {
+    if (obj.m.toFixed(exp) >= 10) {obj.m /= 10; obj.e++}
     return obj.m.toFixed(exp) + "e" + obj.e.toLocaleString();
   }
   else {
@@ -40,9 +41,7 @@ function e(obj, exp, dec) {
     return x;
   }
 }
-function nd(value) {
-  return new Decimal(value);
-}
+function nd(value) {return new Decimal(value)}
 function d(x) {return document.getElementById(x)}
 function h(x) {document.getElementById(x).style.display = "none"}
 function s(x) {document.getElementById(x).style.display = "inline"}
@@ -74,7 +73,7 @@ function wel(a, b) {window.addEventListener(a, b)}
 }*/
 function time(obj) {
   let x = obj.divide(1000);
-  if (x == "Infinity" || typeof x == "null" || typeof obj == "undefined") {return "Infinite Time"; console.log("?")}
+  if (x == "Infinity" || typeof x == "null" || typeof obj == "undefined") {return "Infinite Time"}
   let y = e(x.divide(31536000).floor());
   let yy = (y == 1) ? " Year " : " Years ";
   let d = x.divide(31536000).minus(x.divide(31536000).floor()).times(31536000).floor().divide(86400).floor();
@@ -83,14 +82,17 @@ function time(obj) {
   let hh = (h == 1) ? " Hour " : " Hours ";
   let m = x.divide(3600).minus(x.divide(3600).floor()).times(3600).floor().divide(60).floor();
   let mm = (m == 1) ? " Minute " : " Minutes ";
-  let s = x.divide(60).minus(x.divide(60).floor()).times(60).toFixed(3);
-  let ss = (s == 1) ? " Second" : " Seconds";
+  let s = x.divide(60).minus(x.divide(60).floor()).times(60).toFixed(3)/*.floor()*/;
+  let ss = (s == 1) ? " Second " : " Seconds ";
+  /*let ms = x.minus(x.floor()).times(1000).floor();
+  let msms = (ms == 1) ? " Millisecond" : " Milliseconds";*/
   if (y == 0) {y = ""; yy = ""}
   if (d == 0) {d = ""; dd = ""}
   if (h == 0 || y > 0) {h = ""; hh = ""}
   if (m == 0 || d > 0 || y > 0) {m = ""; mm = ""}
   if (h > 0 || d > 0 || y > 0) {s = ""; ss = ""}
-  return y + yy + d + dd + h + hh + m + mm + s + ss;
+  /*if (m > 0 || h > 0 || d > 0 || y > 0) {ms = ""; msms = ""}*/
+  return y + yy + d + dd + h + hh + m + mm + s + ss/* + ms + msms*/;
 }
 function cb(str) {
   var el = document.createElement("textarea");
