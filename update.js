@@ -1,6 +1,25 @@
 function updater() {
   setInterval(() => {
     if (focused) {
+      if (user.tab == "scale") {
+        if (user.automate.inc.x || user.automate.scale.inc.p || user.automate.scale.inc.m || user.automate.scale.inc.e) {updatescaleinc()}
+      }
+      if (user.tab == "sac") {
+        if (user.automate.inc.x) {updatesacip()}
+      }
+      if (user.tab == "ip") {
+        if (user.automate.scale.inc.p || user.automate.inc.p[1] || user.automate.inc.p[2] || user.automate.inc.p[3] || user.automate.inc.p[4] || user.automate.inc.p[5]) {updateincp()}
+        if (user.automate.scale.inc.m || user.automate.inc.m[1] || user.automate.inc.m[2] || user.automate.inc.m[3] || user.automate.inc.m[4] || user.automate.inc.m[5]) {updateincm()}
+        if (user.automate.scale.inc.e || user.automate.inc.e[1] || user.automate.inc.e[2] || user.automate.inc.e[3] || user.automate.inc.e[4] || user.automate.inc.e[5]) {updateince()}
+        let isTrue = false;
+        for (let i = 1; i <= 5; i++) {if (user.automate.inc.p[i] || user.automate.inc.m[i] || user.automate.inc.e[i]) {isTrue = true}}
+        if (isTrue) {updateincx()}
+      }
+      let isTrue = false;
+      for (let i = 1; i <= 5; i++) {if (user.automate.inc.p[i] || user.automate.inc.m[i] || user.automate.inc.e[i]) {isTrue = true}}
+      if (user.automate.inc.x || isTrue) {updateip()}
+      if (user.automate.inc.x) {unlockip()}
+      /*
       if (user.automate.inc.x || user.automate.inc.p[1] || user.automate.inc.p[2] || user.automate.inc.p[3] || user.automate.inc.p[4] || user.automate.inc.p[5] || user.automate.inc.m[1] || user.automate.inc.m[2] || user.automate.inc.m[3] || user.automate.inc.m[4] || user.automate.inc.m[5] || user.automate.inc.e[1] || user.automate.inc.e[2] || user.automate.inc.e[3] || user.automate.inc.e[4] || user.automate.inc.e[5] || user.automate.scale.inc.p || user.automate.scale.inc.m || user.automate.scale.inc.e) {updateip()}
       if (user.automate.inc.x) {updatesacip(); unlockip()}
       if (user.automate.inc.p[1] || user.automate.inc.p[2] || user.automate.inc.p[3] || user.automate.inc.p[4] || user.automate.inc.p[5] || user.automate.inc.m[1] || user.automate.inc.m[2] || user.automate.inc.m[3] || user.automate.inc.m[4] || user.automate.inc.m[5] || user.automate.inc.e[1] || user.automate.inc.e[2] || user.automate.inc.e[3] || user.automate.inc.e[4] || user.automate.inc.e[5]) {updateincx()}
@@ -8,12 +27,13 @@ function updater() {
       if (user.automate.scale.inc.m || user.automate.inc.m[1] || user.automate.inc.m[2] || user.automate.inc.m[3] || user.automate.inc.m[4] || user.automate.inc.m[5]) {updateincm()}
       if (user.automate.scale.inc.e || user.automate.inc.e[1] || user.automate.inc.e[2] || user.automate.inc.e[3] || user.automate.inc.e[4] || user.automate.inc.e[5]) {updateince()}
       if (user.automate.inc.x || user.automate.scale.inc.p || user.automate.scale.inc.m || user.automate.scale.inc.e) {updatescaleinc()}
+      */
     }
   }, (1000 / updaterate));
 }
 function updatesetting(id) {
-  /*if (id == "sdisplay") {
-    if (user.active.shortendisplay) {
+  if (id == "shortendisplay") {
+    if (user.active[id]) {
       d(id).style.backgroundColor = "rgb(50, 50, 50)";
       for (let i = 0; i < currencyids.length; i++) {
         d(currencyids[i] + "text").textContent = " " + currencyids[i].toUpperCase();
@@ -29,36 +49,56 @@ function updatesetting(id) {
         d("pb" + currencyids[i] + "c").style.width = "240px";
       }
     }
+    return;
   }
-  if (id == "spb") {
-    if (user.active.progressbar) {
-      d(id).style.backgroundColor = "rgb(50, 50, 50)";
-    }
-    else {
-      d(id).style.backgroundColor = "rgb(25, 25, 25)";
-    }
-  }*/
+  if (id == "creset") {
+    if (user.confirm[id]) {d(id).style.backgroundColor = "rgb(50, 50, 50)"}
+    else {d(id).style.backgroundColor = "rgb(25, 25, 25)"}
+  }
+  if (id == "csacrifice") {
+    if (user.confirm[id]) {d(id).style.backgroundColor = "rgb(50, 50, 50)"}
+    else {d(id).style.backgroundColor = "rgb(25, 25, 25)"}
+  }
+  if (id == "displaypause") {
+    if (user.active[id]) {d(id).style.backgroundColor = "rgb(50, 50, 50)"}
+    else {d(id).style.backgroundColor = "rgb(25, 25, 25)"}
+    return;
+  }
 }
 function updateip() {
   d("ipx").textContent = e(user.ip.x, 2);
-  if (user.automate.inc.x) {d("ipsecx").textContent = e(getincxx())}
+  if (user.automate.inc.x) {d("ipsecx").textContent = e(getincxx().times(getautomateincxrate()))}
   else {d("ipsecx").textContent = 0}
   updatepbip();
 }
 function updatepbip() {
-  for (let i = (goals.ip.length - 1); i >= 0; i--) {
-    if (user.ip.sac.lt(goals.ip[i])) {
-      d("pbip").style.width = nd(100).times(user.ip.sac).divide(goals.ip[i]).toFixed(2) + "%";
-      d("pbipx").innerHTML = e(nd(100).times(user.ip.sac).divide(goals.ip[i]), 2, 2) + "%&rArr;" + unlocknames.ip[i];
-      if (user.automate.inc.x) {d("pbiptime").textContent = time(nd(goals.ip[i]).minus(user.ip.sac).divide(getincxx()).times(1000))}
-      else {d("pbiptime").textContent = "Infinite Time"; d("pbiptime").textContent = "-"}
-      if (d("pbiptime").textContent == "0.000 Seconds") {d("pbiptime").textContent = "Infinite Time"}
-    }
+  let j = 0;
+  for (let i = 0; i < goals.ip.length; i++) {if (user.ip.sac.gte(goals.ip[i]) && user.sacrifice.ip.x.gte(goals.ipsac[i])) {j = i + 1}}
+  d("pbip").style.width = nd(100).times(user.ip.sac).divide(goals.ip[j]).toFixed(2) + "%";
+  d("pbipx").innerHTML = e(user.ip.sac) + "IP/" + e(nd(goals.ip[j])) + "IP";
+  if (user.automate.inc.x) {d("pbiptime").innerHTML = unlocknames.ip[j] + "<br>" + time(nd(goals.ip[j]).minus(user.ip.sac).divide(getincxx()).times(1000))}
+  else {d("pbiptime").innerHTML = unlocknames.ip[j] + "<br>-"}
+  if (user.ip.sac.gte(goals.ip[j])) {
+    d("pbip").style.width = "100%";
+    d("pbipx").innerHTML = e(nd(goals.ip[j])) + "IP/" + e(nd(goals.ip[j])) + "IP";
+    d("pbiptime").innerHTML = unlocknames.ip[j] + "<br>-";
   }
   if (user.ip.sac.gte(goals.ip[goals.ip.length - 1])) {
     d("pbip").style.width = "100%";
-    d("pbipx").textContent = "100%";
-    d("pbiptime").textContent = "-";
+    d("pbipx").textContent = e(nd(goals.ip[goals.ip.length - 1])) + "IP/" + e(nd(goals.ip[goals.ip.length - 1])) + "IP";
+    d("pbiptime").innerHTML = "-<br>-";
+  }
+  let k = 0;
+  for (let i = 0; i < goals.ipsac.length; i++) {if (user.sacrifice.ip.x.gte(goals.ipsac[i])) {k = i + 1}}
+  d("pbipsac").style.width = nd(100).times(user.sacrifice.ip.x).divide(goals.ipsac[k]).toFixed(2) + "%";
+  d("pbipsacx").innerHTML = e(user.sacrifice.ip.x) + "x/" + e(nd(goals.ipsac[k])) + "x";
+  if (user.sacrifice.ip.x.gte(goals.ipsac[j])) {
+    d("pbipsac").style.width = "100%";
+    d("pbipsacx").textContent = e(nd(goals.ipsac[j])) + "x/" + e(nd(goals.ipsac[j])) + "x";
+  }
+  if (user.sacrifice.ip.x.gte(goals.ipsac[goals.ipsac.length - 1])) {
+    d("pbipsac").style.width = "100%";
+    d("pbipsacx").textContent = e(nd(goals.ipsac[goals.ipsac.length - 1])) + "x/" + e(nd(goals.ipsac[goals.ipsac.length - 1])) + "x";
   }
 }
 function updateautomation() {
@@ -70,83 +110,61 @@ function updateautomation() {
   else {
     d("automationscaleincp").style.backgroundColor = "rgb(0, 0, 0)";
     s("automationscaleincpcost");
-    /*if (user.ip.x.lt(goals.ip[unlocks.ip[unlocks.ip.indexOf("automationcscaleincp")]])) {h("automationscaleincp")}
-    else {s("automationscaleincp")}*/
   }
   if (user.automation.scale.inc.m) {
     d("automationscaleincm").style.backgroundColor = "rgb(50, 50, 50)";
     h("automationscaleincmcost");
-    /*s("automationscaleincm");*/
   }
   else {
     d("automationscaleincm").style.backgroundColor = "rgb(0, 0, 0)";
     s("automationscaleincmcost");
-    /*if (user.ip.x.lt(goals.ip[unlocks.ip[unlocks.ip.indexOf("automationcscaleincm")]])) {h("automationscaleincm")}
-    else {s("automationscaleincm")}*/
   }
   if (user.automation.scale.inc.e) {
     d("automationscaleince").style.backgroundColor = "rgb(50, 50, 50)";
     h("automationscaleincecost");
-    /*s("automationscaleince");*/
   }
   else {
     d("automationscaleince").style.backgroundColor = "rgb(0, 0, 0)";
     s("automationscaleincecost");
-    /*h("automationscaleince");*/
   }
   if (user.automation.inc.x) {
     d("automationincx").style.backgroundColor = "rgb(50, 50, 50)";
     h("automationincxcost");
-    /*s("automateincx");*/
   }
   else {
     d("automationincx").style.backgroundColor = "rgb(0, 0, 0)";
     s("automationincxcost");
-    /*h("automateincx");*/
   }
   if (user.automation.inc.p) {
     d("automationincp").style.backgroundColor = "rgb(50, 50, 50)";
-    /*for (let i = 2; i <= 5; i++) {
-      if (user.ip.sac.gte(goals.ip[unlocks.ip.indexOf("incp" + i)])) {s("automateincp" + i)}
-    }
-    s("automateincp1");*/
     h("automationincpcost");
   }
   else {
     d("automationincp").style.backgroundColor = "rgb(0, 0, 0)";
-    /*for (let i = 1; i <= 5; i++) {h("automateincp" + i)}*/
     s("automationincpcost");
   }
   if (user.automation.inc.m) {
     d("automationincm").style.backgroundColor = "rgb(50, 50, 50)";
-    /*for (let i = 1; i <= 5; i++) {
-      if (user.ip.sac.gte(goals.ip[unlocks.ip.indexOf("incm" + i)])) {s("automateincm" + i)}
-    }*/
     h("automationincmcost");
   }
   else {
     d("automationincm").style.backgroundColor = "rgb(0, 0, 0)";
-    /*for (let i = 1; i <= 5; i++) {h("automateincm" + i)}*/
     s("automationincmcost");
   }
   if (user.automation.inc.e) {
     d("automationince").style.backgroundColor = "rgb(50, 50, 50)";
-    /*for (let i = 1; i <= 5; i++) {
-      if (user.ip.sac.gte(goals.ip[unlocks.ip.indexOf("ince" + i)])) {s("automateince" + i)}
-    }*/
     h("automationincecost");
   }
   else {
     d("automationince").style.backgroundColor = "rgb(0, 0, 0)";
-    /*for (let i = 1; i <= 5; i++) {h("automateince" + i)}*/
     s("automationincecost");
   }
 }
 function updateautomaterate() {
   let pmc = ["p", "m", "e"];
-  for (let i = 0; i < 3; i++) {d("automatescaleinc" + pmc[i] + "rate").textContent = e(getautomaterate()) + "/s";}
+  for (let i = 0; i < 3; i++) {d("automatescaleinc" + pmc[i] + "rate").textContent = e(getautomaterate("rate").times(getautomaterate("bulk"))) + "/s"}
   d("automateincxrate").textContent = e(getautomateincxrate()) + "/s";
-  for (let i = 1; i <= 5; i++) {for (let j = 0; j < 3; j++) {d("automateinc" + pmc[j] + i + "rate").textContent = e(getautomaterate()) + "/s"}}
+  for (let i = 1; i <= 5; i++) {for (let j = 0; j < 3; j++) {d("automateinc" + pmc[j] + i + "rate").textContent = e(getautomaterate("rate").times(getautomaterate("bulk"))) + "/s"}}
 }
 function updateincx() {
   d("incxx").textContent = "+" + e(getincxx());
@@ -214,6 +232,15 @@ function updatescaleinc() {
     }
   }
   d("scaleincmcost").textContent = e(getscaleincmcost());
+  if (user.ip.sac.gte(goals.ip[unlocks.ip.indexOf("ince1")])) {
+    d("scaleincex").innerHTML = "1/" + e(getscaleince(1), 2, 2);
+    for (let i = 2; i <= 5; i++) {
+      if (user.ip.sac.gte(goals.ip[unlocks.ip.indexOf("incm" + i)])) {
+        d("scaleincex").innerHTML += "<br>1/" + e(getscaleince(i), 2, 2);
+      }
+    }
+  }
+  d("scaleincecost").textContent = e(getscaleincecost());
 }
 function updatesac() {
   updatesacip();
