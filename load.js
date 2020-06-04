@@ -1,74 +1,45 @@
 function brokenCheck() {setTimeout(() => {if (d("loading").style.display != "none") {s("debug"); s("loadingmsg"); return true} else {h("debug"); h("loadingmsg"); return false}}, 1000)}
-setInterval(() => {if (focused) {user.time = Date.now(); save(); clickrate = 0/*; obj = user*/}}, 1000);
+function saving() {setInterval(() => {if (focused) {user.time = Date.now(); save(); clickrate = 0/*; obj = user*/}}, 1000)}
 function save() {localStorage.setItem("user", JSON.stringify(user)); brokenUser = user}
 function load() {
   let data = JSON.parse(localStorage.getItem("user"));
   brokenUser = data;
-  focused = true;
-  if (data != null) {loadData(data)}
-  else {
-    updates();
-    unlocking();
-    user.time = Date.now();
-    save();
-  }
+  if (data != null && data.version != null) {loadData(data)}
+  else {updates(); unlocking()}
 }
 function ndify(obj) {
-  for (key in obj.ip) {user.ip[key] = nd(obj.ip[key])}
-  for (key in obj.pp) {user.pp[key] = nd(obj.pp[key])}
-  for (key in obj.ap) {user.ap[key] = nd(obj.ap[key])}
-  for (key in obj.tp) {user.tp[key] = nd(obj.tp[key])}
-  for (key in obj.dp) {user.dp[key] = nd(obj.dp[key])}
-  for (key in obj.gp) {user.gp[key] = nd(obj.gp[key])}
+  user.ip.x = nd(user.ip.x);
+  user.ip.sac = nd(user.ip.sac);
+  user.ip.pp = nd(user.ip.pp);
+  user.ip.total = nd(user.ip.total);
   user.sacrifice.ip.x = nd(user.sacrifice.ip.x);
-  user.sacrifice.pp.x = nd(user.sacrifice.pp.x);
-  user.sacrifice.ap.x = nd(user.sacrifice.ap.x);
-  user.sacrifice.tp.x = nd(user.sacrifice.tp.x);
-  user.sacrifice.dp.x = nd(user.sacrifice.dp.x);
-  user.sacrifice.gp.x = nd(user.sacrifice.gp.x);
 }
-function loadData(d) {
-  let data = d;
-  /*if (data.version == "0.0.0") {
-    user = setUser("0.0.1");
-    user.time = Date.now();
-    console.log("Loaded version " + data.version);
-    data = user;
+function loadsame(obj1, obj2, array) {for (let i = 0; i < array.length; i++) {obj1[array[i]] = obj2[array[i]]}}
+function loadData(data) {
+  user = data;
+  if (user.version == "0.0.0") {
+    console.log("Loaded version " + user.version);
+    user.active.displaypause = false;
+    user.confirm = {}
+    user.version = "0.1.0";
   }
-  if (data.version == "0.0.1") {
-    user = setUser("0.0.1");
-    let dataArray = Object.keys(data);
-    let userArray = Object.keys(user);
-    let difference = false;
-    for (let i = 0; i < dataArray.length; i++) {if (dataArray[i] !== userArray[i]) {difference = true}}
-    if (!difference) {
-      user = data;
-      user.time = Date.now();
-      console.log("Loaded version " + data.version);
-    }
-    else {console.log("Error-loadData1"); user = setUser()}
-  }*/
-  if (data.version == "0.0.0") {
-    user = setUser("0.0.0");
-    let dataArray = Object.keys(data);
-    let userArray = Object.keys(user);
-    let difference = false;
-    for (let i = 0; i < dataArray.length; i++) {if (dataArray[i] !== userArray[i]) {difference = true}}
-    if (!difference) {user = data; user.time = Date.now(); console.log("Loaded version " + data.version)}
-    else {console.log("Error-loadData1"); user = setUser()}
+  if (user.version == "0.1.0") {
+    console.log("Loaded version " + user.version);
   }
   ndify(user);
   tab(user.tab);
   loadOffline();
   loadAutomate();
 }
-function loadOffline() {
-  let timeOffline = Math.abs(user.time - Date.now());
+function loadOffline(ms) {
+  let timeOffline = 0;
+  if (typeof ms == "undefined") {timeOffline = Math.abs(user.time - Date.now())}
+  else {timeOffline = ms}
   if (user.automate.inc.x) {
-    user.ip.x = user.ip.x.plus(Math.abs(timeOffline / 1000) * getincxx());
-    user.ip.sac = user.ip.sac.plus(Math.abs(timeOffline / 1000) * getincxx());
-    user.ip.pp = user.ip.pp.plus(Math.abs(timeOffline / 1000) * getincxx());
-    user.ip.total = user.ip.total.plus(Math.abs(timeOffline / 1000) * getincxx());
+    user.ip.x = user.ip.x.plus(nd(timeOffline).divide(1000).times(getincxx()));
+    user.ip.sac = user.ip.sac.plus(nd(timeOffline).divide(1000).times(getincxx()));
+    user.ip.pp = user.ip.pp.plus(nd(timeOffline).divide(1000).times(getincxx()));
+    user.ip.total = user.ip.total.plus(nd(timeOffline).divide(1000).times(getincxx()));
   }
   updates();
   unlocking();
@@ -96,5 +67,5 @@ function updates() {
   updatesac();
   updateversion();
 }
-const tempHide = ["pp", "space1", "ap", "space2", "tp", "space3", "dp", "space4", "gp", "ince2", "ince3", "ince4", "ince5", "btabpp", "btabap", "btabtp", "btabdp", "btabgp", "automationince", "scaleince", "ince1", "btabach", "automatescaleince"];
+const tempHide = ["pp", "space1", "ap", "space2", "tp", "space3", "dp", "space4", "gp", "btabpp", "btabap", "btabtp", "btabdp", "btabgp", "automationince", "btabach"];
 for (let i = 0; i < tempHide.length; i++) {h(tempHide[i])}
