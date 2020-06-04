@@ -36,21 +36,7 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 .chv {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)}
 .cvh {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)}
 
-
 #gear {position: absolute; top: 0px; right: 10px; cursor: pointer}
-.setting {
-  color: rgb(150, 150, 150);
-  background-color: rgb(25, 25, 25);
-  border-color: rgb(35, 140, 35);
-  border-width: 2px;
-  border-style: solid;
-  width: 150px;
-  height: 75px;
-  font-size: 24px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color .2s;
-}
 .pb {
   background-color: rgb(100, 100, 100);
   width: 240px;
@@ -61,6 +47,11 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   height: 20px;
 }
 #pbip {
+  background-color: rgb(150, 0, 210);
+  width: 0%;
+  height: 100%;
+}
+#pbipsac {
   background-color: rgb(150, 0, 210);
   width: 0%;
   height: 100%;
@@ -151,6 +142,57 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   height: 30px;
   width: 200px;
   outline: none;
+}
+.title2 {
+  background-color: rgb(50, 50, 50);
+  border: none;
+  border-radius: 15px;
+  height: 30px;
+  width: 611px;
+  margin-top: 25px;
+  outline: none;
+}
+.setting {
+  color: rgb(150, 150, 150);
+  background-color: rgb(25, 25, 25);
+  border-color: rgb(35, 140, 35);
+  border-width: 2px;
+  border-radius: 10px;
+  border-style: solid;
+  width: 150px;
+  height: 75px;
+  font-size: 24px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color .2s;
+}
+.csetting {
+  color: rgb(150, 150, 150);
+  background-color: rgb(25, 25, 25);
+  border-color: rgb(35, 140, 35);
+  border-width: 2px;
+  border-radius: 5px;
+  border-style: solid;
+  width: 130px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-size: 24px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color .2s;
+}
+#confirmationslist {
+  color: rgb(150, 150, 150);
+  background-color: rgb(25, 25, 25);
+  border-color: rgb(35, 140, 35);
+  border-width: 2px;
+  border-radius: 10px;
+  border-style: solid;
+  padding: 5px;
+  width: 135px;
+  position: absolute;
+  display: none;
+  transition: background-color .2s;
 }
 .automation {
   background-color: rgb(0, 0, 0);
