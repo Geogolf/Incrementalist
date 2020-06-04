@@ -16,16 +16,16 @@
   return x.replace("+", "");
 }*/
 function e(obj, exp, dec) {
-  if (typeof obj == "undefined") {return "Error-e1"}
-  if (typeof obj == "number") {return "Error-e2"}
+  if (typeof obj == "undefined") {return "Error=e1"}
+  if (typeof obj == "number") {return "Error=e2"}
   /*if (typeof obj == "string") {return obj}*/
   if (typeof exp == "undefined") {exp = 2}
   if (typeof dec == "undefined") {dec = 0}
   if (dec > 10) {dec = 10}
-  if (obj.e >= 1e6) {
-    return obj.m.toFixed(exp) + "e" + obj.e.toExponential(exp)/*.replace("1e+", "e")*/.replace("e+", "e");
-  }
-  else if (obj.e >= 6) {
+  /*if (obj.e >= 1e6) {
+    return obj.m.toFixed(exp) + "e" + obj.e.toExponential(exp).replace("e+", "e");
+  }*/
+  if (obj.e >= 6) {
     if (obj.m.toFixed(exp) >= 10) {obj.m /= 10; obj.e++}
     return obj.m.toFixed(exp) + "e" + obj.e.toLocaleString();
   }
@@ -45,6 +45,8 @@ function nd(value) {return new Decimal(value)}
 function d(x) {return document.getElementById(x)}
 function h(x) {document.getElementById(x).style.display = "none"}
 function s(x) {document.getElementById(x).style.display = "inline"}
+function sb(x) {document.getElementById(x).style.display = ""}
+function sf(x) {document.getElementById(x).style.display = "flex"}
 /*function show(id) {
   if (user.show.ip <= unlocks.ip.indexOf(id)) {user.show.ip++}
   s(id);
@@ -87,10 +89,10 @@ function time(obj) {
   /*let ms = x.minus(x.floor()).times(1000).floor();
   let msms = (ms == 1) ? " Millisecond" : " Milliseconds";*/
   if (y == 0) {y = ""; yy = ""}
-  if (d == 0) {d = ""; dd = ""}
-  if (h == 0 || y > 0) {h = ""; hh = ""}
-  if (m == 0 || d > 0 || y > 0) {m = ""; mm = ""}
-  if (h > 0 || d > 0 || y > 0) {s = ""; ss = ""}
+  if (d == 0 || Number(y) > 1e6) {d = ""; dd = ""}
+  if (h == 0 || Number(y.replace(",", "")) > 0) {h = ""; hh = ""}
+  if (m == 0 || d > 0 || Number(y.replace(",", "")) > 0) {m = ""; mm = ""}
+  if (h > 0 || d > 0 || Number(y.replace(",", "")) > 0) {s = ""; ss = ""}
   /*if (m > 0 || h > 0 || d > 0 || y > 0) {ms = ""; msms = ""}*/
   return y + yy + d + dd + h + hh + m + mm + s + ss/* + ms + msms*/;
 }
@@ -126,6 +128,7 @@ function cb2(el) {
   else {el.select()}
   document.execCommand("copy");
 }
+function ndn(m, e) {return nd(m).times(nd(10).pow(e))}
 
 //other
 function tab(t) {
