@@ -31,6 +31,11 @@ function updater() {
     }
   }, (1000 / updaterate));
 }
+function updatetab(tab) {
+  if (tab == "scale") {updatescaleinc()}
+  if (tab == "sac") {updatesacip()}
+  if (tab == "ip") {updateincp(); updateincm(); updateince(); updateincx()}
+}
 function updatesetting(id) {
   if (id == "shortendisplay") {
     if (user.active[id]) {
@@ -73,32 +78,33 @@ function updateip() {
 }
 function updatepbip() {
   let j = 0;
-  for (let i = 0; i < goals.ip.length; i++) {if (user.ip.sac.gte(goals.ip[i]) && user.sacrifice.ip.x.gte(goals.ipsac[i])) {j = i + 1}}
-  d("pbip").style.width = nd(100).times(user.ip.sac).divide(goals.ip[j]).toFixed(2) + "%";
-  d("pbipx").innerHTML = e(user.ip.sac) + "IP/" + e(nd(goals.ip[j])) + "IP";
-  if (user.automate.inc.x) {d("pbiptime").innerHTML = unlocknames.ip[j] + "<br>" + time(nd(goals.ip[j]).minus(user.ip.sac).divide(getincxx()).times(1000))}
-  else {d("pbiptime").innerHTML = unlocknames.ip[j] + "<br>-"}
-  if (user.ip.sac.gte(goals.ip[j])) {
+  for (let i = 0; i < goals.ip.length; i++) {if (user.ip.sac.gte(goals.ip[i]) && user.sacrifice.ip.gte(goals.ipsac[i])) {j = i + 1}}
+  let g = goals.ip[j];
+  let u = unlocknames.ip[j];
+  if (g == undefined) {g = goals.ip[j - 1]}
+  if (u == undefined) {u = "-"}
+  /*let eg = e(nd(g)) + "IP";
+  if (g.gte(infinity)) {eg = "Infinity"}
+  let es = e(user.ip.sac) + "IP";
+  if (user.ip.sac.gte(infinity)) {es = "Infinity"}*/
+  d("pbip").style.width = nd(100).times(user.ip.sac).divide(g).toFixed(2) + "%";
+  d("pbipx").textContent = e(user.ip.sac) + "IP/" + e(nd(g)) + "IP" /*es + "/" + eg*/;
+  if (user.automate.inc.x) {d("pbiptime").innerHTML = u + "<br>" + time(nd(g).minus(user.ip.sac).divide(getincxx()).times(1000))}
+  else {d("pbiptime").innerHTML = u + "<br>-"}
+  if (user.ip.sac.gte(g)) {
     d("pbip").style.width = "100%";
-    d("pbipx").innerHTML = e(nd(goals.ip[j])) + "IP/" + e(nd(goals.ip[j])) + "IP";
-    d("pbiptime").innerHTML = unlocknames.ip[j] + "<br>-";
-  }
-  if (user.ip.sac.gte(goals.ip[goals.ip.length - 1])) {
-    d("pbip").style.width = "100%";
-    d("pbipx").textContent = e(nd(goals.ip[goals.ip.length - 1])) + "IP/" + e(nd(goals.ip[goals.ip.length - 1])) + "IP";
-    d("pbiptime").innerHTML = "-<br>-";
+    d("pbiptime").innerHTML = u + "<br>-";
   }
   let k = 0;
-  for (let i = 0; i < goals.ipsac.length; i++) {if (user.sacrifice.ip.x.gte(goals.ipsac[i])) {k = i + 1}}
-  d("pbipsac").style.width = nd(100).times(user.sacrifice.ip.x).divide(goals.ipsac[k]).toFixed(2) + "%";
-  d("pbipsacx").innerHTML = e(user.sacrifice.ip.x) + "x/" + e(nd(goals.ipsac[k])) + "x";
-  if (user.sacrifice.ip.x.gte(goals.ipsac[j])) {
+  for (let i = 0; i < goals.ipsac.length; i++) {if (user.sacrifice.ip.gte(goals.ipsac[i])) {k = i + 1}}
+  g = goals.ipsac[k];
+  let gg = goals.ipsac[j];
+  if (gg == undefined) {gg = goals.ipsac[j - 1]}
+  d("pbipsac").style.width = nd(100).times(user.sacrifice.ip).divide(g).toFixed(2) + "%";
+  d("pbipsacx").textContent = e(user.sacrifice.ip) + "x/" + e(nd(g)) + "x";
+  if (user.sacrifice.ip.gte(gg)) {
     d("pbipsac").style.width = "100%";
-    d("pbipsacx").textContent = e(nd(goals.ipsac[j])) + "x/" + e(nd(goals.ipsac[j])) + "x";
-  }
-  if (user.sacrifice.ip.x.gte(goals.ipsac[goals.ipsac.length - 1])) {
-    d("pbipsac").style.width = "100%";
-    d("pbipsacx").textContent = e(nd(goals.ipsac[goals.ipsac.length - 1])) + "x/" + e(nd(goals.ipsac[goals.ipsac.length - 1])) + "x";
+    d("pbipsacx").textContent = e(user.sacrifice.ip) + "x/" + e(nd(gg)) + "x";
   }
 }
 function updateautomation() {
@@ -246,7 +252,7 @@ function updatesac() {
   updatesacip();
 }
 function updatesacip() {
-  d("sacipx").textContent = e(user.sacrifice.ip.x) + "x";
+  d("sacipx").textContent = e(user.sacrifice.ip) + "x";
   d("sacipxnext").textContent = e(getsacipxnext()) + "x";
   if (user.ip.sac.lt(getsacipcost())) {d("sacipcost").textContent = e(getsacipcost().minus(user.ip.sac))}
   else {d("sacipcost").textContent = 0}
