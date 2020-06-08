@@ -20,7 +20,6 @@ function ndify(obj) {
 function loadsame(obj1, obj2, array) {for (let i = 0; i < array.length; i++) {obj1[array[i]] = obj2[array[i]]}}
 function loadData(data) {
   user = data;
-  ndify();
   if (user.version == "0.0.0") {
     console.log("Loaded version " + user.version);
     user.active.displaypause = false;
