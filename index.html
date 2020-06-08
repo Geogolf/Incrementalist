@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
 MIT License
-Copyright (c) 2020 Sam Hurst 
+Copyright (c) 2020 Geogolf
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -112,7 +112,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 					<tr>
 						<td><button class="setting"></button></td>
 						<td><button class="setting" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</button></td>
-						<td><button class="setting" onmouseup="window.open('https://https://geogolf.github.io/Incrementalist-Changelog/')">Changelog</button></td>
+						<td><button class="setting" onmouseup="window.open('https://geogolf.github.io/Incrementalist-Changelog/')">Changelog</button></td>
 						<td><button class="setting"></button></td>
 					</tr>
 					<!--<tr>
@@ -158,13 +158,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 							<td class="ch"><button class="automation" id="automationincm" onmouseup="automation('inc', '', 'm')"><span class="text20 goldText">Unlock Automation For <span class="purpleText">*</span> Increments</span><br><span class="text16 goldText" id="automationincmcost">Cost: <span class="text20 purpleText">1e12</span> IP</span></button></td>
 						</tr>
 						<tr>
-							<td class="ch"><button class="automation" id="automationince" onmouseup="automation('inc', '', 'e')"><span class="text20 goldText">Unlock Automation For <span class="purpleText">^</span> Increments</span><br><span class="text16 goldText" id="automationincecost">Cost: <span class="text20 purpleText">1e100</span> IP</span></button></td>
+							<td class="ch"><button class="automation" id="automationince" onmouseup="automation('inc', '', 'e')"><span class="text20 goldText">Unlock Automation For <span class="purpleText">^</span> Increments</span><br><span class="text16 goldText" id="automationincecost">Cost: <span class="text20 purpleText">1e185</span> IP</span></button></td>
 						</tr>
 						<tr>
 							<td class="ch"><button class="automation" id="automationscaleincp" onmouseup="automation('scale', 'inc', 'p')"><span class="text18 goldText">Unlock Automation for <span class="purpleText">Scaling +</span> Increments</span><br><span class="text16 goldText" id="automationscaleincpcost">Cost: <span class="text20 purpleText">1.00e9</span> IP</span></button></td>
 						</tr>
 						<tr>
-							<td class="ch"><button class="automation" id="automationscaleincm" onmouseup="automation('scale', 'inc', 'm')"><span class="text18 goldText">Unlock Automation for <span class="purpleText">Scaling *</span> Increments</span><br><span class="text16 goldText" id="automationscaleincmcost">Cost: <span class="text20 purpleText">1.00e26</span> IP</span></button></td>
+							<td class="ch"><button class="automation" id="automationscaleincm" onmouseup="automation('scale', 'inc', 'm')"><span class="text18 goldText">Unlock Automation for <span class="purpleText">Scaling *</span> Increments</span><br><span class="text16 goldText" id="automationscaleincmcost">Cost: <span class="text20 purpleText">1.00e27</span> IP</span></button></td>
 						</tr>
 						<tr>
 							<td class="ch"><button class="automation" id="automationscaleince" onmouseup="automation('scale', 'inc', 'e')"><span class="text18 goldText">Unlock Automation for <span class="purpleText">Scaling ^</span> Increments</span><br><span class="text16 goldText" id="automationscaleincecost">Cost: <span class="text20 purpleText">1.00e190</span> IP</span></button></td>
@@ -177,22 +177,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 							<td><button class="title"><span class="text20 purpleText">Scaling Increment</span></button></td>
 						</tr>
 						<tr>
-							<td><button class="increment" id="scaleincp" onmouseup="scale('inc', 'p')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">+</span> Increments</span><br><span class="text20 purpleText" id="scaleincpx">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincpcost">0</span> IP</span></button></td>
+							<td><button class="incbox" id="scaleincp" onmouseup="scale('inc', 'p')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">+</span> Increments</span><br><span class="text20 purpleText" id="scaleincpx">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincpcost">0</span> IP</span></button></td>
 						</tr>
 						<tr>
-							<td><button class="increment" id="automatescaleincp" style="margin-top: -5px" onmouseup="automate('scaleincp')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincprate">0/sec</span></span></button></td>
+							<td><button class="incbox" id="automatescaleincp" style="margin-bottom: 5px" onmouseup="automate('scaleincp')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincprate">0/sec</span></span></button></td>
 						</tr>
 						<tr>
-							<td><button class="increment" id="scaleincm" onmouseup="scale('inc', 'm')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">*</span> Increments</span><br><span class="text20 purpleText" id="scaleincmx">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincmcost">0</span> IP</span></button></td>
+							<td><button class="incbox" id="scaleincm" onmouseup="scale('inc', 'm')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">*</span> Increments</span><br><span class="text20 purpleText" id="scaleincmx">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincmcost">0</span> IP</span></button></td>
 						</tr>
 						<tr>
-							<td><button class="increment" id="automatescaleincm" style="margin-top: -5px" onmouseup="automate('scaleincm')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincmrate">0/sec</span></span></button></td>
+							<td><button class="incbox" id="automatescaleincm" style="margin-bottom: 5px" onmouseup="automate('scaleincm')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincmrate">0/sec</span></span></button></td>
 						</tr>
 						<tr>
-							<td><button class="increment" id="scaleince" onmouseup="scale('inc', 'e')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">^</span> Increments</span><br><span class="text20 purpleText" id="scaleincex">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincecost">0</span> IP</span></button></td>
+							<td><button class="incbox" id="scaleince" onmouseup="scale('inc', 'e')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">^</span> Increments</span><br><span class="text20 purpleText" id="scaleincex">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincecost">0</span> IP</span></button></td>
 						</tr>
 						<tr>
-							<td><button class="increment" id="automatescaleince" style="margin-top: -5px" onmouseup="automate('scaleince')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincerate">0/sec</span></span></button></td>
+							<td><button class="incbox" id="automatescaleince" style="margin-bottom: 5px" onmouseup="automate('scaleince')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincerate">0/sec</span></span></button></td>
 						</tr>
 					</table>
 				</div>
@@ -202,7 +202,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 							<td><button class="title"><span class="text20 purpleText">Sacrifice Increment</span></button></td>
 						</tr>
 						<tr>
-							<td><button class="increment" id="sacip" onmouseup="confirmSacrifice('ip')"><span class="text16 goldText">Sacrifice all your <span class="purpleText">IP</span>, but gain a permanent boost</span><br><span class="text16 goldText">Current: <span class="text18 purpleText" id="sacipx">1x</span></span><br><span class="text16 goldText">Next: <span class="text18 purpleText" id="sacipxnext">1x</span></span><br><span class="text16 goldText">Need: <span class="text18 purpleText" id="sacipcost">1e22</span> IP</span></button></td>
+							<td><button class="incbox" id="sacip" onmouseup="confirmSacrifice('ip')"><span class="text16 goldText">Sacrifice all your <span class="purpleText">IP</span>, but gain a permanent boost</span><br><span class="text16 goldText">Current: <span class="text18 purpleText" id="sacipx">1x</span></span><br><span class="text16 goldText">Next: <span class="text18 purpleText" id="sacipxnext">1x</span></span><br><span class="text16 goldText">Need: <span class="text18 purpleText" id="sacipcost">1e22</span> IP</span></button></td>
 						</tr>
 					</table>
 				</div>
@@ -211,22 +211,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				</div>
 				<div id="tabip">
 					<div class="ch">
-						<table>
-							<tr><td><button class="click" onmouseup="increment('x')"><span class="text22 purpleText" id="incxx">+0</span></button></td></tr>
-							<tr><td><button class="increment" id="automateincx" style="margin-top: -0px" onmouseup="automate('incx')"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincxrate">0/sec</span></span></button></td></tr>
-						</table>
-					</div>
-					<div class="ch">
-						<table>
+						<div><button class="click" onmouseup="increment('x')"><span class="text22 purpleText" id="incxx">+0</span></button></div>
+						<div><button class="incbox" id="automateincx" style="margin-top: -0px" onmouseup="automate('incx')"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincxrate">0/sec</span></span></button></div>
+						<table cellpadding="0">
 							<tr>
 								<td><button class="increment" id="incp1" style="margin-top: 10px" onmouseup="increment('p', 1)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp1x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp1cost">0</span> IP</span></button></td>
 								<td><button class="increment" id="incm1" style="margin-top: 10px" onmouseup="increment('m', 1)"><span class="text22 redText">* Increment</span><br><span class="text22 purpleText" id="incm1x">*0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incm1cost">0</span> IP</span></button></td>
 								<td><button class="increment" id="ince1" style="margin-top: 10px" onmouseup="increment('e', 1)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince1x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince1cost">0</span> IP</span></button></td>
 							</tr>
 							<tr>
-								<td><button class="increment" id="automateincp1" style="margin-top: -5px" onmouseup="automate('incp', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp1rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateincm1" style="margin-top: -5px" onmouseup="automate('incm', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm1rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateince1" style="margin-top: -5px" onmouseup="automate('ince', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince1rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincp1" style="margin-top: -5px" onmouseup="automate('incp', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp1rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincm1" style="margin-top: -5px" onmouseup="automate('incm', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm1rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateince1" style="margin-top: -5px" onmouseup="automate('ince', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince1rate">0/sec</span></span></button></td>
 							</tr>
 							<tr>
 								<td><button class="increment" id="incp2" onmouseup="increment('p', 2)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp2x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp2cost">0</span> IP</span></button></td>
@@ -234,9 +230,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 								<td><button class="increment" id="ince2" onmouseup="increment('e', 2)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince2x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince2cost">0</span> IP</span></button></td>
 							</tr>
 							<tr>
-								<td><button class="increment" id="automateincp2" style="margin-top: -5px" onmouseup="automate('incp', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp2rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateincm2" style="margin-top: -5px" onmouseup="automate('incm', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm2rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateince2" style="margin-top: -5px" onmouseup="automate('ince', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince2rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincp2" style="margin-top: -5px" onmouseup="automate('incp', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp2rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincm2" style="margin-top: -5px" onmouseup="automate('incm', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm2rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateince2" style="margin-top: -5px" onmouseup="automate('ince', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince2rate">0/sec</span></span></button></td>
 							</tr>
 							<tr>
 								<td><button class="increment" id="incp3" onmouseup="increment('p', 3)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp3x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp3cost">0</span> IP</span></button></td>
@@ -244,9 +240,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 								<td><button class="increment" id="ince3" onmouseup="increment('e', 3)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince3x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince3cost">0</span> IP</span></button></td>
 							</tr>
 							<tr>
-								<td><button class="increment" id="automateincp3" style="margin-top: -5px" onmouseup="automate('incp', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp3rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateincm3" style="margin-top: -5px" onmouseup="automate('incm', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm3rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateince3" style="margin-top: -5px" onmouseup="automate('ince', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince3rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincp3" style="margin-top: -5px" onmouseup="automate('incp', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp3rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincm3" style="margin-top: -5px" onmouseup="automate('incm', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm3rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateince3" style="margin-top: -5px" onmouseup="automate('ince', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince3rate">0/sec</span></span></button></td>
 							</tr>
 							<tr>
 								<td><button class="increment" id="incp4" onmouseup="increment('p', 4)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp4x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp4cost">0</span> IP</span></button></td>
@@ -254,9 +250,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 								<td><button class="increment" id="ince4" onmouseup="increment('e', 4)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince4x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince4cost">0</span> IP</span></button></td>
 							</tr>
 							<tr>
-								<td><button class="increment" id="automateincp4" style="margin-top: -5px" onmouseup="automate('incp', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp4rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateincm4" style="margin-top: -5px" onmouseup="automate('incm', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm4rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateince4" style="margin-top: -5px" onmouseup="automate('ince', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince4rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincp4" style="margin-top: -5px" onmouseup="automate('incp', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp4rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincm4" style="margin-top: -5px" onmouseup="automate('incm', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm4rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateince4" style="margin-top: -5px" onmouseup="automate('ince', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince4rate">0/sec</span></span></button></td>
 							</tr>
 							<tr>
 								<td><button class="increment" id="incp5" onmouseup="increment('p', 5)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp5x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp5cost">0</span> IP</span></button></td>
@@ -264,9 +260,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 								<td><button class="increment" id="ince5" onmouseup="increment('e', 5)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince5x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince5cost">0</span> IP</span></button></td>
 							</tr>
 							<tr>
-								<td><button class="increment" id="automateincp5" style="margin-top: -5px" onmouseup="automate('incp', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp5rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateincm5" style="margin-top: -5px" onmouseup="automate('incm', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm5rate">0/sec</span></span></button></td>
-								<td><button class="increment" id="automateince5" style="margin-top: -5px" onmouseup="automate('ince', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince5rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincp5" style="margin-top: -5px" onmouseup="automate('incp', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp5rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateincm5" style="margin-top: -5px" onmouseup="automate('incm', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm5rate">0/sec</span></span></button></td>
+								<td><button class="incbox" id="automateince5" style="margin-top: -5px" onmouseup="automate('ince', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince5rate">0/sec</span></span></button></td>
 							</tr>
 						</table>
 					</div>
