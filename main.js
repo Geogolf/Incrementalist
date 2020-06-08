@@ -10,7 +10,7 @@ function setUser() {
     automation: {scale: {inc: {p: false, m: false, e: false}}, inc: {x: false, p: false, m: false, e: false}},
     automate: {scale: {inc: {p: false, m: false, e: false}}, inc: {x: false, p: ["null", false, false, false, false, false], m: ["null", false, false, false, false, false], e: ["null", false, false, false, false, false]}},
     scale: {inc: {p: 0, m: 0, e: 0}},
-    sacrifice: {ip: nd(1),x: nd(1), ap: nd(1), tp: nd(1), dp: nd(1), gp: nd(1)},
+    sacrifice: {ip: nd(1), pp: nd(1), ap: nd(1), tp: nd(1), dp: nd(1), gp: nd(1)},
     active: {shortendisplay: false, progressbar: false, displaypause: false},
     confirm: {creset: true, csacrifice: true},
     tab: "ip",
