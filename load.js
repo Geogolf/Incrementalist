@@ -1,6 +1,9 @@
+//Intervals
 function brokenCheck() {setTimeout(() => {if (d("loading").style.display != "none") {s("debug"); s("loadingmsg"); return true} else {h("debug"); h("loadingmsg"); return false}}, 1000)}
 function saving() {setInterval(() => {if (focused) {user.time = Date.now(); save(); clickrate = 0/*; obj = user*/}}, 1000)}
 function save() {localStorage.setItem("user", JSON.stringify(user)); brokenUser = user}
+
+//Loading
 function load() {
   let data = JSON.parse(localStorage.getItem("user"));
   brokenUser = data;
@@ -12,7 +15,8 @@ function ndify(obj) {
   user.ip.sac = nd(user.ip.sac);
   user.ip.pp = nd(user.ip.pp);
   user.ip.total = nd(user.ip.total);
-  user.sacrifice.ip.x = nd(user.sacrifice.ip.x);
+  if (typeof user.sacrifice.ip.x == "undefined") {user.sacrifice.ip = nd(user.sacrifice.ip)}
+  else {user.sacrifice.ip.x = nd(user.sacrifice.ip.x)}
 }
 function loadsame(obj1, obj2, array) {for (let i = 0; i < array.length; i++) {obj1[array[i]] = obj2[array[i]]}}
 function loadData(data) {
@@ -24,6 +28,17 @@ function loadData(data) {
     user.version = "0.1.0";
   }
   if (user.version == "0.1.0") {
+    console.log("Loaded version " + user.version);
+    user.sacrifice.ip = user.sacrifice.ip.x;
+    user.sacrifice.pp = user.sacrifice.pp.x;
+    user.sacrifice.ap = user.sacrifice.ap.x;
+    user.sacrifice.tp = user.sacrifice.tp.x;
+    user.sacrifice.dp = user.sacrifice.dp.x;
+    user.sacrifice.gp = user.sacrifice.gp.x;
+    if (nd(user.ip.sac).gte(1e30) && nd(user.sacrifice.ip).gte(10000)) {sacrifice('ip')}
+    user.version = "0.1.1";
+  }
+  if (user.version == "0.1.1") {
     console.log("Loaded version " + user.version);
   }
   ndify(user);
@@ -55,6 +70,22 @@ function loadAutomate() {
   }
   if (user.automate.inc.x) {autoInterval.inc.x()}
 }
+
+//Resets
+function resetSacrifice(layer) {
+  if (layer == "ip") {
+    user.automation.inc = {x: false, p: false, m: false, e: false}
+    user.automate.scale.inc = {p: false, m: false, e: false}
+    user.automate.inc = {p: ["null", false, false, false, false, false], m: ["null", false, false, false, false, false], e: ["null", false, false, false, false, false]}
+    user.inc = {x: 0, p: ["null", 0, 0, 0, 0, 0], m: ["null", 0, 0, 0, 0, 0], e: ["null", 0, 0, 0, 0, 0]}
+    user.scale.inc = {p: 0, m: 0, e: 0}
+  }
+}
+function resetPrestige() {
+  
+}
+
+//Other
 function updates() {
   for (let i = 0; i < settingids.length; i++) {updatesetting(settingids[i])}
   updateip();
@@ -67,5 +98,5 @@ function updates() {
   updatesac();
   updateversion();
 }
-const tempHide = ["pp", "space1", "ap", "space2", "tp", "space3", "dp", "space4", "gp", "btabpp", "btabap", "btabtp", "btabdp", "btabgp", "automationince", "btabach"];
+const tempHide = ["pp", "space1", "ap", "space2", "tp", "space3", "dp", "space4", "gp", "btabpp", "btabap", "btabtp", "btabdp", "btabgp", "btabach"];
 for (let i = 0; i < tempHide.length; i++) {h(tempHide[i])}

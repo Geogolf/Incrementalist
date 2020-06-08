@@ -18,7 +18,7 @@
 function e(obj, exp, dec) {
   if (typeof obj == "undefined") {return "Error=e1"}
   if (typeof obj == "number") {return "Error=e2"}
-  /*if (typeof obj == "string") {return obj}*/
+  if (typeof obj == "string") {return obj}
   if (typeof exp == "undefined") {exp = 2}
   if (typeof dec == "undefined") {dec = 0}
   if (dec > 10) {dec = 10}
@@ -89,7 +89,7 @@ function time(obj) {
   /*let ms = x.minus(x.floor()).times(1000).floor();
   let msms = (ms == 1) ? " Millisecond" : " Milliseconds";*/
   if (y == 0) {y = ""; yy = ""}
-  if (d == 0 || Number(y) > 1e6) {d = ""; dd = ""}
+  if (d == 0 || Number(y) > 1000) {d = ""; dd = ""}
   if (h == 0 || Number(y.replace(",", "")) > 0) {h = ""; hh = ""}
   if (m == 0 || d > 0 || Number(y.replace(",", "")) > 0) {m = ""; mm = ""}
   if (h > 0 || d > 0 || Number(y.replace(",", "")) > 0) {s = ""; ss = ""}
@@ -135,4 +135,5 @@ function tab(t) {
   for (let i = 0; i < tabs.length; i++) {h("tab" + tabs[i])}
   s("tab" + t);
   user.tab = t;
+  updatetab(t);
 }
