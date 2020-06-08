@@ -15,12 +15,12 @@ function ndify(obj) {
   user.ip.sac = nd(user.ip.sac);
   user.ip.pp = nd(user.ip.pp);
   user.ip.total = nd(user.ip.total);
-  if (typeof user.sacrifice.ip.x == "undefined") {user.sacrifice.ip = nd(user.sacrifice.ip)}
-  else {user.sacrifice.ip.x = nd(user.sacrifice.ip.x)}
+  user.sacrifice.ip = nd(user.sacrifice.ip);
 }
 function loadsame(obj1, obj2, array) {for (let i = 0; i < array.length; i++) {obj1[array[i]] = obj2[array[i]]}}
 function loadData(data) {
   user = data;
+  ndify();
   if (user.version == "0.0.0") {
     console.log("Loaded version " + user.version);
     user.active.displaypause = false;
@@ -29,12 +29,12 @@ function loadData(data) {
   }
   if (user.version == "0.1.0") {
     console.log("Loaded version " + user.version);
-    user.sacrifice.ip = user.sacrifice.ip.x;
-    user.sacrifice.pp = user.sacrifice.pp.x;
-    user.sacrifice.ap = user.sacrifice.ap.x;
-    user.sacrifice.tp = user.sacrifice.tp.x;
-    user.sacrifice.dp = user.sacrifice.dp.x;
-    user.sacrifice.gp = user.sacrifice.gp.x;
+    if (typeof user.sacrifice.ip.x == "undefined") {user.sacrifice.ip = user.sacrifice.ip} else {user.sacrifice.ip = user.sacrifice.ip.x}
+    if (typeof user.sacrifice.pp.x == "undefined") {user.sacrifice.pp = user.sacrifice.pp} else {user.sacrifice.pp = user.sacrifice.pp.x}
+    if (typeof user.sacrifice.ap.x == "undefined") {user.sacrifice.ap = user.sacrifice.ap} else {user.sacrifice.ap = user.sacrifice.ap.x}
+    if (typeof user.sacrifice.tp.x == "undefined") {user.sacrifice.tp = user.sacrifice.tp} else {user.sacrifice.tp = user.sacrifice.tp.x}
+    if (typeof user.sacrifice.dp.x == "undefined") {user.sacrifice.dp = user.sacrifice.dp} else {user.sacrifice.dp = user.sacrifice.dp.x}
+    if (typeof user.sacrifice.gp.x == "undefined") {user.sacrifice.gp = user.sacrifice.gp} else {user.sacrifice.gp = user.sacrifice.gp.x}
     if (nd(user.ip.sac).gte(1e30) && nd(user.sacrifice.ip).gte(10000)) {sacrifice('ip')}
     user.version = "0.1.1";
   }
