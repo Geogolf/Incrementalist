@@ -13,7 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="style.css" />
-		<script src="break_infinity.js" defer="defer"></script>
+	  	<script src="break_eternity.js" defer="defer"></script>
 		<script src="useful.js" defer="defer"></script>
 		<script src="get.js" defer="defer"></script>
 		<script src="update.js" defer="defer"></script>
@@ -35,7 +35,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       <div id="gear"><span class="text40 goldText" id="bsettings" onmouseup="settings()">&#9881</span></div>
 			<div class="ch" style="display: flex; justify-content: center">
 				<div id="ip">
-					<div><span class="text28 purpleText monospace" id="ipx" onmouseup="progress()">0</span><span class="text20 text" id="iptext"> Increment Points</span></div>
+					<div><span class="text26 purpleText monospace" id="ipx" onmouseup="progress()">0</span><span class="text16 text" id="iptext"> Increment Points</span></div>
 					<div id="ipsec"><span class="text14 text" id="ipsectext">You are gaining </span><span class="text16 purpleText monospace" id="ipsecx">0</span><span class="text14 text"> IP per second</span></div>
 					<div class="pb" id="pbipc"><div id="pbip"><span class="text16 monospace" id="pbipx">0</span></div></div>
 					<div class="pb" id="pbipsacc"><div id="pbipsac"><span class="text16 monospace"  id="pbipsacx">0</span></div></div>
@@ -43,7 +43,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				</div>
 				<div class="text20" id="space1" style="opacity: 0">---</div>
 				<div id="pp">
-					<div><span class="text28 blueText monospace" id="ppx">0</span><span class="text20 text" id="pptext"> Prestige Points</span></div>
+					<div><span class="text26 blueText monospace" id="ppx">0</span><span class="text16 text" id="pptext"> Prestige Points</span></div>
 					<div><span class="text14 text" id="ppsectext">You are gaining </span><span class="text16 blueText monospace" id="ppsecx">0</span><span class="text14 text"> PP per second</span></div>
 					<div class="pb" id="pbppc"><div id="pbpp"><span class="ch text16 monospace" id="pbppx">0</span></div></div>
 					<div><span class="ch text16 text monospace" id="pbpptime">0</span></div>
@@ -85,7 +85,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 					</tr>
 					<tr>
 						<td><button class="setting" id="shortendisplay" onmouseup="qol('shortendisplay')">Shorten Display</button></td>
-						<td><button class="setting">Notation [WIP]</button></td>
+						<td><button class="setting" style="cursor: default">Notation [WIP]</button></td>
 						<td>
 							<button class="setting" id="confirmations" onmouseup="qol('confirmations')"><span class="text22">Confirmations</span></button>
 							<div id="confirmationslist">
@@ -96,6 +96,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				      </div>
 						</td>
 						<td><button class="setting" id="displaypause" onmouseup="qol('displaypause')"><span class="text20">Remove Display Pause</span></button></td>
+					</tr>
+					<tr>
+						<td><button class="setting" id="aeAutomates" onmouseup="qol('aeAutomates')"><span class="text18">Auto Enable Automates [wip]</span></button></td>
+						<td><button class="setting" style="cursor: default"><span>Device:<br>[wip]</span></button></td>
+						<td><button class="setting" style="cursor: default"></button></td>
+						<td><button class="setting" style="cursor: default"></button></td>
 					</tr>
 					<tr>
 						<td colspan="4"><button class="title2"><span class="text20 goldText">Save and Load</span></button></td>
@@ -110,20 +116,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 						<td colspan="4"><button class="title2"><span class="text20 goldText">Information</span></button></td>
 					</tr>
 					<tr>
-						<td><button class="setting"></button></td>
+						<td><button class="setting" style="cursor: default"></button></td>
 						<td><button class="setting" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</button></td>
 						<td><button class="setting" onmouseup="window.open('https://geogolf.github.io/Incrementalist-Changelog/')">Changelog</button></td>
-						<td><button class="setting"></button></td>
+						<td><button class="setting" style="cursor: default"></button></td>
 					</tr>
-					<!--<tr>
-						<td colspan="4"><button class="title2"><span class="text20 goldText">Performance</span></button></td>
-					</tr>
-					<tr>
-						<td><button class="setting"></button></td>
-						<td><button class="setting"></button></td>
-						<td><button class="setting"></button></td>
-						<td><button class="setting"></button></td>
-					</tr>-->
 				</table>
 			</div>
 			<hr>
@@ -211,7 +208,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				</div>
 				<div id="tabip">
 					<div class="ch">
-						<div><button class="click" onmouseup="increment('x')"><span class="text22 purpleText" id="incxx">+0</span></button></div>
+						<div><button class="incboxb click" onmouseup="increment('x')"><span class="text22 purpleText" id="incxx">+0</span></button></div>
 						<div><button class="incbox" id="automateincx" style="margin-top: -0px" onmouseup="automate('incx')"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincxrate">0/sec</span></span></button></div>
 						<table cellpadding="0">
 							<tr>
@@ -268,7 +265,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 					</div>
 				</div>
 				<div id="tabpp">
-					
+					<div class="ch">
+						<div><button class="presboxb click" onmouseup="prestige()"><span class="text22 blueText" id="ppgain">+0 PP</span><br><span class="text18 goldText">Next: <span class="purpleText" id="ppnext">0</span> IP</span></button></div>
+					</div>
+					<br>
+					<table cellpadding="10">
+						<tr>Text
+							<td><button class="pptreecell"><span class="top text18 text">+ Increments</span><span class="bottom text20 goldText">Cost: 1 PP</span></button></td>
+							<td><button class="pptreecell"><span class="top text18 text">* Increments</span><span class="bottom text20 goldText">Cost: 1 PP</span></button></td>
+							<td><button class="pptreecell"><span class="top text18 text">^ Increments</span><span class="bottom text20 goldText">Cost: 1 PP</span></button></td>
+						</td>
+					</table>
 				</div>
 				<div id="tabap">
 					
@@ -288,16 +295,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       <div class="chv">
 				<table>
 					<tr>
-						<td colspan="3" class="ch"><span class="text40 goldText">Loading</span></td>
+						<td colspan="4" class="ch"><span class="text40 goldText">Loading</span></td>
 					</tr>
 					<tr>
-						<td colspan="3" class="ch"><span class="text20 goldText" id="loadingmsg">Game won't load, try refreshing.<br>If problem persists export and report<br>it to the devs in the discord</span></td>
+						<td colspan="4" class="ch"><button id="offline"><span class="text20 goldText">You were offline for </span><br><span class="text18 text" id="timeOffline">0 Years 0 Days 0 Hours 0 Minutes 0.000 Seconds</span><hr><br><span class="text18 goldText">Calculating offline progress:</span><br><span class="text20 text" id="ticksOffline">0/0</span><br><div id="pboffline"></div><hr><div style="cursor: pointer" onmouseup="skipOffline()"><span class="text20 redText">Speed Up Progress</span></div></button></td>
 					</tr>
-					<tr id="debug">
+					<tr>
+						<td colspan="4" class="ch"><span class="text20 goldText">If the game won't load try refreshing<br>If the problem persists, export and<br>report it to the devs in the discord</span></span></td>
+					</tr>
+					<tr>
 					  <td><button class="setting" onmouseup="exporty()">Export</button></td>
 					  <td><button class="setting" onmouseup="importy()">Import</button></td>
 					  <td><button class="setting" onmouseup="confirmReset()">Reset</button></td>
-						<td colspan="3"><button class="setting" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</button></td>
+						<td><button class="setting" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</button></td>
 					</tr>
 				</table>
 			</div>
