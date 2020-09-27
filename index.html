@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
 MIT License
-Copyright (c) 2020 Geogolf
+Copyright (c) 2020 Geogolf 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -9,312 +9,339 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <html lang="en">
   <head>
     <title>Incrementalist</title>
-	  <meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="style.css" />
-	  	<script src="break_eternity.js" defer="defer"></script>
-		<script src="useful.js" defer="defer"></script>
-		<script src="get.js" defer="defer"></script>
-		<script src="update.js" defer="defer"></script>
-		<script src="increment.js" defer="defer"></script>
-		<script src="load.js" defer="defer"></script>
-		<script src="main.js" defer="defer"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164027230-2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      
-      gtag('config', 'UA-164027230-2');
-    </script>
-	</head>
+    <meta charset="utf-8" />
+	 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	 <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    
+    <script src="others-code/ad-notation.js" defer="defer"></script>
+    <script src="others-code/break_eternity.js" defer="defer"></script>
+    <!--<script src="others-code/notify.js"></script>-->
+    <script src="others-code/alertify/alertify.js"></script>
+    <link rel="stylesheet" href="others-code/alertify/alertify.css" />
+    <link rel="stylesheet" href="others-code/alertify/default.css" />
+    
+    <script src="useful.js" defer="defer"></script>
+    <script src="tabs/options.js" defer="defer"></script>
+    <script src="tabs/achievements.js" defer="defer"></script>
+    <script src="tabs/statistics.js" defer="defer"></script>
+    <script src="tabs/automation.js" defer="defer"></script>
+    <script src="tabs/sacrifice.js" defer="defer"></script>
+    <script src="tabs/scaling.js" defer="defer"></script>
+    <script src="tabs/increment.js" defer="defer"></script>
+    <script src="load.js" defer="defer"></script>
+    <script src="main.js" defer="defer"></script>
+  </head>
   <body>
-    <div id="game">
-      <div id="gear"><span class="text40 goldText" id="bsettings" onmouseup="settings()">&#9881</span></div>
-			<div class="ch" style="display: flex; justify-content: center">
-				<div id="ip">
-					<div><span class="text26 purpleText monospace" id="ipx" onmouseup="progress()">0</span><span class="text16 text" id="iptext"> Increment Points</span></div>
-					<div id="ipsec"><span class="text14 text" id="ipsectext">You are gaining </span><span class="text16 purpleText monospace" id="ipsecx">0</span><span class="text14 text"> IP per second</span></div>
-					<div class="pb" id="pbipc"><div id="pbip"><span class="text16 monospace" id="pbipx">0</span></div></div>
-					<div class="pb" id="pbipsacc"><div id="pbipsac"><span class="text16 monospace"  id="pbipsacx">0</span></div></div>
-					<div><span class="ch text16 text monospace" id="pbiptime">0</span></div>
-				</div>
-				<div class="text20" id="space1" style="opacity: 0">---</div>
-				<div id="pp">
-					<div><span class="text26 blueText monospace" id="ppx">0</span><span class="text16 text" id="pptext"> Prestige Points</span></div>
-					<div><span class="text14 text" id="ppsectext">You are gaining </span><span class="text16 blueText monospace" id="ppsecx">0</span><span class="text14 text"> PP per second</span></div>
-					<div class="pb" id="pbppc"><div id="pbpp"><span class="ch text16 monospace" id="pbppx">0</span></div></div>
-					<div><span class="ch text16 text monospace" id="pbpptime">0</span></div>
-				</div>
-				<div class="text20" id="space2" style="opacity: 0">---</div>
-				<div id="ap">
-					<div><span class="text28 greenText monospace" id="apx">0</span><span class="text20 text" id="aptext"> Ascension Points</span></div>
-					<div><span class="text14 text" id="apsectext">You are gaining </span><span class="text16 greenText monospace" id="apsecx">0</span><span class="text14 text"> AP per second</span></div>
-					<div class="pb" id="pbapc"><div id="pbap"><span class="ch text16 monospace" id="pbapx">0</span></div></div>
-					<div><span class="ch text16 text monospace" id="pbaptime">0</span></div>
-				</div>
-			</div>
-			<div class="ch" style="display: flex; justify-content: center">
-				<div id="tp">
-					<div><span class="text28 yellowText monospace" id="tpx">0</span><span class="text20 text" id="tptext"> Transcension Points</span></div>
-					<div><span class="text14 text" id="tpsectext">You are gaining </span><span class="text16 yellowText monospace" id="tpsecx">0</span><span class="text14 text"> TP per second</span></div>
-					<div class="pb" id="pbtpc"><div id="pbtp"><span class="ch text16 monospace" id="pbtpx">0</span></div></div>
-					<div><span class="ch text16 text monospace" id="pbtptime">0</span></div>
-				</div>
-				<div class="text20" id="space3" style="opacity: 0">---</div>
-				<div id="dp">
-					<div><span class="text28 orangeText monospace" id="dpx">0</span><span class="text20 text" id="dptext"> Divinity Points</span></div>
-					<div><span class="text14 text" id="dpsectext">You are gaining </span><span class="text16 orangeText monospace" id="dpsecx">0</span><span class="text14 text"> DP per second</span></div>
-					<div class="pb" id="pbdpc"><div id="pbdp"><span class="ch text16 monospace" id="pbdpx">0</span></div></div>
-					<div><span class="ch text16 text monospace" id="pbdptime">0</span></div>
-				</div>
-				<div class="text20" id="space4" style="opacity: 0">---</div>
-				<div id="gp">
-					<div><span class="text28 redText monospace" id="gpx">0</span><span class="text20 text" id="gptext"> God Points</span></div>
-					<div><span class="text14 text" id="gpsectext">You are gaining </span><span class="text16 redText monospace" id="gpsecx">0</span><span class="text14 text"> GP per second</span></div>
-					<div class="pb" id="pbgpc"><div id="pbgp"><span class="ch text16 monospace" id="pbgpx">0</span></div></div>
-					<div><span class="ch text16 text monospace" id="pbgptime">0</span></div>
-				</div>
-			</div>
-			<div class="chv" id="settings">
-				<table>
-					<tr>
-						<td colspan="4"><button class="title2"><span class="text20 goldText">Qualities of Life</span></button></td>
-					</tr>
-					<tr>
-						<td><button class="setting" id="shortendisplay" onmouseup="qol('shortendisplay')">Shorten Display</button></td>
-						<td><button class="setting" style="cursor: default">Notation [WIP]</button></td>
-						<td>
-							<button class="setting" id="confirmations" onmouseup="qol('confirmations')"><span class="text22">Confirmations</span></button>
-							<div id="confirmationslist">
-					      <table>
-						      <tr><td><button class="csetting" id="creset" onmouseup="confirmation('creset')">Reset</button></td></tr>
-									<tr><td><button class="csetting" id="csacrifice" onmouseup="confirmation('csacrifice')">Sacrifice</button></td></tr>
-					      </table>
-				      </div>
-						</td>
-						<td><button class="setting" id="displaypause" onmouseup="qol('displaypause')"><span class="text20">Remove Display Pause</span></button></td>
-					</tr>
-					<tr>
-						<td><button class="setting" id="aeAutomates" onmouseup="qol('aeAutomates')"><span class="text18">Auto Enable Automates [wip]</span></button></td>
-						<td><button class="setting" style="cursor: default"><span>Device:<br>[wip]</span></button></td>
-						<td><button class="setting" style="cursor: default"></button></td>
-						<td><button class="setting" style="cursor: default"></button></td>
-					</tr>
-					<tr>
-						<td colspan="4"><button class="title2"><span class="text20 goldText">Save and Load</span></button></td>
-					</tr>
-					<tr>
-						<td><button class="setting" onmouseup="save()">Save</button></td>
-						<td><button class="setting" onmouseup="exporty()">Export</button></td>
-						<td><button class="setting" onmouseup="importy()">Import</button></td>
-						<td><button class="setting" onmouseup="confirmReset()">Reset</button></td>
-					</tr>
-					<tr>
-						<td colspan="4"><button class="title2"><span class="text20 goldText">Information</span></button></td>
-					</tr>
-					<tr>
-						<td><button class="setting" style="cursor: default"></button></td>
-						<td><button class="setting" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</button></td>
-						<td><button class="setting" onmouseup="window.open('https://geogolf.github.io/Incrementalist-Changelog/')">Changelog</button></td>
-						<td><button class="setting" style="cursor: default"></button></td>
-					</tr>
-				</table>
-			</div>
-			<hr>
-			<div id="screen">
-				<div class="ch">
-					<button class="tab" id="btabauto" onmouseup="tab('auto')"><span class="text20">Automation</span></button>
-					<button class="tab" id="btabscale" onmouseup="tab('scale')"><span class="text20">Scaling</span></button>
-					<button class="tab" id="btabsac" onmouseup="tab('sac')"><span class="text20">Sacrifice</span></button>
-					<button class="tab" id="btabach" onmouseup="tab('ach')"><span class="text20">Achievements</span></button>
-				</div>
-				<div class="ch">
-					<button class="tab tabpurple" id="btabip" onmouseup="tab('ip')"><span class="text20">Increment</span></button>
-					<button class="tab tabblue" id="btabpp" onmouseup="tab('pp')"><span class="text20">Prestige</span></button>
-					<button class="tab tabgreen" id="btabap" onmouseup="tab('ap')"><span class="text20">Ascension</span></button>
-					<button class="tab tabyellow" id="btabtp" onmouseup="tab('tp')"><span class="text20">Transcension</span></button>
-					<button class="tab taborange" id="btabdp" onmouseup="tab('dp')"><span class="text20">Divinity</span></button>
-					<button class="tab tabred" id="btabgp" onmouseup="tab('gp')"><span class="text20">WIP</span></button>
-				</div>
-				<hr>
-				<div id="tabauto">
-					<table>
-						<tr>
-							<td><button class="title"><span class="text20 purpleText">Automate Increment</span></button></td>
-						</tr>
-						<tr>
-							<td class="ch"><button class="automation" id="automationincx" onmouseup="automation('inc', '', 'x')"><span class="text20 goldText">Unlock Automation For <span class="purpleText">Gaining</span> IP</span><br><span class="text16 goldText" id="automationincxcost">Cost: <span class="text20 purpleText">2,000</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td class="ch"><button class="automation" id="automationincp" onmouseup="automation('inc', '', 'p')"><span class="text20 goldText">Unlock Automation For <span class="purpleText">+</span> Increments</span><br><span class="text16 goldText" id="automationincpcost">Cost: <span class="text20 purpleText">25,000</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td class="ch"><button class="automation" id="automationincm" onmouseup="automation('inc', '', 'm')"><span class="text20 goldText">Unlock Automation For <span class="purpleText">*</span> Increments</span><br><span class="text16 goldText" id="automationincmcost">Cost: <span class="text20 purpleText">1e12</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td class="ch"><button class="automation" id="automationince" onmouseup="automation('inc', '', 'e')"><span class="text20 goldText">Unlock Automation For <span class="purpleText">^</span> Increments</span><br><span class="text16 goldText" id="automationincecost">Cost: <span class="text20 purpleText">1e185</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td class="ch"><button class="automation" id="automationscaleincp" onmouseup="automation('scale', 'inc', 'p')"><span class="text18 goldText">Unlock Automation for <span class="purpleText">Scaling +</span> Increments</span><br><span class="text16 goldText" id="automationscaleincpcost">Cost: <span class="text20 purpleText">1.00e9</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td class="ch"><button class="automation" id="automationscaleincm" onmouseup="automation('scale', 'inc', 'm')"><span class="text18 goldText">Unlock Automation for <span class="purpleText">Scaling *</span> Increments</span><br><span class="text16 goldText" id="automationscaleincmcost">Cost: <span class="text20 purpleText">1.00e27</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td class="ch"><button class="automation" id="automationscaleince" onmouseup="automation('scale', 'inc', 'e')"><span class="text18 goldText">Unlock Automation for <span class="purpleText">Scaling ^</span> Increments</span><br><span class="text16 goldText" id="automationscaleincecost">Cost: <span class="text20 purpleText">1.00e190</span> IP</span></button></td>
-						</tr>
-					</table>
-				</div>
-				<div id="tabscale">
-					<table>
-						<tr>
-							<td><button class="title"><span class="text20 purpleText">Scaling Increment</span></button></td>
-						</tr>
-						<tr>
-							<td><button class="incbox" id="scaleincp" onmouseup="scale('inc', 'p')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">+</span> Increments</span><br><span class="text20 purpleText" id="scaleincpx">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincpcost">0</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td><button class="incbox" id="automatescaleincp" style="margin-bottom: 5px" onmouseup="automate('scaleincp')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincprate">0/sec</span></span></button></td>
-						</tr>
-						<tr>
-							<td><button class="incbox" id="scaleincm" onmouseup="scale('inc', 'm')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">*</span> Increments</span><br><span class="text20 purpleText" id="scaleincmx">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincmcost">0</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td><button class="incbox" id="automatescaleincm" style="margin-bottom: 5px" onmouseup="automate('scaleincm')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincmrate">0/sec</span></span></button></td>
-						</tr>
-						<tr>
-							<td><button class="incbox" id="scaleince" onmouseup="scale('inc', 'e')"><span class="text16 goldText">Reduce the cost scaling of <span class="purpleText">^</span> Increments</span><br><span class="text20 purpleText" id="scaleincex">0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="scaleincecost">0</span> IP</span></button></td>
-						</tr>
-						<tr>
-							<td><button class="incbox" id="automatescaleince" style="margin-bottom: 5px" onmouseup="automate('scaleince')"><span class="text20 redText">Automate <span class="text18 goldText" id="automatescaleincerate">0/sec</span></span></button></td>
-						</tr>
-					</table>
-				</div>
-				<div id="tabsac">
-					<table>
-						<tr>
-							<td><button class="title"><span class="text20 purpleText">Sacrifice Increment</span></button></td>
-						</tr>
-						<tr>
-							<td><button class="incbox" id="sacip" onmouseup="confirmSacrifice('ip')"><span class="text16 goldText">Sacrifice all your <span class="purpleText">IP</span>, but gain a permanent boost</span><br><span class="text16 goldText">Current: <span class="text18 purpleText" id="sacipx">1x</span></span><br><span class="text16 goldText">Next: <span class="text18 purpleText" id="sacipxnext">1x</span></span><br><span class="text16 goldText">Need: <span class="text18 purpleText" id="sacipcost">1e22</span> IP</span></button></td>
-						</tr>
-					</table>
-				</div>
-				<div id="tabach">
-					
-				</div>
-				<div id="tabip">
-					<div class="ch">
-						<div><button class="incboxb click" onmouseup="increment('x')"><span class="text22 purpleText" id="incxx">+0</span></button></div>
-						<div><button class="incbox" id="automateincx" style="margin-top: -0px" onmouseup="automate('incx')"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincxrate">0/sec</span></span></button></div>
-						<table cellpadding="0">
-							<tr>
-								<td><button class="increment" id="incp1" style="margin-top: 10px" onmouseup="increment('p', 1)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp1x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp1cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="incm1" style="margin-top: 10px" onmouseup="increment('m', 1)"><span class="text22 redText">* Increment</span><br><span class="text22 purpleText" id="incm1x">*0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incm1cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="ince1" style="margin-top: 10px" onmouseup="increment('e', 1)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince1x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince1cost">0</span> IP</span></button></td>
-							</tr>
-							<tr>
-								<td><button class="incbox" id="automateincp1" style="margin-top: -5px" onmouseup="automate('incp', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp1rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateincm1" style="margin-top: -5px" onmouseup="automate('incm', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm1rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateince1" style="margin-top: -5px" onmouseup="automate('ince', 1)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince1rate">0/sec</span></span></button></td>
-							</tr>
-							<tr>
-								<td><button class="increment" id="incp2" onmouseup="increment('p', 2)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp2x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp2cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="incm2" onmouseup="increment('m', 2)"><span class="text22 redText">* Increment</span><br><span class="text22 purpleText" id="incm2x">*0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incm2cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="ince2" onmouseup="increment('e', 2)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince2x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince2cost">0</span> IP</span></button></td>
-							</tr>
-							<tr>
-								<td><button class="incbox" id="automateincp2" style="margin-top: -5px" onmouseup="automate('incp', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp2rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateincm2" style="margin-top: -5px" onmouseup="automate('incm', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm2rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateince2" style="margin-top: -5px" onmouseup="automate('ince', 2)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince2rate">0/sec</span></span></button></td>
-							</tr>
-							<tr>
-								<td><button class="increment" id="incp3" onmouseup="increment('p', 3)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp3x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp3cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="incm3" onmouseup="increment('m', 3)"><span class="text22 redText">* Increment</span><br><span class="text22 purpleText" id="incm3x">*0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incm3cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="ince3" onmouseup="increment('e', 3)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince3x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince3cost">0</span> IP</span></button></td>
-							</tr>
-							<tr>
-								<td><button class="incbox" id="automateincp3" style="margin-top: -5px" onmouseup="automate('incp', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp3rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateincm3" style="margin-top: -5px" onmouseup="automate('incm', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm3rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateince3" style="margin-top: -5px" onmouseup="automate('ince', 3)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince3rate">0/sec</span></span></button></td>
-							</tr>
-							<tr>
-								<td><button class="increment" id="incp4" onmouseup="increment('p', 4)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp4x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp4cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="incm4" onmouseup="increment('m', 4)"><span class="text22 redText">* Increment</span><br><span class="text22 purpleText" id="incm4x">*0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incm4cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="ince4" onmouseup="increment('e', 4)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince4x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince4cost">0</span> IP</span></button></td>
-							</tr>
-							<tr>
-								<td><button class="incbox" id="automateincp4" style="margin-top: -5px" onmouseup="automate('incp', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp4rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateincm4" style="margin-top: -5px" onmouseup="automate('incm', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm4rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateince4" style="margin-top: -5px" onmouseup="automate('ince', 4)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince4rate">0/sec</span></span></button></td>
-							</tr>
-							<tr>
-								<td><button class="increment" id="incp5" onmouseup="increment('p', 5)"><span class="text22 redText">+ Increment</span><br><span class="text22 purpleText" id="incp5x">+0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incp5cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="incm5" onmouseup="increment('m', 5)"><span class="text22 redText">* Increment</span><br><span class="text22 purpleText" id="incm5x">*0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="incm5cost">0</span> IP</span></button></td>
-								<td><button class="increment" id="ince5" onmouseup="increment('e', 5)"><span class="text22 redText">^ Increment</span><br><span class="text22 purpleText" id="ince5x">^0</span><br><span class="text16 goldText">Cost: <span class="text20 purpleText" id="ince5cost">0</span> IP</span></button></td>
-							</tr>
-							<tr>
-								<td><button class="incbox" id="automateincp5" style="margin-top: -5px" onmouseup="automate('incp', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincp5rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateincm5" style="margin-top: -5px" onmouseup="automate('incm', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateincm5rate">0/sec</span></span></button></td>
-								<td><button class="incbox" id="automateince5" style="margin-top: -5px" onmouseup="automate('ince', 5)"><span class="text20 redText">Automate <span class="text18 goldText" id="automateince5rate">0/sec</span></span></button></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div id="tabpp">
-					<div class="ch">
-						<div><button class="presboxb click" onmouseup="prestige()"><span class="text22 blueText" id="ppgain">+0 PP</span><br><span class="text18 goldText">Next: <span class="purpleText" id="ppnext">0</span> IP</span></button></div>
-					</div>
-					<br>
-					<table cellpadding="10">
-						<tr>Text
-							<td><button class="pptreecell"><span class="top text18 text">+ Increments</span><span class="bottom text20 goldText">Cost: 1 PP</span></button></td>
-							<td><button class="pptreecell"><span class="top text18 text">* Increments</span><span class="bottom text20 goldText">Cost: 1 PP</span></button></td>
-							<td><button class="pptreecell"><span class="top text18 text">^ Increments</span><span class="bottom text20 goldText">Cost: 1 PP</span></button></td>
-						</td>
-					</table>
-				</div>
-				<div id="tabap">
-					
-				</div>
-				<div id="tabtp">
-					
-				</div>
-				<div id="tabdp">
-					
-				</div>
-				<div id="tabgp">
-					
-				</div>
-			</div>
-  	</div>
-		<div id="loading">
-      <div class="chv">
-				<table>
-					<tr>
-						<td colspan="4" class="ch"><span class="text40 goldText">Loading</span></td>
-					</tr>
-					<tr>
-						<td colspan="4" class="ch"><button id="offline"><span class="text20 goldText">You were offline for </span><br><span class="text18 text" id="timeOffline">0 Years 0 Days 0 Hours 0 Minutes 0.000 Seconds</span><hr><br><span class="text18 goldText">Calculating offline progress:</span><br><span class="text20 text" id="ticksOffline">0/0</span><br><div id="pboffline"></div><hr><div style="cursor: pointer" onmouseup="skipOffline()"><span class="text20 redText">Speed Up Progress</span></div></button></td>
-					</tr>
-					<tr>
-						<td colspan="4" class="ch"><span class="text20 goldText">If the game won't load try refreshing<br>If the problem persists, export and<br>report it to the devs in the discord</span></span></td>
-					</tr>
-					<tr>
-					  <td><button class="setting" onmouseup="exporty()">Export</button></td>
-					  <td><button class="setting" onmouseup="importy()">Import</button></td>
-					  <td><button class="setting" onmouseup="confirmReset()">Reset</button></td>
-						<td><button class="setting" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</button></td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		<div id="display">
-			<div class="cvh"><span class="text40 text">Pausing display to save resources</span></div>
-		</div>
-		<div><span class="text16 text" id="version">Version: v0.0.0</span></div>
+    <div id="gameScreen">
+      <div class="ch grayBorder" style="width: 90%; min-width: 250px; max-width: 1000px">
+        <div style="width: 100%">
+          <div style="width: 100%; display: table; table-layout: fixed">
+            <div class="tab ch2" id="tabOptionsb" style="display: table-cell" onmouseup="tab('Options')">Options</div>
+            <div class="tab ch2" id="tabAchievementsb" style="display: table-cell" onmouseup="tab('Achievements')"><span id="tabAchievementsText" style="font-size: clamp(13px, 4.8vw, 18px)">Achievements</span></div>
+            <div class="tab ch2" id="tabStatisticsb" onmouseup="tab('Statistics')">Statistics</div>
+          </div>
+          <div style="width: 100%; display: table; table-layout: fixed">
+            <div class="tab ch2" id="tabAutomationb" onmouseup="tab('Automation')"><span id="tabAutomationText" style="font-size: clamp(16px, 5.5vw, 18px)">Automation</span></div>
+            <div class="tab ch2" id="tabSacrificeb" onmouseup="tab('Sacrifice')">Sacrifice</div>
+            <div class="tab ch2" id="tabScalingb" onmouseup="tab('Scaling')">Scaling</div>
+          </div>
+            <div style="width: 100%; display: table; table-layout: fixed">
+            <div class="tab ch2 tabPurple" id="tabIncrementb" style="display: table-cell" onmouseup="tab('Increment')">Increment</div>
+          </div>
+        </div>
+        <div class="grayBorder" style="width: 100%; position: relative; right: 2px">
+          <div style="display: flex; justify-content: center">
+            <div class="ch2 ipInfo" id="ipInfo" style="width: 33%">
+              <span class="text" style="font-size: 14px"><span class="ba purpleText" id="ipx" style="font-size: 26px">0</span> <span id="ipText">Increment Points</span></span>><br>
+              <span class="text" style="font-size: 12px"><span id="ipSecText">You are gaining </span><span class="ba purpleText" id="ipSecx" style="font-size: 16px">0</span> IP per second</span>
+              <div class="pb ch"><div class="ch" id="pbip"></div><span class="cvh text notationBlind notationTrueblind" style="width: 100%; color: rgb(0, 0, 0); font-size: clamp(10px, 2.28vw, 18px)"><span class="ba" id="pbipsac">0</span> / <span class="ba" id="pbipgoal">0</span></span></div>
+              <span class="notationTrueblind"><span class="text purpleText" id="pbipunlock">Nothing</span></span>
+            </div>
+          </div>
+        </div>
+        <div id="tabOptions">
+          <div style="height: 44px; width: 100%">
+            <div class="grayBorder2 title" style="height: 40px; overflow: hidden; position: relative">
+              <span class="chv goldText lc">Qualities of Life</span>
+            </div>
+          </div>
+          <div style="height: 44px; width: 100%; display: table">
+            <div class="grayBorder option" style="cursor: default"><span class="cvh text"></span></div>
+            <div class="grayBorder ch2 option dropdown">
+              <span class="chv text" style="width: 100%; overflow-wrap: break-word">Notation: <span class="text" id="notation">Scientific</span></span>
+              <div class="dropdown-content ch">
+                <div class="dropdown-item" style="border-top-left-radius: 10px; border-top-right-radius: 10px"><span class="text" onmouseup="setNotation('Scientific')">Scientific</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Engineering')">Engineering</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Logarithm')">Logarithm</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Standard')">Standard</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Letters')">Letters</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Mixed scientific')">Mixed Scientific</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Mixed engineering')">Mixed Engineering</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Infinity')">Infinity</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Brackets')">Brackets</span></div>
+                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Blind')">Blind</span></div>
+                <div class="dropdown-item" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px"><span class="text" onmouseup="setNotation('True blind')">True Blind</span></div>
+              </div>
+            </div>
+            <div class="grayBorder option dropdown">
+              <span class="cv ch2 text" style="width: 100%; overflow-wrap: break-word">Confirmations</span>
+              <div class="dropdown-content ch ch2">
+                <div class="dropdown-item confirmations" id="confirmation-reset" style="border-top-left-radius: 10px; border-top-right-radius: 10px"><span class="text" onmouseup="toggleConfirmation('reset')">Reset</span></div>
+                <div class="dropdown-item confirmations" id="confirmation-sacrifice" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px"><span class="text" onmouseup="toggleConfirmation('sacrifice')">Sacrifice</span></div>
+              </div>
+            </div>
+            <div class="grayBorder option" style="cursor: default"><span class="cvh text"></span></div>
+          </div>
+          <br>
+          <div style="height: 44px; width: 100%">
+            <div class="grayBorder2 title" style="height: 40px; overflow: hidden; position: relative">
+              <span class="chv goldText lc">Save and Load</span>
+            </div>
+          </div>
+          <div style="height: 44px; width: 100%; display: table">
+            <div class="grayBorder option" style="height: 40px; width: 25%; position: relative; display: table-cell" onmouseup="save()"><span class="cvh text">Save</span></div>
+            <div class="grayBorder option" style="height: 40px; width: 25%; position: relative; display: table-cell" onmouseup="exporty()"><span class="cv ch2 text" style="width: 100%">Export</span></div>
+            <div class="grayBorder option" style="height: 40px; width: 25%; position: relative; display: table-cell" onmouseup="importy()"><span class="cv ch2 text" style="width: 100%">Import</span></div>
+            <div class="grayBorder option" style="height: 40px; width: 25%; position: relative; display: table-cell" onmouseup="confirmResetAll()"><span class="cvh text">Reset</span></div>
+          </div>
+          <br>
+          <div style="height: 44px; width: 100%">
+            <div class="grayBorder2 title" style="height: 40px; overflow: hidden; position: relative">
+              <span class="chv goldText lc">Information</span>
+            </div>
+          </div>
+          <div style="height: 44px; width: 100%; display: table">
+            <div class="grayBorder option" style="height: 40px; width: 25%; position: relative; display: table-cell; cursor: default"><span class="cvh text"></span></div>
+            <div class="grayBorder option" style="height: 40px; width: 25%; position: relative; display: table-cell"><span class="cv ch2 text" style="width: 100%" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</span></div>
+            <div class="grayBorder option" style="height: 40px; width: 25%; position: relative; display: table-cell"><span class="cv ch2 text" style="width: 100%" onmouseup="window.open('https://geogolf.github.io/Incrementalist-Changelog')">Changelog</span></div>
+            <div class="grayBorder option" style="height: 40px; width: 25%; position: relative; display: table-cell; cursor: default"><span class="cvh text"></span></div>
+          </div>
+        </div>
+        <div id="tabAchievements">
+          <div class="table">
+            <div class="tableRow">
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-1"><span class="text top" id="ach1-1Title">Simple enough</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first P variable</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-2"><span class="text top" id="ach1-2Title">Automation</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Begin automation</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-3"><span class="text top" id="ach1-3Title">Was it worth it?</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice for the first time</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-4"><span class="text top" id="ach1-4Title">New variables</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first M variable</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-5"><span class="text top" id="ach1-5Title">I think it was worth it</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice two times</span><span class="text bottom achReward">Reward: Automation is 2x faster</span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-6"><span class="text top" id="ach1-6Title">Click a few times</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Click the equation 2,500 times</span><span class="text bottom achReward">Reward: Clicking is <span id="ach1-6Reward">0</span> times more effective</span></div>
+            </div>
+            <div class="tableRow">
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-1"><span class="text top" id="ach2-1Title">It's still not better</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Get more P than P<sub>1</sub> after 1,000</span><span class="text bottom achReward">Reward: P's cost scales 5x slower</span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-2"><span class="text top" id="ach2-2Title">Exponentiation</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first E variable</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-3"><span class="text top" id="ach2-3Title">Is this too op?</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice seven times</span><span class="text bottom achReward">Reward: The first automation is 10x faster</span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-4"><span class="text top" id="ach2-4Title">Exponential Age</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first Scaling E Upgrade</span><span class="text bottom achReward">Reward: The E multiplier is 7.5% more effective</span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-5"><span class="text top" id="ach2-5Title">[WIP]</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">[WIP]</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-6"><span class="text top" id="ach2-6Title">[WIP]</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">[WIP]</span><span class="text bottom achReward"></span></div>
+            </div>
+          </div>
+        </div>
+        <div id="tabStatistics">
+          <div class="ch2" style="width: 100%">
+            <span class="text statText">You have gained a total of <span class="ba purpleText" id="statIPTotal">0</span> IP</span><br>
+            <span class="text statText">Your highest IP is <span class="ba purpleText" id="statIPHighest">0</span> IP</span><br>
+            <span class="text statText">You have clicked the equation <span class="ba purpleText" id="statIPEquationClicks">0</span> times</span>
+          </div>
+          <br>
+          <div class="ch2" style="width: 100%">
+            <span class="text statText">You have been playing for <span class="ba purpleText" id="statTimePlayed">0</span></span>
+          </div>
+        </div>
+        <div id="tabAutomation">
+          <div id="autoIP" style="height: 34px; width: 100%">
+            <div class="cantBuy automations" id="autoIPb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationIP()">
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)"><span>Automate IP Gain </span>(<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoIPx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba purpleText" id="autoIPCost">0</span> IP</span>
+            </div>
+          </div>
+          <div id="autoP" style="height: 34px; width: 100%">
+            <div class="cantBuy automations" id="autoPb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationIncrementP()">
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)"><span>Automate P Variables </span>(<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoPx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba purpleText" id="autoPCost">0</span> IP</span>
+            </div>
+          </div>
+          <div id="autoM" style="height: 34px; width: 100%">
+            <div class="cantbuy automations" id="autoMb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationIncrementM()">
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)"><span>Automate M Variables </span>(<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoMx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba purpleText" id="autoMCost">0</span> IP</span>
+            </div>
+          </div>
+          <div id="autoE" style="height: 34px; width: 100%">
+            <div class="cantBuy automations" id="autoEb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationIncrementE()">
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)"><span>Automate E Variables </span>(<span class="purpleText notationBlind notationTrueBlind"><span class="ba" id="autoEx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba purpleText" id="autoECost">0</span> IP</span>
+            </div>
+          </div>
+        </div>
+        <div id="tabSacrifice">
+          <div class="ch2 cantBuy sacrifices" id="sacrificeIP" style="overflow-x: hidden; border-color: rgb(75, 0, 125)" onmouseup="confirmSacrificeIP()">
+            <span class="text">Sacrifice your IP and Variables for a boost</span><br>
+            <span class="text" id="sacrificeIPPUnlock">Multipliers per variable: P&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPP">0</span>x</span><span id="sacrificeIPMUnlock">; M&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPM">0</span>x</span></span><span id="sacrificeIPEUnlock">; E&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPE">0</span>x</span></span></span><br>
+            <span class="text">Unlock: <span class="notationTrueblind"><span class="purpleText" id="sacrificeIPUnlock">Variable: M</span></span></span><br>
+            <span class="text">Need: <span class="ba purpleText" id="sacrificeIPCost">0</span> IP</span>
+          </div>
+        </div>
+        <div id="tabScaling">
+          <div id="scalingP" style="height: 34px; width: 100%">
+            <div class="cantBuy scalings" id="scalingPb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyScalingP()">
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3.5vw, 18px)">Reduce P Costs (<span class="purpleText">x<span class="ba" id="scalingPx">0</span></span>)</span>
+              <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3.5vw, 18px)">Cost: <span class="ba purpleText" id="scalingPCost">0</span> IP</span>
+            </div>
+          </div>
+          <div id="scalingM" style="height: 34px; width: 100%">
+            <div class="cantBuy scalings" id="scalingMb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyScalingM()">
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3.5vw, 18px)">Reduce M Costs (<span class="purpleText">x<span class="ba" id="scalingMx">0</span></span>)</span>
+              <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3.5vw, 18px)">Cost: <span class="ba purpleText" id="scalingMCost">0</span> IP</span>
+            </div>
+          </div>
+          <div id="scalingE" style="height: 34px; width: 100%">
+            <div class="cantBuy scalings" id="scalingEb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyScalingE()">
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3.5vw, 18px)">Reduce E Costs (<span class="purpleText">x<span class="ba" id="scalingEx">0</span></span>)</span>
+              <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3.5vw, 18px)">Cost: <span class="ba purpleText" id="scalingECost">0</span> IP</span>
+            </div>
+          </div>
+        </div>
+        <div id="tabIncrement">
+          <div style="position: relative; height: 50px; width: 100%">
+            <div class="autoipState canBuy" id="autoIPState" style="width: 46px; height: 46px; float: left" onmouseup="automateIP()"></div>
+            <div class="grayBorder2 canBuy" style="height: 46px; overflow: hidden; position: relative" onmouseup="clickIncrement()">
+              <span class="cv text" style="font-size: 20px; position: absolute; left: 2px; font-size: clamp(12px, 2.4vw, 18px)"><span id="ipEquationText">IP = IP+(P<span class="incrementM0Unlocks">xM</span>)<sup class="text incrementE0Unlocks">E</sup> &rArr; </span>IP = IP+(<span class="ba purpleText" id="ipEquationP">0</span><span class="incrementM0Unlocks">x<span class="ba purpleText" id="ipEquationM">0</span></span>)<sup class="purpleText incrementE0Unlocks" id="ipEquationE">0</sup><span class="incrementM0Unlocks"> &rArr; <span class="ba purpleText" id="ipEquationResult">0</span></span><span class="text ach1-6Unlocks"> &rArr; <span class="ba purpleText" id="ipEquationClickResult">0</span><span>/Click</span></span></span>
+            </div>
+          </div>
+          <div id="incrementP0" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementPUnlocks" id="autoIncrementP0State" style="float: left" onmouseup="automateIncrementP(0)"></div>
+            <div class="cantBuy increments" id="incrementP0b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementP(0)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">P = <span class="incrementP1Unlocks"><span class="ba purpleText coefficientP">0</span>P<sub>1</sub> + </span><span class="ba purpleText" id="incrementP0x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementP0Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementP1Unlocks" id="incrementP1" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementPUnlocks" id="autoIncrementP1State" style="float: left" onmouseup="automateIncrementP(1)"></div>
+            <div class="cantBuy increments" id="incrementP1b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementP(1)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">P<sub>1</sub> = <span class="incrementP2Unlocks"><span class="ba purpleText coefficientP">0</span>P<sub>2</sub> + </span><span class="ba purpleText" id="incrementP1x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementP1Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementP2Unlocks" id="incrementP2" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementPUnlocks" id="autoIncrementP2State" style="float: left" onmouseup="automateIncrementP(2)"></div>
+            <div class="cantBuy increments" id="incrementP2b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementP(2)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">P<sub>2</sub> = <span class="incrementP3Unlocks"><span class="ba purpleText coefficientP">0</span>P<sub>3</sub> + </span><span class="ba purpleText" id="incrementP2x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementP2Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementP3Unlocks" id="incrementP3" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementPUnlocks" id="autoIncrementP3State" style="float: left" onmouseup="automateIncrementP(3)"></div>
+            <div class="cantBuy increments" id="incrementP3b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementP(3)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">P<sub>3</sub> = <span class="incrementP4Unlocks"><span class="ba purpleText coefficientP">0</span>P<sub>4</sub> + </span><span class="ba purpleText" id="incrementP3x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementP3Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementP4Unlocks" id="incrementP4" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementPUnlocks" id="autoIncrementP4State" style="float: left" onmouseup="automateIncrementP(4)"></div>
+            <div class="cantBuy increments" id="incrementP4b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementP(4)">
+              <span class="cv text incrementText incrementText" style="position: absolute; left: 2px">P<sub>4</sub> = <span class="ba purpleText" id="incrementP4x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementP4Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementM0Unlocks" id="incrementM0" style="position: relative; height: 34px; width: 100%; margin-top: 10px">
+            <div class="autoipState canBuy autoIncrementMUnlocks" id="autoIncrementM0State" style="float: left" onmouseup="automateIncrementM(0)"></div>
+            <div class="cantBuy increments" id="incrementM0b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementM(0)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">M = <span class="incrementM1Unlocks"><span class="ba purpleText coefficientM">0</span>M<sub>1</sub> x </span><span class="ba purpleText" id="incrementM0x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementM0Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementM1Unlocks" id="incrementM1" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementMUnlocks" id="autoIncrementM1State" style="float: left" onmouseup="automateIncrementM(1)"></div>
+            <div class="cantBuy increments" id="incrementM1b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementM(1)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">M<sub>1</sub> = <span class="incrementM2Unlocks"><span class="ba purpleText coefficientM">0</span>M<sub>2</sub> x </span><span class="ba purpleText" id="incrementM1x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementM1Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementM2Unlocks" id="incrementM2" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementMUnlocks" id="autoIncrementM2State" style="float: left" onmouseup="automateIncrementM(2)"></div>
+            <div class="cantBuy increments" id="incrementM2b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementM(2)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">M<sub>2</sub> = <span class="incrementM3Unlocks"><span class="ba purpleText coefficientM">0</span>M<sub>3</sub> x </span><span class="ba purpleText" id="incrementM2x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementM2Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementM3Unlocks" id="incrementM3" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementMUnlocks" id="autoIncrementM3State" style="float: left" onmouseup="automateIncrementM(3)"></div>
+            <div class="cantBuy increments" id="incrementM3b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementM(3)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">M<sub>3</sub> = <span class="incrementM4Unlocks"><span class="ba purpleText coefficientM">0</span>M<sub>4</sub> x </span><span class="ba purpleText" id="incrementM3x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementM3Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementM4Unlocks" id="incrementM4" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementMUnlocks" id="autoIncrementM4State" style="float: left" onmouseup="automateIncrementM(4)"></div>
+            <div class="cantBuy increments" id="incrementM4b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementM(4)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">M<sub>4</sub> = <span class="ba purpleText" id="incrementM4x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementM4Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementE0Unlocks" id="incrementE0" style="position: relative; height: 34px; width: 100%; margin-top: 10px">
+            <div class="autoipState canBuy autoIncrementEUnlocks" id="autoIncrementE0State" style="float: left" onmouseup="automateIncrementE(0)"></div>
+            <div class="cantBuy increments" id="incrementE0b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementE(0)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">E = <span class="ba">1</span> + <span class="incrementE1Unlocks"><span class="ba purpleText coefficientE">0</span>E<sub>1</sub> + </span><span class="ba purpleText" id="incrementE0x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementE0Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementE1Unlocks" id="incrementE1" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementEUnlocks" id="autoIncrementE1State" style="float: left" onmouseup="automateIncrementE(1)"></div>
+            <div class="cantBuy increments" id="incrementE1b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementE(1)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">E<sub>1</sub> = <span class="incrementE2Unlocks"><span class="ba purpleText coefficientE">0</span>E<sub>2</sub> + </span><span class="ba purpleText" id="incrementE1x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementE1Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementE2Unlocks" id="incrementE2" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementEUnlocks" id="autoIncrementE2State" style="float: left" onmouseup="automateIncrementE(2)"></div>
+            <div class="cantBuy increments" id="incrementE2b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementE(2)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">E<sub>2</sub> = <span class="incrementE3Unlocks"><span class="ba purpleText coefficientE">0</span>E<sub>3</sub> + </span><span class="ba purpleText" id="incrementE2x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementE2Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementE3Unlocks" id="incrementE3" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementEUnlocks" id="autoIncrementE3State" style="float: left" onmouseup="automateIncrementE(3)"></div>
+            <div class="cantBuy increments" id="incrementE3b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementE(3)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">E<sub>3</sub> = <span class="incrementE4Unlocks"><span class="ba purpleText coefficientE">0</span>E<sub>4</sub> + </span><span class="ba purpleText" id="incrementE3x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementE3Cost">0</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementE4Unlocks" id="incrementE4" style="position: relative; height: 34px; width: 100%">
+            <div class="autoipState canBuy autoIncrementEUnlocks" id="autoIncrementE4State" style="float: left" onmouseup="automateIncrementE(4)"></div>
+            <div class="cantBuy increments" id="incrementE4b" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyIncrementE(4)">
+              <span class="cv text incrementText" style="position: absolute; left: 2px">E<sub>4</sub> = <span class="ba purpleText" id="incrementE4x">0</span></span>
+              <span class="cv text incrementText" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementE4Cost">0</span> IP</span>
+            </div>
+          </div>
+        </div>
+        <div id="tabPrestige">
+          
+        </div>
+        <div id="tabAscension">
+          
+        </div>
+      </div>
+      <span class="text" id="version" style="position: fixed; left: 2px; bottom: 2px; font-size: 12px">0</span>
+    </div>
+    <div id="loadingScreen">
+      <div class="chv ch2" id="offlineBox">
+        <span class="goldText text" style="font-size: clamp(10px, 4vw, 18px)">You were offline for</span><br>
+        <span class="text" id="offlineTime" style="color: rgb(200, 200, 200); font-size: clamp(10px, 5vw, 18px)">0</span>
+        <hr>
+        <span class="goldText text" style="font-size: clamp(10px, 2.5vw, 18px)">Calculating offline progress:</span><br>
+        <div class="pb ch"><div class="ch" id="pbOffline"></div><span class="text cvh" id="offlineProgress" style="width: 100%; color: rgb(0, 0, 0)">0</span></div>
+        <hr>
+        <span class="redText text" style="cursor: pointer; font-size: clamp(10px, 3.5vw, 18px)" onmouseup="skipOfflineProgress()">Skip offline progress</span>
+        <div style="height: 44px; width: 100%; display: table; position: relative; top: 70px">
+          <div class="grayBorder option" style="height: 40px; width: 25%; position: relative" onmouseup="save()"><span class="cvh text" style="width: 100%; font-size: clamp(10px, 4.5vw, 18px)">Save</span></div>
+          <div class="grayBorder option" style="height: 40px; width: 25%; position: relative" onmouseup="exporty()"><span class="cvh text" style="width: 100%; font-size: clamp(10px, 3vw, 18px)">Export</span></div>
+          <div class="grayBorder option" style="height: 40px; width: 25%; position: relative" onmouseup="importy()"><span class="cvh text" style="width: 100%; font-size: clamp(10px, 3vw, 18px)">Import</span></div>
+          <div class="grayBorder option" style="height: 40px; width: 25%; position: relative" onmouseup="confirmResetAll()"><span class="cvh text" style="width: 100%; font-size: clamp(10px, 3.5vw, 18px)">Reset</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="display: none"><div class="nul" id="nul"></div></div>
   </body>
 </html>

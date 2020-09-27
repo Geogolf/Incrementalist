@@ -1,57 +1,24 @@
-//main
-function e(obj, exp, dec) {
-  return ee(obj, exp, dec);
-  if (typeof obj == "undefined") {return "Error=e1"}
-  if (typeof obj == "number") {return "Error=e2"}
-  if (typeof obj == "string") {return obj}
-  if (typeof exp == "undefined") {exp = 2}
-  if (typeof dec == "undefined") {dec = 0}
-  if (dec > 10) {dec = 10}
-  /*if (obj.e >= 1e6) {
-    return obj.m.toFixed(exp) + "e" + obj.e.toExponential(exp).replace("e+", "e");
-  }*/
-  if (obj.e >= 6) {
-    if (obj.m.toFixed(exp) >= 10) {obj.m /= 10; obj.e++}
-    return obj.m.toFixed(exp) + "e" + obj.e.toLocaleString();
-  }
-  else {
-    let x = obj.m * (10 ** obj.e);
-    x = Number(x.toFixed(dec)).toLocaleString();
-    if (x.indexOf(".") < 0 && dec > 0) {x += "."}
-    for (let i = 1; i <= dec; i++) {
-      if (x.toString().charAt(x.toString().length - dec - 1) != ".") {
-        x = x.toString() + "0";
-      }
-    }
-    return x;
-  }
-}
-function ee(obj, exp, dec) {
-  if (typeof obj == "undefined") {return "Error=ee1"}
-  if (typeof obj == "num") {return "Error=ee2"}
-  if (typeof obj == "string") {return obj}
-  if (typeof exp == "undefined") {exp = 2}
-  if (typeof dec == "undefined") {dec = 0}
-  if (dec > 10) {dec = 10}
-  if (obj.e >= 1e11) {
-    let newObj = nd(obj.e);
-    /*return obj.m.toFixed() + "e" + newObj.m.toFixed(dec) + "e" + newObj.e;*/
-    return newObj.m.toFixed(exp) + "ee" + newObj.e;
-  }
-  else if (obj.e >= 6) {
-    if (obj.m.toFixed(exp) >= 10) {obj.m /= 10; obj.m -= 0.01; obj.e++};
-    return obj.m.toFixed(exp) + "e" + comma(obj.e);
-  }
-  else {return comma((obj.m * (10 ** obj.e)).toFixed(dec))}
-}
-function nd(value) {return new Decimal(value)}
 function d(x) {return document.getElementById(x)}
+function dc(x) {return document.getElementsByClassName(x)}
 function h(x) {document.getElementById(x).style.display = "none"}
-function s(x) {document.getElementById(x).style.display = "inline"}
-function sb(x) {document.getElementById(x).style.display = ""}
-function sf(x) {document.getElementById(x).style.display = "flex"}
-function del(a, b) {document.addEventListener(a, b)}
-function wel(a, b) {window.addEventListener(a, b)}
+function hc(x) {x = document.getElementsByClassName(x); for (let i = 0; i < x.length; i++) {x[i].style.display = "none"}}
+function s(x) {document.getElementById(x).style.display = ""}
+function sc(x) {x = document.getElementsByClassName(x); for (let i = 0; i < x.length; i++) {x[i].style.display = ""}}
+function st(x) {document.getElementById(x).style.display = "table-cell"}
+function ac(cl, id) {document.getElementById(id).classList.add(cl)}
+function rc(cl, id) {document.getElementById(id).classList.remove(cl)}
+function rpc(cl1, cl2, id) {id = document.getElementById(id); id.classList.remove(cl1); id.classList.add(cl2)}
+function comma(x) {return Number(x).toLocaleString()}
+
+function nd(x) {return new Decimal(x)}
+function ndn(m, e) {return new Decimal(m).times(nd(10).pow(e))}
+function del(a, b) {document.addEventListener(a, b)}/**/
+function wel(a, b) {window.addEventListener(a, b)}/**/
+function cb(str) {var el = document.createElement("textarea"); el.value = str; el.setAttribute("readonly", ""); el.style = {position: "absolute", left: "-9999px"}; document.body.appendChild(el); cb2(el); document.body.removeChild(el); alert("Copied to clipboard")}/**/
+function cb2(el) {el = (typeof el === "string") ? document.querySelector(el) : el; if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {var editable = el.contentEditable; var readOnly = el.readOnly; el.contentEditable = true; el.readOnly = true; var range = document.createRange(); range.selectNodeContents(el); var selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range); el.setSelectionRange(0, 999999); el.contentEditable = editable; el.readOnly = readOnly} else {el.select()} document.execCommand("copy")}/**/
+function as(arr, index, del, value) {if (typeof value == "undefined") {value = "Nothing"} let remove = 0; if (del) {remove = 1} else {remove = 0} arr.splice(index, remove, value)} /**/
+function of(element) {return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth}/*?*/
+
 function time(obj, full, noDecimals) {
   let x = obj.divide(1000);
   if (x == "Infinity" || typeof x == "null" || typeof obj == "undefined") {return "Infinite Time"}
@@ -85,64 +52,17 @@ function time(obj, full, noDecimals) {
   }
   return y + yy + d + dd + h + hh + m + mm + s + ss/* + ms + msms*/;
 }
-function cb(str) {
-  var el = document.createElement("textarea");
-  el.value = str;
-  el.setAttribute("readonly", "");
-  el.style = {
-    position: "absolute",
-    left: "-9999px"
-  };
-  document.body.appendChild(el);
-  cb2(el);
-  document.body.removeChild(el);
-  alert("Copied to clipboard");
-}
-function cb2(el) {
-  el = (typeof el === "string") ? document.querySelector(el) : el;
-  if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
-    var editable = el.contentEditable;
-    var readOnly = el.readOnly;
-    el.contentEditable = true;
-    el.readOnly = true;
-    var range = document.createRange();
-    range.selectNodeContents(el);
-    var selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-    el.setSelectionRange(0, 999999);
-    el.contentEditable = editable;
-    el.readOnly = readOnly;
-  }
-  else {el.select()}
-  document.execCommand("copy");
-}
-function ndn(m, e) {return nd(m).times(nd(10).pow(e))}
-function gainip(ms) {
-  if (typeof ms == "undefined") {ms = 0}
-  user.ip.x = user.ip.x.plus(getincxx().times(nd(ms).divide(1000)));
-  user.ip.sac = user.ip.sac.plus(getincxx().times(nd(ms).divide(1000)));
-  user.ip.pp = user.ip.pp.plus(getincxx().times(nd(ms).divide(1000)));
-  user.ip.total = user.ip.total.plus(getincxx().times(nd(ms).divide(1000)));
-}
-function comma(x) {return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
 
-//other
 function reveal() {
-  d("loading").style.opacity = 0;
-  d("game").style.opacity = 1;
-  setTimeout(() => {h("loading")}, 750);
-  revealed = true;
+  d("gameScreen").style.opacity = 1;
+  d("loadingScreen").style.opacity = 0;
+  setTimeout(() => {h("loadingScreen")}, 750);
 }
-function unreveal() {
-  d("loading").style.opacity = 1;
-  d("game").style.opacity = 0;
-  s("loading");
-  revealed = false;
-}
+
+var tabs = ["Options", "Achievements", "Statistics", "Automation", "Sacrifice", "Scaling", "Increment", "Prestige", "Ascension"];
 function tab(t) {
   for (let i = 0; i < tabs.length; i++) {h("tab" + tabs[i])}
   s("tab" + t);
   user.tab = t;
-  updatetab(t);
+  updateTab(t);
 }
