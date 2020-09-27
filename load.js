@@ -1,38 +1,73 @@
-//Intervals
-function saving() {setInterval(() => {if (focused) {user.time = Date.now(); save(); clickrate = 0/*; obj = user*/}}, 1000)}
-function save() {localStorage.setItem("user", JSON.stringify(user)); if (setBrokenUser) {brokenUser = user}}
+//Refresh
+var updating = false;
+function updater() {
+  updating = true;
+  setTimeout(() => {
+    updateTab(user.tab);
+    updateip();
+    updatepbip();
+    updater();
+  }, (1000 / updateRate));
+}
+function fixnd() {
+  user.ip.x = nd(user.ip.x);
+  user.ip.sac = nd(user.ip.sac);
+  user.ip.total = nd(user.ip.total);
+  user.ip.highest = nd(user.ip.highest);
+}
 
-//Loading
+//Save Data
+function save() {
+  localStorage.setItem("user", JSON.stringify(user));
+  user.timeLastOnline = Date.now();
+  alertify.success("Game Saved");
+  if (setBrokenUser) {brokenUser = user}
+}
+setInterval(() => {save()}, 60000);
+
+//Load Data
+function exporty() {cb(btoa(JSON.stringify(brokenUser)))}
+function importy() {alertify.prompt("Paste your save code here", "", (evt, value) => {let data = JSON.parse(atob(value)); if (data != null || data != "") {loadData(data)}}, () => {alertify.error("Canceled")})}
 function load() {
   setBrokenUser = false;
   let data = JSON.parse(localStorage.getItem("user"));
   brokenUser = data;
-  if (data != null && data.version != null) {loadData(data)}
-  else {updates(); unlocking(); reveal()}
+  if (data != null) {loadData(data)}
+  else {unlocking(); updater(); reveal()}
 }
-function ndify(obj) {
-  user.ip.x = nd(user.ip.x);
-  user.ip.sac = nd(user.ip.sac);
-  user.ip.pp = nd(user.ip.pp);
-  user.ip.total = nd(user.ip.total);
-  user.sacrifice.ip = nd(user.sacrifice.ip);
-  user.pp.x = nd(user.pp.x);
-  user.pp.sac = nd(user.pp.sac);
-  user.pp.ap = nd(user.pp.ap);
-  user.pp.total = nd(user.pp.total);
-  user.sacrifice.pp = nd(user.sacrifice.pp);
-}
-function loadsame(obj1, obj2, array) {for (let i = 0; i < array.length; i++) {obj1[array[i]] = obj2[array[i]]}}
 function loadData(data) {
+  resetAll(false);
   user = data;
+  /*if (user.version == "0.2.0-beta-v4") {
+    console.log("Loaded Version " + user.version);
+    resetAll();
+    user.version = "0.2.0-beta-v4.1";
+  }
+  if (user.version == "0.2.0-beta-v4.1") {
+    console.log("Loaded Version " + user.version);
+    user.timeStart = Date.now();
+    if (user.achievements.includes("ach2-1")) {user.achievements.splice(user.achievements.indexOf("ach2-1"), 1, "ach1-6")}
+    if (user.achievements.includes("ach2-2")) {user.achievements.splice(user.achievements.indexOf("ach2-2"), 1, "ach2-1")}
+    if (user.achievements.includes("ach2-3")) {user.achievements.splice(user.achievements.indexOf("ach2-3"), 1, "ach2-2")}
+    user.version = "0.2.0-beta-v5";
+  }
+  if (user.version == "0.2.0-beta-v5") {
+    console.log("Loaded Version " + user.version);
+    user.scaling.e = 0;
+    if (user.increment.ip >= 2500 && user.increment.ip < 5000) {decompleteAchievement("ach1-6")}
+    user.version = "0.2.0-beta-v6";
+  }
+  if (user.version == "0.2.0-beta-v6") {
+    console.log("Loaded Version " + user.version);
+  }*/
   if (user.version == "0.0.0") {
-    console.log("Loaded version " + user.version);
+    console.log("Loaded version 0.0.0 -> 0.1.0");
     user.active.displaypause = false;
-    user.confirm = setUser().confirm;
+    user.confirm = {creset: true, csacrifice: true}
     user.version = "0.1.0";
   }
   if (user.version == "0.1.0") {
-    console.log("Loaded version " + user.version);
+    console.log("Loaded version 0.1.0 -> 0.1.2");
     if (typeof user.sacrifice.ip.x == "undefined") {user.sacrifice.ip = user.sacrifice.ip} else {user.sacrifice.ip = user.sacrifice.ip.x}
     if (typeof user.sacrifice.pp.x == "undefined") {user.sacrifice.pp = user.sacrifice.pp} else {user.sacrifice.pp = user.sacrifice.pp.x}
     if (typeof user.sacrifice.ap.x == "undefined") {user.sacrifice.ap = user.sacrifice.ap} else {user.sacrifice.ap = user.sacrifice.ap.x}
@@ -43,113 +78,155 @@ function loadData(data) {
     user.version = "0.1.1";
   }
   if (user.version == "0.1.1") {
-    console.log("Loaded version " + user.version);
+    console.log("Loaded version 0.1.1 -> 0.1.2");
     user.pp.extra = 0;
-    user.active.aeAutomates = setUser().active.aeAutomates;
+    user.active.aeAutomates = undefined;
     user.active.displaypause = true;
     user.version = "0.1.2";
   }
   if (user.version == "0.1.2") {
-    console.log("Loaded version " + user.version);
-  }
-  ndify(user);
-  tab(user.tab);
-  loadOffline();
-  loadAutomate();
-}
-let skipped = false;
-function loadOffline(ms) {
-  let timeOffline = ms;
-  if (typeof ms == "undefined") {timeOffline = Math.abs(user.time - Date.now())}
-  if (timeOffline >= 1000) {
-    s("offline");
-    unreveal();
-    d("timeOffline").textContent = time(nd(timeOffline));
-    let maxTicks = 1e6;
-    let tickSpeed = 20; //Milliseconds per tick
-    if (false) {} //Are you buying max?
-    else {
-      let ticks = timeOffline / tickSpeed;
-      if (ticks > maxTicks) {ticks = maxTicks; tickSpeed = timeOffline / ticks} //Cap for ticks
-      let checkTicks = 10; //Ticks checking every iteration
-      let rate = getautomaterate().times(tickSpeed).times(checkTicks).divide(1000); //Clicks per tick
-      let ticksRan = 0; //Ticks already checked
-      var skipping = false;
-      let runTick = () => {
-        setTimeout (() => {
-          /*if (revealed) {unreveal()}
-          s("offline");*/
-          if (skipped && !skipping) {skipping = true; checkTicks = Math.floor((ticks - ticksRan) / 100)/*ticksRan = ticks - checkTicks*/}
-          ticksRan += checkTicks;
-          if (user.automate.scale.inc.p && user.ip.x.gte(getscaleincpcost(rate.minus(1)).times(rate))) {user.scale.inc.p += rate.toNumber()}
-          if (user.automate.scale.inc.m && user.ip.x.gte(getscaleincmcost(rate.minus(1)).times(rate))) {user.scale.inc.m += rate.toNumber()}
-          if (user.automate.scale.inc.e && user.ip.x.gte(getscaleincecost(rate.minus(1)).times(rate))) {user.scale.inc.e += rate.toNumber()}
-          if (user.automate.inc.x) {gainip(tickSpeed * checkTicks)}
-          for (let i = 1; i <= 5; i++) {
-            if (user.automate.inc.p[i] && user.ip.x.gte(getincp(i, "cost", rate.minus(1)).times(rate))) {user.inc.p[i] += rate.toNumber()}
-            if (user.automate.inc.m[i] && user.ip.x.gte(getincm(i, "cost", rate.minus(1)).times(rate))) {user.inc.m[i] += rate.toNumber()}
-            if (user.automate.inc.e[i] && user.ip.x.gte(getince(i, "cost", rate.minus(1)).times(rate))) {user.inc.e[i] += rate.toNumber()}
-          }
-          if (ticksRan < ticks) {
-            d("pboffline").style.width = 100 * ticksRan / ticks + "%";
-            d("ticksOffline").innerHTML = e(nd(ticksRan)) + "/" + e(nd(ticks)) + "<br>" + time(nd(ticks).minus(ticksRan).plus(1000), false, true);
-            if (!revealed && !resetting) {runTick()}
-          }
-          else {
-            d("pboffline").style.width = "100%";
-            d("ticksOffline").innerHTML = e(nd(ticks)) + "/" + e(nd(ticks)) + "<br>" + time(nd(0), false, true);
-            reveal();
-          }
-        }, 10);
-      }
-      if (ticks >= checkTicks && !resetting) {runTick()}
-      else {reveal()}
+    console.log("Loaded Version 0.1.2 -> 0.2.0");
+    let layers = ["pp", "ap", "tp", "dp", "gp"];
+    let letters = ["p", "m", "e"];
+    let tempObjs = ["auto", "scaling", "confirmation"];
+    for (let i = 0; i < tempObjs.length; i++) {user[tempObjs[i]] = {}}
+    if (user.automation.inc.x) {user.auto.ip = 1}
+    user.automate.ip = user.automate.inc.x;
+    for (let i = 0; i < letters.length; i++) {
+      if (user.automation.inc[letters[i]]) {user.auto["increment" + letters[i].toUpperCase()] = 1}
+      else {user.auto["increment" + letters[i].toUpperCase()] = 0}
+      user.automate["increment" + letters[i].toUpperCase()] = [];
+      for (let k = 0; k <= 4; k++) {user.automate["increment" + letters[i].toUpperCase()][k] = user.automate.inc[letters[i]][k + 1]/*false*/}
+      /*user.scaling[letters[i]] = user.scale.inc[letters[i]];*/
+      user.scaling[letters[i]] = 0;
     }
+    user.sacrifice.ip = 0;
+    let ips = ["x", "sac", "total", "highest"];
+    for (let i = 0; i < ips.length; i++) {if (nd(user.ip[ips[i]]).gte(infinite)) {user.ip[ips[i]] = infinite}}
+    user.ip.total = nd(user.ip.total);
+    while (user.ip.total.gte(getSacrificeIPCost())) {user.sacrifice.ip++}
+    user.increment = {ip: 0, p: [0, 0, 0, 0, 0], m: [0, 0, 0, 0, 0], e: [0, 0, 0, 0, 0]}
+    user.confirmation.reset = user.confirm.creset;
+    user.confirmation.sacrifice = user.confirm.csacrifice;
+    user.timeLastOnline = user.time;
+    let tempTabs = [["auto", "Automation"], ["scale", "Scaling"], ["sac", "Sacrifice"], ["ach", "Achievements"], ["ip", "Increment"]];
+    for (let i = 0; i < tempTabs.length; i++) {if (user.tab == tempTabs[i][0]) {user.tab = tempTabs[i][1]}}
+    user.timeStart = Date.now();
+    user.notation = "Scientific";
+    user.achievements = [];
+    let tempDelete = ["automation", "scale", "inc", "active", "confirm", "time"];
+    for (let i = 0; i < tempDelete.length; i++) {delete user[tempDelete[i]]}
+    delete user.ip.pp;
+    for (let i = 0; i < layers.length; i++) {delete user[layers[i]]; delete user.sacrifice[layers[i]]}
+    delete user.automate.scale;
+    delete user.automate.inc;
+    user.version = "0.2.0";
+    /*console.log("Loaded Version " + user.version);
+    let layers = ["pp", "ap", "tp", "dp", "gp"];
+    delete user.ip.pp;
+    for (let i = 0; i < layers.length; i++) {delete user[layers[i]]}
+    user.auto = {}
+    if (user.automation.inc.x) {user.auto.ip = 1}
+    if (user.automation.inc.p) {user.auto.incrementP = 1} else {user.auto.incrementP = 0}
+    if (user.automation.inc.m) {user.auto.incrementM = 1} else {user.auto.incrementM = 0}
+    if (user.automation.inc.e) {user.auto.incrementE = 1} else {user.auto.incrementE = 0}
+    delete user.automation;
+    delete user.automate.scale;
+    user.automate.ip = user.automate.inc.x;
+    user.automate.incrementP = [];
+    user.automate.incrementM = [];
+    user.automate.incrementE = [];
+    for (let i = 0; i <= 4; i++) {
+      user.automate.incrementP[i] = user.automate.inc.p[i + 1];
+      user.automate.incrementM[i] = user.automate.inc.m[i + 1];
+      user.automate.incrementE[i] = user.automate.inc.e[i + 1];
+    }
+    delete user.automate.inc;
+    user.scaling = {}
+    user.scaling.p = user.scale.inc.p;
+    user.scaling.m = user.scale.inc.m;
+    user.scaling.e = user.scale.inc.e;
+    delete user.scale;
+    user.sacrifice.ip = 0;
+    user.ip.total = nd(user.ip.total);
+    while (user.ip.total.gte(getSacrificeIPCost())) {user.sacrifice.ip++}
+    for (let i = 0; i < layers.length; i++) {delete user.sacrifice[layers[i]]}
+    delete user.inc;
+    user.increment = setUser().increment;
+    delete user.active;
+    user.confirmation = {}
+    user.confirmation.reset = user.confirm.creset;
+    user.confirmation.sacrifice = user.confirm.csacrifice;
+    delete user.confirm;
+    user.timeLastOnline = user.time;
+    delete user.time;
+    if (user.tab == "auto") {user.tab = "Automation"}
+    if (user.tab == "scale") {user.tab = "Scaling"}
+    if (user.tab == "sac") {user.tab = "Sacrifice"}
+    if (user.tab == "ach") {user.tab = "Achievements"}
+    if (user.tab == "ip") {user.tab = "Increment"}
+    user.timeStart = Date.now();
+    user.notation = "Scientific";
+    user.achievements = [];
+    user.version = "0.2.0";*/
   }
-  else {reveal()}
-  updates();
+  if (user.version == "0.2.0") {
+    console.log("Loaded Version 0.2.0");
+  }
+  fixnd();
+  tab(user.tab);
+  completeAchievements();
+  if (user.timeLastOnline == "now") {user.timeLastOnline = Date.now()}
+  loadOffline();
   unlocking();
-  user.time = Date.now();
+  reveal();
+  updateAutomates();
+  alertify.success("Game Loaded");
+}
+function loadOffline() {
+  let timeOffline = Date.now() - user.timeLastOnline;
+  d("offlineTime").textContent = time(nd(timeOffline));
+  if (timeOffline >= 1000) {simulateTime(timeOffline)}
   save();
-  console.log("Time offline: " + time(nd(timeOffline), true))
-}
-function skipOffline() {skipped = true}
-function loadAutomate() {
-  let pme = ["p", "m", "e"];
-  for (let i = 0; i < 3; i++) {
-    if (user.automate.scale.inc[pme[i]]) {autoInterval.scale.inc[pme[i]]()}
-    for (let j = 1; j <= 5; j++) {if (user.automate.inc[pme[i]][j]) {autoInterval.inc[pme[i]](j)}}
-  }
-  if (user.automate.inc.x) {autoInterval.inc.x()}
+  console.log("Time Offline: " + time(nd(timeOffline)));
 }
 
-//Resets
-function resetSacrifice(layer) {
-  if (layer == "ip") {
-    user.automation.inc = {x: false, p: false, m: false, e: false}
-    user.automate.scale.inc = {p: false, m: false, e: false}
-    user.automate.inc = {p: ["null", false, false, false, false, false], m: ["null", false, false, false, false, false], e: ["null", false, false, false, false, false]}
-    user.inc = {x: 0, p: ["null", 0, 0, 0, 0, 0], m: ["null", 0, 0, 0, 0, 0], e: ["null", 0, 0, 0, 0, 0]}
-    user.scale.inc = {p: 0, m: 0, e: 0}
-    return;
+//Reset Data
+function confirmResetAll() {
+  if (user.confirmation.reset) {
+    alertify.confirm("Are you sure you want to reset? You will lose all of your previous progress!", () => {alertify.warning("Game Reset"); resetAll()});
   }
+  else {resetAll()}
 }
-function resetPrestige() {resetSacrifice("ip"); user.automation.scale.inc = {p: false, m: false, e: false}; user.sacrifice.ip = nd(1)}
-
-//Other
-function updates() {
-  for (let i = 0; i < settingids.length; i++) {updatesetting(settingids[i])}
-  updateip();
-  updateautomation();
-  updateautomaterate();
-  updateautomate();
-  updatescale();
-  updatesac();
-  updateincx();
-  updateinc();
-  updatepp();
-  updateppgain();
-  updateversion();
+function resetAll(sav) {
+  if (typeof sav == "undefined") {sav = true}
+  decompleteAchievements();
+  user = setUser();
+  user.timeStart = Date.now();
+  unlocking();
+  reveal();
+  if (sav) {save()}
+  console.log("Game Reset");
 }
-const tempHide = ["ap", "space2", "tp", "space3", "dp", "space4", "gp", "btabap", "btabtp", "btabdp", "btabgp", "btabach"];
-for (let i = 0; i < tempHide.length; i++) {h(tempHide[i])}
+function resetSacrificeIP() {
+  if (user.automate.ip) {automateIP()}
+  for (let i = 0; i < 5; i++) {
+    if (user.automate.incrementP[i]) {automateIncrementP(i)}
+    if (user.automate.incrementM[i]) {automateIncrementM(i)}
+    if (user.automate.incrementE[i]) {automateIncrementE(i)}
+  }
+  user.auto.ip = 0;
+  user.auto.incrementP = 0;
+  user.auto.incrementM = 0;
+  user.auto.incrementE = 0;
+  for (let i = 0; i <= 4; i++) {
+    user.increment.p[i] = 0;
+    user.increment.m[i] = 0;
+    user.increment.e[i] = 0;
+  }
+  user.scaling.p = 0;
+  user.scaling.m = 0;
+  user.scaling.e = 0;
+  user.ip.x = nd(1);
+  user.ip.sac = nd(1);
+}

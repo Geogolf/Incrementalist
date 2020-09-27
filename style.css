@@ -1,313 +1,236 @@
+/* Base Elements */
 body {
   background-color: rgb(0, 0, 0);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  touch-action: manipulation;
   cursor: default;
-  font-family: arial;
+  font-size: 18px;
 }
-table {margin: 0 auto; empty-cells: hide; border-spacing: 0}
+body::-webkit-scrollbar {display: none}
+table {margin-left: auto; margin-right: auto}
+sub {font-family: Book Antiqua}
+sup {font-family: Book Antiqua}
 hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 
-.text40 {font-size: 40px}
-.text36 {font-size: 36px}
-.text32 {font-size: 32px}
-.text28 {font-size: 28px}
-.text26 {font-size: 26px}
-.text24 {font-size: 24px}
-.text22 {font-size: 22px}
-.text20 {font-size: 20px}
-.text18 {font-size: 18px}
-.text16 {font-size: 16px}
-.text14 {font-size: 14px}
-.text12 {font-size: 12px}
-.text8 {font-size: 8px}
-.text {color: rgb(200, 200, 200)}
+/* Text */
+.text {color: rgb(150, 150, 150)/*; font-family: Courier Prime*/; overflow-wrap: break-word}
 .redText {color: rgb(220, 20, 60)}
 .orangeText {color: rgb(255, 165, 0)}
 .yellowText {color: rgb(222, 222, 0)}
-.greenText {color: rgb(50, 200, 50)}
-.blueText {color: rgb(25, 25, 255)}
+.greenText {color: rgb(150, 200, 50)}
+.blueText {color: rgb(0, 0, 200)}
 .purpleText {color: rgb(150, 0, 210)}
-.goldText {color: rgb(210, 175, 55)}
-.monospace {font-family: monospace}
-.ch {text-align: center}
-.cv {position: absolute; top: 50%; transform: translateY(-50%)}
-.chv {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)}
-.cvh {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)}
-.top {position: absolute; top: 0px; right: 0; left: 0}
-.bottom {position: absolute; right: 0; bottom: 0px; left: 0}
+.goldText {color: rgb(212, 175, 55)}
+.whiteText {color: rgb(255, 255, 255)}
+.center {text-align: center}
+.ba {font-family: Book Antiqua}
+.ab {font-family: Book Antiqua}
 
-#gear {position: absolute; top: 0px; right: 10px; cursor: pointer}
-.pb {
-  background-color: rgb(100, 100, 100);
-  width: 240px;
-  position: relative;
-  margin-top: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 20px;
+/*.lc {font-family: Courier Prime}
+.cl {font-family: Courier Prime}*/
+.top {position: absolute; top: 2px; right: 0px; left: 0px}
+.bottom {position: absolute; right: 0px; bottom: 2px; left: 0px}
+.achReward {font-size: 13px}
+.statText {font-size: 16px}
+.incrementText {font-size: clamp(10px, 3.75vw, 18px)}
+
+/* Position */
+.ch {position: absolute; left: 50%; transform: translateX(-50%)}
+.ch2 {text-align: center}
+.cv {position: absolute; top: 50%; transform: translateY(-50%)}
+.chv {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)}
+.cvh {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)}
+
+/* General Display */
+.grayBorder {border-color: rgb(127, 127, 127); border-width: 2px; border-style: solid}
+.grayBorder2 {border-color: rgb(63, 63, 63); border-width: 2px; border-style: solid}
+.dropdown {position: relative}
+.dropdown:hover .dropdown-content {display: block}
+.dropdown-content {
+  background-color: rgb(15, 15, 15);
+  border: 2px solid rgb(35, 140, 35);
+  border-radius: 10px;
+  width: 100%;
+  position: absolute;
+  top: 66px;
+  display: none;
+  z-index: 1;
 }
-#pbip {
-  background-color: rgb(150, 0, 210);
-  width: 0%;
-  height: 100%;
+.dropdown-item {border: 2px solid rgb(35, 140, 35); margin: 1px; transition: background-color .2s}
+.dropdown-item:hover {background-color: rgb(50, 50, 50)}
+.title {
+  background-color: rgb(25, 25, 25);
+  border: 0px;
+  border-radius: 44px;
 }
-#pbipsac {
-  background-color: rgb(150, 0, 210);
-  width: 0%;
-  height: 100%;
+.table {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
 }
-#pbpp {
-  background-color: rgb(150, 0, 210);
-  width: 0%;
-  height: 100%;
+.tableRow {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }
-#pbap {
-  background-color: rgb(150, 0, 210);
-  width: 0%;
-  height: 100%;
+.tableCell {
+  height: 150px;
+  vertical-align: 0;
 }
-#pbtp {
-  background-color: rgb(150, 0, 210);
-  width: 0%;
-  height: 100%;
+
+/* Buttons */
+.increments {
+  border: 2px solid;
+  border-radius: 10px;
+  margin: 1px 0px 1px 0px;
 }
-#pbdp {
-  background-color: rgb(150, 0, 210);
-  width: 0%;
-  height: 100%;
+.automations {
+  border: 2px solid;
+  border-radius: 10px;
+  margin: 1px 0px 1px 0px;
 }
-#pbgp {
-  background-color: rgb(150, 0, 210);
-  width: 0%;
-  height: 100%;
+.sacrifices {
+  border: 2px solid;
+  border-radius: 10px;
+  margin: 1px 0px 1px 0px;
 }
-.tab {
-  color: rgb(0, 0, 0);
-  background-color: rgb(255, 255, 255);
-  border-color: rgb(200, 200, 200);
-  border-width: 2px;
+.scalings {
+  border: 2px solid;
+  border-radius: 10px;
+  margin: 1px 0px 1px 0px;
+}
+.autoipState {
+  border: 2px solid rgb(220, 20, 60);
   border-radius: 5px;
-  border-style: solid;
+  width: 30px;
+  height: 30px;
+}
+.option {
+  border: 2px solid rgb(35, 140, 35);
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  height: 64px;
+  width: 25%;
+  position: relative;
+  display: table-cell;
+}
+.achComplete {
+  background-color: rgb(25, 85, 25);
+  border: 2px solid rgb(35, 140, 35);
+  border-radius: 10px;
+  height: 150px;
+  width: 150px;
+  position: relative;
+}
+.achIncomplete {
+  background-color: rgb(25, 25, 25);
+  border: 2px solid rgb(35, 140, 35);
+  border-radius: 10px;
+  height: 150px;
+  width: 150px;
+  position: relative;
+}
+
+/* Tooltips */
+.tooltip-content {
+  background-color: rgb(25, 25, 25);
+  border-radius: 10px;
   padding: 5px;
-  margin: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 155px;
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  z-index: 1;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .5s;
+}
+.tooltip-content::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: rgb(25, 25, 25) transparent transparent transparent;
+}
+.tooltip-element:hover .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Tabs */
+.tab {
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(200, 200, 200);
+  border-radius: 25px;
   cursor: pointer;
   outline: none;
   transition: color .2s, background-color .2s;
 }
 .tab:hover {color: rgb(200, 200, 200); background-color: rgb(0, 0, 0)}
-.tabpurple {
-  color: rgb(150, 0, 210);
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(150, 0, 210);
-  /*transition: background-color 0.75s, border-color 0.75s;*/
-}
-.tabpurple:hover {color: rgb(0, 0, 0); background-color: rgb(150, 0, 210)}
-.tabblue {
-  color: rgb(25, 25, 255);
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(25, 25, 255);
-}
-.tabblue:hover {color: rgb(0, 0, 0); background-color: rgb(25, 25, 255)}
-.tabgreen {
-  color: rgb(50, 200, 50);
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(50, 200, 50);
-}
-.tabgreen:hover {color: rgb(0, 0, 0); background-color: rgb(50, 200, 50)}
-.tabyellow {
-  color: rgb(222, 222, 0);
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(222, 222, 0);
-}
-.tabyellow:hover {color: rgb(0, 0, 0); background-color: rgb(222, 222, 0)}
-.taborange {
-  color: rgb(255, 165, 0);
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(255, 165, 0);
-}
-.taborange:hover {color: rgb(0, 0, 0); background-color: rgb(255, 165, 0)}
-.tabred {
-  color: rgb(220, 20, 60);
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(220, 20, 60);
-}
-.tabred:hover {color: rgb(0, 0, 0); background-color: rgb(220, 20, 60)}
-.title {
-  background-color: rgb(50, 50, 50);
-  border: none;
-  border-radius: 15px;
-  height: 30px;
-  width: 200px;
-  margin-bottom: 10px;
-  outline: none;
-}
-.title2 {
-  background-color: rgb(50, 50, 50);
-  border: none;
-  border-radius: 15px;
-  height: 30px;
-  width: 611px;
-  margin-top: 25px;
-  outline: none;
-}
-.setting {
-  color: rgb(150, 150, 150);
-  background-color: rgb(25, 25, 25);
-  border-color: rgb(35, 140, 35);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  width: 150px;
-  height: 75px;
-  font-size: 24px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color .2s;
-}
-.csetting {
-  color: rgb(150, 150, 150);
-  background-color: rgb(25, 25, 25);
-  border-color: rgb(35, 140, 35);
-  border-width: 2px;
-  border-radius: 5px;
-  border-style: solid;
-  width: 130px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  font-size: 24px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color .2s;
-}
-#confirmationslist {
-  color: rgb(150, 150, 150);
-  background-color: rgb(25, 25, 25);
-  border-color: rgb(35, 140, 35);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  padding: 5px;
-  width: 135px;
-  position: absolute;
-  display: none;
-  transition: background-color .2s;
-}
-.automation {
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(100, 90, 150);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  width: 200px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  outline: none;
-}
-.click {
-  height: 100px;
-  transition: background-color .2s;
-}
-.click:hover {background-color: rgb(25, 25, 25)}
-.click:active {background-color: rgb(10, 10, 10)}
-.incbox {
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(100, 90, 150);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  width: 200px;
-  cursor: pointer;
-  outline: none;
-}
-.incboxb {
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(150, 0, 210);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  width: 200px;
-  cursor: pointer;
-  outline: none;
-}
-.increment {
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(100, 90, 150);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  width: 200px;
-  margin: 5px 10px 5px 10px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color .2s;
-}
-.increment:hover {background-color: rgb(25, 25, 25)}
-.increment:active {background-color: rgb(10, 10, 10)}
-.autobutton {
-  border-color: rgb(100, 100, 100);
-  border-width: 1px;
-  border-style: solid;
-  width: 35px;
-  height: 15px;
-}
-.presbox {
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(25, 25, 175);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  width: 200px;
-  cursor: pointer;
-  outline: none;
-}
-.presboxb {
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(25, 25, 255);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  width: 200px;
-  cursor: pointer;
-  outline: none;
-}
-.pptreecell {
-  background-color: rgb(0, 0, 0);
-  border-color: rgb(25, 25, 255);
-  border-width: 2px;
-  border-radius: 10px;
-  border-style: solid;
-  height: 100px;
-  width: 200px;
-  cursor: pointer;
-  outline: none;
-  position: relative;
-}
-#offline {
-  background-color: rgb(25, 25, 25);
-  border-color: rgb(35, 140, 35);
-  border-width: 2px;
-  border-style: solid;
-  width: 250px;
-  /*height: 250px;*/
-  padding: 10px 5px 10px 5px;
-  outline: none;
-  position: relative;
-  display: none;
-}
-#pboffline {
+.tabPurple {color: rgb(150, 0, 210); background-color: rgb(0, 0, 0); border-color: rgb(150, 0, 210)}
+.tabPurple:hover {color: rgb(0, 0, 0); background-color: rgb(150, 0, 210)}
+.tabBlue {color: rgb(25, 25, 255); background-color: rgb(0, 0, 0); border-color: rgb(25, 25, 255)}
+.tabBlue:hover {color: rgb(0, 0, 0); background-color: rgb(25, 25, 255)}
+.tabGreen {color: rgb(50, 200, 50); background-color: rgb(0, 0, 0); border-color: rgb(50, 200, 50)}
+.tabGreen:hover {color: rgb(0, 0, 0); background-color: rgb(50, 200, 50)}
+.tabYellow {color: rgb(222, 222, 0); background-color: rgb(0, 0, 0); border-color: rgb(222, 222, 0)}
+.tabYellow:hover {color: rgb(0, 0, 0); background-color: rgb(222, 222, 0)}
+.tabOrange {color: rgb(255, 165, 0); background-color: rgb(0, 0, 0); border-color: rgb(255, 165, 0)}
+.tabOrange:hover {color: rgb(0, 0, 0); background-color: rgb(255, 165, 0)}
+.tabRed {color: rgb(220, 20, 60); background-color: rgb(0, 0, 0); border-color: rgb(220, 20, 60)}
+.tabRed:hover {color: rgb(0, 0, 0); background-color: rgb(220, 20, 60)}
+.canBuy {background-color: rgb(0, 0, 0); cursor: pointer; outline: none; transition: background-color .2s}
+.cantBuy {background-color: rgb(30, 30, 30); outline: none; transition: background-color .2s}
+
+/* Progress Bars */
+.pb {
   background-color: rgb(100, 100, 100);
-  width: 0%;
+  border-radius: 25px;
+  width: 95%;
   height: 25px;
+  position: relative;
+  margin-top: 2px;
+}
+#pbip {
+  background-color: rgb(150, 0, 210);
+  border-radius: 25px;
+  width: 0%;
+  height: 100%;
+}
+#pbOffline {
+  background-color: rgb(200, 200, 200);
+  border-radius: 25px;
+  width: 0%;
+  height: 100%;
 }
 
-#version {color: rgb(100, 100, 100); position: fixed; bottom: 3px; left: 5px}
-#loading {position: fixed; top: 0px; left: 0px; background-color: rgb(0, 0, 0); width: 100%; height: 100%; opacity: 1; z-index: 1; transition: opacity 0.75s}
-#debug {display: none}
-#display {position: fixed; top: 0px; left: 0px; background-color: rgba(0, 0, 0, 0.5); width: 100%; height: 100%; z-index: 1; display: none}
-#game {opacity: 0; transition: opacity 0.75s}
+/* Loading Screen */
+#gameScreen {
+  opacity: 0;
+  transition: opacity 1s;
+}
+#loadingScreen {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  z-index: 1;
+  transition: opacity 1s;
+}
+#offlineBox {
+  background-color: rgb(25, 25, 25);
+  border: 2px solid rgb(35, 140, 35);
+  width: 50%;
+  max-width: 500px;
+  padding: 10px 0px 10px 0px;
+}
