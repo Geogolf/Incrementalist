@@ -38,6 +38,28 @@ function load() {
 function loadData(data) {
   resetAll(false);
   user = data;
+  /*if (user.version == "0.2.0-beta-v4") {
+    console.log("Loaded Version " + user.version);
+    resetAll();
+    user.version = "0.2.0-beta-v4.1";
+  }
+  if (user.version == "0.2.0-beta-v4.1") {
+    console.log("Loaded Version " + user.version);
+    user.timeStart = Date.now();
+    if (user.achievements.includes("ach2-1")) {user.achievements.splice(user.achievements.indexOf("ach2-1"), 1, "ach1-6")}
+    if (user.achievements.includes("ach2-2")) {user.achievements.splice(user.achievements.indexOf("ach2-2"), 1, "ach2-1")}
+    if (user.achievements.includes("ach2-3")) {user.achievements.splice(user.achievements.indexOf("ach2-3"), 1, "ach2-2")}
+    user.version = "0.2.0-beta-v5";
+  }
+  if (user.version == "0.2.0-beta-v5") {
+    console.log("Loaded Version " + user.version);
+    user.scaling.e = 0;
+    if (user.increment.ip >= 2500 && user.increment.ip < 5000) {decompleteAchievement("ach1-6")}
+    user.version = "0.2.0-beta-v6";
+  }
+  if (user.version == "0.2.0-beta-v6") {
+    console.log("Loaded Version " + user.version);
+  }*/
   if (user.version == "0.0.0") {
     console.log("Loaded version 0.0.0 -> 0.1.0");
     user.active.displaypause = false;
@@ -69,7 +91,6 @@ function loadData(data) {
     let tempObjs = ["auto", "scaling", "confirmation"];
     for (let i = 0; i < tempObjs.length; i++) {user[tempObjs[i]] = {}}
     if (user.automation.inc.x) {user.auto.ip = 1}
-    else {user.auto.ip = 0}
     user.automate.ip = user.automate.inc.x;
     for (let i = 0; i < letters.length; i++) {
       if (user.automation.inc[letters[i]]) {user.auto["increment" + letters[i].toUpperCase()] = 1}
@@ -151,21 +172,15 @@ function loadData(data) {
   }
   if (user.version == "0.2.0") {
     console.log("Loaded Version 0.2.0");
-    user.version = "0.2.1";
   }
-  if (user.version == "0.2.1") {
-    console.log("Loaded Version 0.2.1");
-  }
-  if (user.version == data.version) {alertify.message("Loaded Version " + user.version)}
-  else {alertify.message("Loaded Version " + data.version + "->" + user.version)}
   fixnd();
   tab(user.tab);
   completeAchievements();
   if (user.timeLastOnline == "now") {user.timeLastOnline = Date.now()}
   loadOffline();
   unlocking();
-  updateAutomates();
   reveal();
+  updateAutomates();
   alertify.success("Game Loaded");
 }
 function loadOffline() {

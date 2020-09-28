@@ -260,11 +260,11 @@ function getAutoIncrementECost() {
 //Update Data
 function updateAutoIP() {
   let cost = getAutoIPCost();
-  if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "autoIPb")}
-  else {rpc("cantBuy", "canBuy", "autoIPb")}
   if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
   d("autoIPx").textContent = e(getAutoIPx());
   d("autoIPCost").textContent = e(cost);
+  if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "autoIPb")}
+  else {rpc("cantBuy", "canBuy", "autoIPb")}
 }
 function updateAutomateIP() {
   if (user.automate.ip) {d("autoIPState").style.borderColor = "rgb(100, 200, 50)"}
@@ -272,11 +272,11 @@ function updateAutomateIP() {
 }
 function updateAutoIncrementP() {
   let cost = getAutoIncrementPCost();
-  if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "autoPb")}
-  else {rpc("cantBuy", "canBuy", "autoPb")}
   if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
   d("autoPx").textContent = e(getAutoIncrementPx());
   d("autoPCost").textContent = e(cost);
+  if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "autoPb")}
+  else {rpc("cantBuy", "canBuy", "autoPb")}
 }
 function updateAutomateIncrementP(n) {
   if (user.automate.incrementP[n]) {d("autoIncrementP" + n + "State").style.borderColor = "rgb(100, 200, 50)"}
@@ -284,11 +284,11 @@ function updateAutomateIncrementP(n) {
 }
 function updateAutoIncrementM() {
   let cost = getAutoIncrementMCost();
-  if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "autoMb")}
-  else {rpc("cantBuy", "canBuy", "autoMb")}
   if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
   d("autoMx").textContent = e(getAutoIncrementMx());
   d("autoMCost").textContent = e(cost);
+  if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "autoMb")}
+  else {rpc("cantBuy", "canBuy", "autoMb")}
 }
 function updateAutomateIncrementM(n) {
   if (user.automate.incrementM[n]) {d("autoIncrementM" + n + "State").style.borderColor = "rgb(100, 200, 50)"}
@@ -296,11 +296,11 @@ function updateAutomateIncrementM(n) {
 }
 function updateAutoIncrementE() {
   let cost = getAutoIncrementECost();
-  if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "autoEb")}
-  else {rpc("cantBuy", "canBuy", "autoEb")}
   if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
   d("autoEx").textContent = e(getAutoIncrementEx());
   d("autoECost").textContent = e(cost);
+  if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "autoEb")}
+  else {rpc("cantBuy", "canBuy", "autoEb")}
 }
 function updateAutomateIncrementE(n) {
   if (user.automate.incrementE[n]) {d("autoIncrementE" + n + "State").style.borderColor = "rgb(100, 200, 50)"}

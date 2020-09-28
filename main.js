@@ -12,7 +12,7 @@ function setUser() {
     tab: "Increment",
     timeStart: "now",
     timeLastOnline: "now",
-    version: "0.2.1",
+    version: "0.2.0",
   }
 }
 
@@ -23,7 +23,7 @@ const updateRate = 20;
 var infinite = ndn(1, 100);
 const maxTicks = 100000;
 const tickSpeed = 50;
-const showInfinite = true;
+const showInfinite = false;
 
 //Unlock Data
 function unlocking() {unlockIP(); unlockAutomation(); unlockSacrifice(); unlockAchievement()}
@@ -129,8 +129,28 @@ if (user.timeStart === "now") {user.timeStart = Date.now()}
 load();
 setBrokenUser = true;
 updater();
+tab(user.tab);
 
 initiateAutomation();
 
 updateConfirmations();
-d("version").textContent = "Version " + user.version;
+d("version").textContent = user.version;
+
+//Dev Stuff
+function progress() {
+  /*let x = ndn(1, 0);
+  user.ip.x = x;
+  user.ip.sac = x;
+  user.ip.total = x;
+  user.sacrifice.ip = 11;
+  for (let i = 1; i <= 6; i++) {completeAchievement("ach1-" + i)}
+  for (let i = 1; i <= 4; i++) {completeAchievement("ach2-" + i)}
+  user.increment.ip = 3330;*/
+}
+progress();
+unlocking();
+
+const tempHideIds = [];
+for (let i = 0; i < tempHideIds.length; i++) {h(tempHideIds[i])}
+const tempHideClasses = [];
+for (let i = 0; i < tempHideClasses.length; i++) {hc(tempHideClasses[i])}
