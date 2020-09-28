@@ -42,25 +42,25 @@ function getScalingECost() {
 //Update Data
 function updateScalingP() {
   let cost = getScalingPCost();
+  if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "scalingPb")}
+  else {rpc("cantBuy", "canBuy", "scalingPb")}
   if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
   d("scalingPx").textContent = e(getScalingP(), 0, 2);
   d("scalingPCost").textContent = e(cost);
-  if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "scalingPb")}
-  else {rpc("cantBuy", "canBuy", "scalingPb")}
 }
 function updateScalingM() {
   let cost = getScalingMCost();
+  if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "scalingMb")}
+  else {rpc("cantBuy", "canBuy", "scalingMb")}
   if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
   d("scalingMx").textContent = e(getScalingM(), 0, 2);
   d("scalingMCost").textContent = e(cost);
-  if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "scalingMb")}
-  else {rpc("cantBuy", "canBuy", "scalingMb")}
 }
 function updateScalingE() {
   let cost = getScalingECost();
+  if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "scalingEb")}
+  else {rpc("cantBuy", "canBuy", "scalingEb")}
   if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
   d("scalingEx").textContent = e(getScalingE(), 0, 2);
   d("scalingECost").textContent = e(cost);
-  if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "scalingEb")}
-  else {rpc("cantBuy", "canBuy", "scalingEb")}
 }
