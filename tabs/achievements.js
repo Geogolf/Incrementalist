@@ -54,7 +54,7 @@ function decompleteAchievements() {
 }
 
 function getAchievementReward(id) {
-  if (id == "ach1-6") {return nd(2.5).pow(nd(user.increment.ip).pow(1.35).plus(1).log10())}
+  if (id == "ach1-6") {return nd(2.5).pow(nd(user.increment.ip).pow(1.33).plus(1).log10())}
 }
 function updateAchievement(id) {
   if (id == "ach1-6") {d(id + "Reward").textContent = e(getAchievementReward(id))}

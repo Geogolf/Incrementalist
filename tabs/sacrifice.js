@@ -33,6 +33,8 @@ function updateSacrificeIP() {
   if (cost.gte(infinite) && showInfinite) {d("sacrificeIPCost").textContent = "Infinite"; rpc("canBuy", "cantBuy", "sacrificeIP")}
   else if (user.ip.sac.lt(cost)) {d("sacrificeIPCost").textContent = e(cost.minus(user.ip.sac)); rpc("canBuy", "cantBuy", "sacrificeIP")}
   else {d("sacrificeIPCost").textContent = 0; rpc("cantBuy", "canBuy", "sacrificeIP")}
+  /*if (cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "sacrificeIP")}
+  else {rpc("cantBuy", "canBuy", "sacrificeIP")}*/
   d("sacrificeIPP").textContent = e(getSacrificeIPP());
   d("sacrificeIPM").textContent = e(getSacrificeIPM());
   d("sacrificeIPE").textContent = e(getSacrificeIPE(), 2, 2);
