@@ -131,30 +131,30 @@ function updateCoefficientE() {
 function updateIncrementP(n) {
   if (d("incrementP" + n).style.display != "none") {
     let cost = getIncrementPCost(n);
+    if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "incrementP" + n + "b")}
+    else {rpc("cantBuy", "canBuy", "incrementP" + n + "b")}
     if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
     d("incrementP" + n + "x").textContent = e(getIncrementP(n));
     d("incrementP" + n + "Cost").textContent = e(cost);
-    if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "incrementP" + n + "b")}
-    else {rpc("cantBuy", "canBuy", "incrementP" + n + "b")}
   }
 }
 function updateIncrementM(n) {
   if (d("incrementM" + n).style.display != "none") {
     let cost = getIncrementMCost(n);
+    if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "incrementM" + n + "b")}
+    else {rpc("cantBuy", "canBuy", "incrementM" + n + "b")}
     if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
     d("incrementM" + n + "x").textContent = e(getIncrementM(n));
     d("incrementM" + n + "Cost").textContent = e(cost);
-    if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "incrementM" + n + "b")}
-    else {rpc("cantBuy", "canBuy", "incrementM" + n + "b")}
   }
 }
 function updateIncrementE(n) {
   if (d("incrementE" + n).style.display != "none") {
     let cost = getIncrementECost(n);
+    if (user.ip.x.lt(cost) || cost.gte(infinite)) {rpc("canBuy", "cantBuy", "incrementE" + n + "b")}
+    else {rpc("cantBuy", "canBuy", "incrementE" + n + "b")}
     if (cost.gte(infinite) && showInfinite) {cost = "Infinite"}
     d("incrementE" + n + "x").textContent = e(getIncrementE(n), 2, 2);
     d("incrementE" + n + "Cost").textContent = e(cost);
-    if (user.ip.x.lt(cost) || cost.gte(infinite) || cost == "Infinite") {rpc("canBuy", "cantBuy", "incrementE" + n + "b")}
-    else {rpc("cantBuy", "canBuy", "incrementE" + n + "b")}
   }
 }
