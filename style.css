@@ -18,7 +18,7 @@ sup {font-family: Book Antiqua}
 hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 
 /* Text */
-.text {color: rgb(150, 150, 150)/*; font-family: Courier Prime*/; overflow-wrap: break-word}
+.text {color: rgb(150, 150, 150); font-family: "Georgia"; overflow-wrap: break-word}
 .redText {color: rgb(220, 20, 60)}
 .orangeText {color: rgb(255, 165, 0)}
 .yellowText {color: rgb(222, 222, 0)}
@@ -31,8 +31,6 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 .ba {font-family: Book Antiqua}
 .ab {font-family: Book Antiqua}
 
-/*.lc {font-family: Courier Prime}
-.cl {font-family: Courier Prime}*/
 .top {position: absolute; top: 2px; right: 0px; left: 0px}
 .bottom {position: absolute; right: 0px; bottom: 2px; left: 0px}
 .achReward {font-size: 13px}
