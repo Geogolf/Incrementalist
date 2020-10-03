@@ -155,6 +155,10 @@ function loadData(data) {
   }
   if (user.version == "0.2.1") {
     console.log("Loaded Version 0.2.1");
+    user.version = "0.2.2";
+  }
+  if (user.version == "0.2.2") {
+    console.log("Loaded Version 0.2.1");
   }
   if (user.version == data.version) {alertify.message("Loaded Version " + user.version)}
   else {alertify.message("Loaded Version " + data.version + "->" + user.version)}
