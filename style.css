@@ -18,7 +18,11 @@ sup {font-family: Book Antiqua}
 hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 
 /* Text */
-.text {color: rgb(150, 150, 150); font-family: "Georgia"; overflow-wrap: break-word}
+.text {
+  color: rgb(150, 150, 150);
+  font-family: "Georgia";
+  overflow-wrap: break-word;
+}
 .redText {color: rgb(220, 20, 60)}
 .orangeText {color: rgb(255, 165, 0)}
 .yellowText {color: rgb(222, 222, 0)}
@@ -30,10 +34,28 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 .center {text-align: center}
 .ba {font-family: Book Antiqua}
 .ab {font-family: Book Antiqua}
+.achDisplayId {
+  color: rgba(75, 125, 25, 0.25);
+  width: 100%;
+  font-size: 50px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.ptDisplayId {
+  color: rgb(10, 10, 40);
+  width: 100%;
+  font-size: 100px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .top {position: absolute; top: 2px; right: 0px; left: 0px}
 .bottom {position: absolute; right: 0px; bottom: 2px; left: 0px}
-.achReward {font-size: 13px}
+.achReward {font-size: 13.75px}
 .statText {font-size: 16px}
 .incrementText {font-size: clamp(10px, 3.75vw, 18px)}
 
@@ -75,10 +97,6 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-}
-.tableCell {
-  height: 150px;
-  vertical-align: 0;
 }
 
 /* Buttons */
@@ -134,6 +152,32 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   width: 150px;
   position: relative;
 }
+.ppCell {
+  background-color: rgb(0, 0, 0);
+  border: 2px solid rgb(0, 0, 200);
+  border-radius: 10px;
+  margin: 10px 15px 10px 15px;
+  height: 100px;
+  width: 150px;
+  position: relative;
+}
+/*.ptNotBought {
+  background-color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+.ptBought {
+  background-color: rgb(25, 25, 85);
+  cursor: default;
+}*/
+#refundPT {
+  border: 2px solid rgb(0, 0, 200);
+  border-radius: 10px;
+  margin: 5px;
+  height: 50px;
+  width: 150px;
+  position: relative;
+  cursor: pointer;
+}
 
 /* Tooltips */
 .tooltip-content {
@@ -161,6 +205,14 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 .tooltip-element:hover .tooltip-content {
   visibility: visible;
   opacity: 1;
+}
+
+/* Canvas */
+.canvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -999;
 }
 
 /* Tabs */
@@ -193,12 +245,18 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   background-color: rgb(100, 100, 100);
   border-radius: 25px;
   width: 95%;
-  height: 25px;
+  min-height: 25px;
   position: relative;
   margin-top: 2px;
 }
 #pbip {
   background-color: rgb(150, 0, 210);
+  border-radius: 25px;
+  width: 0%;
+  height: 100%;
+}
+#pbpp {
+  background-color: rgb(0, 0, 200);
   border-radius: 25px;
   width: 0%;
   height: 100%;

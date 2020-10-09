@@ -2,7 +2,7 @@
 var achievement = {}
 achievement.titles = {}
 /*achievement.hasReward = {}*/
-for (let i = 1; i <= 2; i++) {
+for (let i = 1; i <= 3; i++) {
   for (let k = 1; k <= 6; k++) {
     let id = "ach" + i + "-" + k;
     achievement.titles[id] = d(id + "Title").textContent;
@@ -11,7 +11,7 @@ for (let i = 1; i <= 2; i++) {
 }
 
 //Check Data
-setInterval(() => {
+function checkAchBasic() {
   if (!user.achievements.includes("ach1-1") && user.increment.p[0] >= 1) {completeAchievement("ach1-1")}
   let automating = false;
   for (let i = 0; i <= 4; i++) {if (user.automate.incrementP[i] || user.automate.incrementM[i]) {automating = true}}
@@ -26,13 +26,21 @@ setInterval(() => {
   if (!user.achievements.includes("ach2-4") && user.scaling.e >= 1) {completeAchievement("ach2-4")}
   /*if (!user.achievements.includes("ach2-5")) {completeAchievement("ach2-5")}
   if (!user.achievements.includes("ach2-6")) {completeAchievement("ach2-6")}*/
-}, 1000);
+  if (!user.achievements.includes("ach3-1") && user.pp.total.gte(1)) {completeAchievement("ach3-1")}
+}
+setInterval(() => {checkAchBasic()}, 1000);
+function checkAchOnReset(layer) {
+  if (layer == "Prestige") {
+    if (!user.achievements.includes("ach3-2") && user.sacrifice.ip <= 10) {completeAchievement("ach3-2")}
+  }
+}
 
 //Functions
-function completeAchievement(id) {
+function completeAchievement(id, notify) {
+  if (typeof notify == "undefined") {notify = true}
   user.achievements.push(id);
   rpc("achIncomplete", "achComplete", id);
-  alertify.message(achievement.titles[id]);
+  if (notify) {alertify.message(achievement.titles[id])}
 }
 function completeAchievements() {for (let i = 0; i < user.achievements.length; i++) {rpc("achIncomplete", "achComplete", user.achievements[i])}}
 function decompleteAchievement(id) {
@@ -42,7 +50,7 @@ function decompleteAchievement(id) {
   }
 }
 function decompleteAchievements() {
-  for (let i = 1; i <= 2; i++) {   
+  for (let i = 1; i <= 3; i++) {   
     for (let k = 1; k <= 6; k++) {
       rpc("achComplete", "achIncomplete", "ach" + i + "-" + k);
     }
@@ -54,7 +62,7 @@ function decompleteAchievements() {
 }
 
 function getAchievementReward(id) {
-  if (id == "ach1-6") {return nd(2.5).pow(nd(user.increment.ip).pow(1.35).plus(1).log10())}
+  if (id == "ach1-6") {return nd(2.5).pow(nd(user.increment.ip * 2).pow(1.35).plus(1).log10())}
 }
 function updateAchievement(id) {
   if (id == "ach1-6") {d(id + "Reward").textContent = e(getAchievementReward(id))}

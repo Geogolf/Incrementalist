@@ -5,7 +5,7 @@ function updater() {
   setTimeout(() => {
     updateTab(user.tab);
     updateip();
-    updatepbip();
+    updatepp();
     updater();
   }, (1000 / updateRate));
 }
@@ -14,6 +14,10 @@ function fixnd() {
   user.ip.sac = nd(user.ip.sac);
   user.ip.total = nd(user.ip.total);
   user.ip.highest = nd(user.ip.highest);
+  user.pp.x = nd(user.pp.x);
+  user.pp.sac = nd(user.pp.sac);
+  user.pp.total = nd(user.pp.total);
+  user.pp.highest = nd(user.pp.highest);
 }
 
 //Save Data
@@ -33,7 +37,7 @@ function load() {
   let data = JSON.parse(localStorage.getItem("user"));
   brokenUser = data;
   if (data != null) {loadData(data)}
-  else {unlocking(); updater(); reveal()}
+  else {unlocking(); updater(); tab("Increment"); reveal()}
 }
 function loadData(data) {
   resetAll(false);
@@ -155,27 +159,69 @@ function loadData(data) {
   }
   if (user.version == "0.2.1") {
     console.log("Loaded Version 0.2.1");
+    user.pp = {}
+    user.pp.count = 0;
+    user.pp.x = nd(0);
+    user.pp.sac = nd(0);
+    user.pp.total = nd(0);
+    user.pp.highest = nd(0);
+    user.pt = {}
+    user.pt["pt1-1"] = false;
+    user.pt["pt1-2"] = false;
+    user.pt["pt1-3"] = false;
+    user.sacrifice.pp = 0;
     user.version = "0.2.2";
   }
   if (user.version == "0.2.2") {
-    console.log("Loaded Version 0.2.1");
+    console.log("Loaded Version 0.2.2");
+    user.uiRate = 20;
+    if (typeof user.pp == "undefined") {
+      user.pp = {}
+      user.pp.count = 0;
+      user.pp.x = nd(0);
+      user.pp.sac = nd(0);
+      user.pp.total = nd(0);
+      user.pp.highest = nd(0);
+    }
+    if (typeof user.pt == "undefined") {
+      user.pt = {}
+      user.pt["pt1-1"] = false;
+      user.pt["pt1-2"] = false;
+      user.pt["pt1-3"] = false;
+    }
+    user.pp.timeStart = user.timeStart;
+    user.pp.bestTime = 1e100;
+    user.pt.refund = false;
+    user.logpb = false;
+    user.version = "0.2.3";
   }
-  if (user.version == data.version) {alertify.message("Loaded Version " + user.version)}
-  else {alertify.message("Loaded Version " + data.version + "->" + user.version)}
+  if (user.version == "0.2.3") {
+    console.log("Loaded Version 0.2.3");
+  }
   fixnd();
   tab(user.tab);
+  setNotation(user.notation);
+  setUIRate(user.uiRate);
   completeAchievements();
-  if (user.timeLastOnline == "now") {user.timeLastOnline = Date.now()}
+  if (user.timeLastOnline === "now") {user.timeLastOnline = Date.now()}
+  if (user.pp.timeStart === "now") {user.pp.timeStart = Date.now()}
   loadOffline();
   unlocking();
   updateAutomates();
+  updateOptions();
+  updateRefundPT();
   reveal();
-  alertify.success("Game Loaded");
+  if (user.version == data.version) {alertify.message("Loaded Version " + user.version)}
+  else {alertify.message("Loaded Version " + data.version + "->" + user.version)}
 }
 function loadOffline() {
   let timeOffline = Date.now() - user.timeLastOnline;
   d("offlineTime").textContent = time(nd(timeOffline));
-  if (timeOffline >= 1000) {simulateTime(timeOffline)}
+  if (timeOffline >= 1000) {
+    setTimeout(() => {
+      simulateTime(timeOffline);
+    }, 1);
+  }
   save();
   console.log("Time Offline: " + time(nd(timeOffline)));
 }
@@ -183,18 +229,19 @@ function loadOffline() {
 //Reset Data
 function confirmResetAll() {
   if (user.confirmation.reset) {
-    alertify.confirm("Are you sure you want to reset? You will lose all of your previous progress!", () => {alertify.warning("Game Reset"); resetAll()});
+    alertify.confirm("Are you sure you want to reset? You will lose all of your previous progress!", () => {alertify.error("Game Reset"); resetAll()});
   }
   else {resetAll()}
 }
-function resetAll(sav) {
-  if (typeof sav == "undefined") {sav = true}
+function resetAll(notify) {
+  if (typeof notify == "undefined") {notify = true}
   decompleteAchievements();
   user = setUser();
   user.timeStart = Date.now();
+  user.pp.timeStart = Date.now();
   unlocking();
   reveal();
-  if (sav) {save()}
+  if (notify) {save()}
   console.log("Game Reset");
 }
 function resetSacrificeIP() {
@@ -216,6 +263,20 @@ function resetSacrificeIP() {
   user.scaling.p = 0;
   user.scaling.m = 0;
   user.scaling.e = 0;
-  user.ip.x = nd(1);
-  user.ip.sac = nd(1);
+  if (!user.pt["pt2-2"]) {
+    user.ip.x = getIPStart();
+    user.ip.sac = getIPStart();
+  }
+}
+function resetPrestige() {
+  resetSacrificeIP();
+  user.ip.x = getIPStart();
+  user.ip.sac = getIPStart();
+  user.sacrifice.ip = 0;
+}
+
+//Get Reset Data
+function getIPStart() {
+  if (user.achievements.includes("ach3-1")) {return nd(1000)}
+  else {return nd(1)}
 }
