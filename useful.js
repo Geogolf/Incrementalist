@@ -9,6 +9,7 @@ function ac(cl, id) {document.getElementById(id).classList.add(cl)}
 function rc(cl, id) {document.getElementById(id).classList.remove(cl)}
 function rpc(cl1, cl2, id) {id = document.getElementById(id); id.classList.remove(cl1); id.classList.add(cl2)}
 function comma(x) {return Number(x).toLocaleString()}
+function ih(x) {return document.getElementById(x).style.display == "none"}
 
 function nd(x) {return new Decimal(x)}
 function ndn(m, e) {return new Decimal(m).times(nd(10).pow(e))}
@@ -59,10 +60,22 @@ function reveal() {
   setTimeout(() => {h("loadingScreen")}, 750);
 }
 
-var tabs = ["Options", "Achievements", "Statistics", "Automation", "Sacrifice", "Scaling", "Increment", "Prestige", "Ascension"];
+const tabs = ["Options", "Achievements", "Statistics", "Automation", "Sacrifice", "Scaling", "Increment", "Prestige", "Ascension"];
 function tab(t) {
   for (let i = 0; i < tabs.length; i++) {h("tab" + tabs[i])}
   s("tab" + t);
+  if (t == "Prestige") {subTab.Prestige(user.tabPrestige)}
   user.tab = t;
-  updateTab(t);
+  resizeCanvases();
+}
+const subTabs = {
+  Prestige: ["Tree", "Challenges"],
+}
+const subTab = {
+  Prestige: (t) => {
+    for (let i = 0; i < subTabs.Prestige.length; i++) {h("subTabPrestige" + subTabs.Prestige[i])}
+    s("subTabPrestige" + t);
+    user.tabPrestige = t;
+    resizeCanvases();
+  },
 }
