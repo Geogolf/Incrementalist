@@ -50,7 +50,9 @@ function getAbbreviation(e) {
 }
 
 
-const inflog = Math.log10(Number.MAX_VALUE)
+const inflog = Math.log10(Number.MAX_VALUE);
+/*var inflog = 100;
+function setInflog() {inflog = infinite.log10().toNumber()}*/
 function formatValue(notation, value, places, placesUnder1000) {
 
     if (value >= 1000) {
@@ -70,7 +72,7 @@ function formatValue(notation, value, places, placesUnder1000) {
             /**/
             if (matissa == 1) {matissa = "1.00"}
             /**/
-            if (power > 100000) return (matissa + "e" + power.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            if (power >= 1000) return (matissa + "e" + power.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
             return (matissa + "e" + power);
         }
         if (notation === "Infinity") {
@@ -81,10 +83,10 @@ function formatValue(notation, value, places, placesUnder1000) {
         }
         if (notation.includes("engineering") || notation.includes("Engineering")) pow = power - (power % 3)
         else pow = power
-        if (power > 100000) pow = pow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if (power >= 1000) pow = pow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         if (notation === "Logarithm") {
-            if (power > 100000) return "e"+Decimal.log10(value).toFixed(places).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            if (power >= 1000) return "e"+Decimal.log10(value).toFixed(places).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             else return "e"+Decimal.log10(value).toFixed(Math.max(places, 1))
         }
 
@@ -129,7 +131,7 @@ function formatValue(notation, value, places, placesUnder1000) {
         }
 
         else {
-            if (power > 100000) power = power.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            if (power >= 1000) power = power.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             /*return "1337 H4CK3R"*/
             return "error-n1";
         }

@@ -3,9 +3,12 @@ var updating = false;
 function updater() {
   updating = true;
   setTimeout(() => {
-    updateTab(user.tab);
+    updateTab();
     updateip();
-    updatepbip();
+    updatepp();
+    let inChallenge = false;
+    for (let i = 1; i < ppChallengeData.length; i++) {if (user.challenge.pp[i].in) {inChallenge = true}}
+    if (inChallenge) {updatePPChallengeProgress()}
     updater();
   }, (1000 / updateRate));
 }
@@ -14,13 +17,19 @@ function fixnd() {
   user.ip.sac = nd(user.ip.sac);
   user.ip.total = nd(user.ip.total);
   user.ip.highest = nd(user.ip.highest);
+  user.pp.x = nd(user.pp.x);
+  user.pp.sac = nd(user.pp.sac);
+  user.pp.total = nd(user.pp.total);
+  user.pp.highest = nd(user.pp.highest);
+  user.pt.refundAmount = nd(user.pt.refundAmount);
 }
 
 //Save Data
-function save() {
+function save(notify) {
+  if (typeof notify == "undefined") {notify = true}
   localStorage.setItem("user", JSON.stringify(user));
   user.timeLastOnline = Date.now();
-  alertify.success("Game Saved");
+  if (notify) {alertify.success("Game Saved")}
   if (setBrokenUser) {brokenUser = user}
 }
 setInterval(() => {save()}, 60000);
@@ -33,7 +42,7 @@ function load() {
   let data = JSON.parse(localStorage.getItem("user"));
   brokenUser = data;
   if (data != null) {loadData(data)}
-  else {unlocking(); updater(); reveal()}
+  else {unlocking(); updater(); tab("Increment"); reveal()}
 }
 function loadData(data) {
   resetAll(false);
@@ -155,67 +164,114 @@ function loadData(data) {
   }
   if (user.version == "0.2.1") {
     console.log("Loaded Version 0.2.1");
+    user.pp = {}
+    user.pp.count = 0;
+    user.pp.x = nd(0);
+    user.pp.sac = nd(0);
+    user.pp.total = nd(0);
+    user.pp.highest = nd(0);
+    user.pt = {}
+    user.pt.cells = [];
+    user.sacrifice.pp = 0;
     user.version = "0.2.2";
   }
   if (user.version == "0.2.2") {
-    console.log("Loaded Version 0.2.1");
+    console.log("Loaded Version 0.2.2");
+    user.uiRate = 20;
+    // For some reason this didn't load in 0.2.2
+    user.pp = {}
+    user.pp.count = 0;
+    user.pp.x = nd(0);
+    user.pp.sac = nd(0);
+    user.pp.total = nd(0);
+    user.pp.highest = nd(0);
+    //
+    // For some reason this didn't load in 0.2.2
+    user.pt = {}
+    user.pt.cells = [];
+    //
+    user.pp.timeStart = user.timeStart;
+    user.pp.bestTime = 1e100;
+    user.pt.refund = false;
+    user.logpb = false;
+    user.version = "0.2.3";
   }
-  if (user.version == data.version) {alertify.message("Loaded Version " + user.version)}
-  else {alertify.message("Loaded Version " + data.version + "->" + user.version)}
+  if (user.version == "0.2.3") {
+    console.log("Loaded Version 0.2.3");
+    user.max = {}
+    user.max.autoIP = false;
+    user.max.autoIncrementP = false;
+    user.max.autoIncrementM = false;
+    user.max.autoIncrementE = false;
+    user.max.scalingP = false;
+    user.max.scalingM = false;
+    user.max.scalingE = false;
+    // Due to changes in the usage of user.pt
+    user.pt = {}
+    user.pt.refund = false;
+    user.pt.refundAmount = nd(0);
+    user.pt.cells = [];
+    //
+    user.pt.refundAmount = 0;
+    user.tabPrestige = "Tree";
+    user.challenge = {}
+    user.challenge.pp = ["null"];
+    for (let i = 1; i <= 3; i++) {user.challenge.pp[i] = {in: false, count: 0}}
+    user.confirmation.challenge = true;
+    user.auto.sacrificeIP = 0;
+    user.automate.sacrificeIP = false;
+    user.version = "0.3.0";
+  }
+  if (user.version == "0.3.0") {
+    console.log("Loaded Version 0.3.0");
+  }
   fixnd();
   tab(user.tab);
+  setNotation(user.notation);
+  setUIRate(user.uiRate);
   completeAchievements();
-  if (user.timeLastOnline == "now") {user.timeLastOnline = Date.now()}
+  if (user.timeLastOnline === "now") {user.timeLastOnline = Date.now()}
+  if (user.pp.timeStart === "now") {user.pp.timeStart = Date.now()}
   loadOffline();
   unlocking();
-  updateAutomates();
+  updateToggles();
   reveal();
-  alertify.success("Game Loaded");
+  if (user.version == data.version) {alertify.message("Loaded Version " + user.version)}
+  else {alertify.message("Loaded Version " + data.version + "->" + user.version)}
 }
 function loadOffline() {
   let timeOffline = Date.now() - user.timeLastOnline;
   d("offlineTime").textContent = time(nd(timeOffline));
-  if (timeOffline >= 1000) {simulateTime(timeOffline)}
-  save();
+  if (timeOffline >= 1000) {
+    setTimeout(() => {
+      simulateTime(timeOffline);
+    }, 1);
+  }
+  save(false);
   console.log("Time Offline: " + time(nd(timeOffline)));
 }
 
 //Reset Data
 function confirmResetAll() {
   if (user.confirmation.reset) {
-    alertify.confirm("Are you sure you want to reset? You will lose all of your previous progress!", () => {alertify.warning("Game Reset"); resetAll()});
+    alertify.confirm("Are you sure you want to reset? You will lose all of your previous progress!", () => {alertify.error("Game Reset"); resetAll()});
   }
   else {resetAll()}
 }
-function resetAll(sav) {
-  if (typeof sav == "undefined") {sav = true}
+function resetAll(notify) {
+  if (typeof notify == "undefined") {notify = true}
   decompleteAchievements();
   user = setUser();
   user.timeStart = Date.now();
+  user.pp.timeStart = Date.now();
   unlocking();
   reveal();
-  if (sav) {save()}
+  save(notify);
   console.log("Game Reset");
 }
-function resetSacrificeIP() {
-  if (user.automate.ip) {automateIP()}
-  for (let i = 0; i < 5; i++) {
-    if (user.automate.incrementP[i]) {automateIncrementP(i)}
-    if (user.automate.incrementM[i]) {automateIncrementM(i)}
-    if (user.automate.incrementE[i]) {automateIncrementE(i)}
-  }
-  user.auto.ip = 0;
-  user.auto.incrementP = 0;
-  user.auto.incrementM = 0;
-  user.auto.incrementE = 0;
-  for (let i = 0; i <= 4; i++) {
-    user.increment.p[i] = 0;
-    user.increment.m[i] = 0;
-    user.increment.e[i] = 0;
-  }
-  user.scaling.p = 0;
-  user.scaling.m = 0;
-  user.scaling.e = 0;
-  user.ip.x = nd(1);
-  user.ip.sac = nd(1);
+
+//Get Reset Data
+function getIPStart() {
+  if (user.achievements.includes("ach3-1")) {return getAchievementReward("ach3-1")}
+  else {return nd(1)}
 }

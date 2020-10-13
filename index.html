@@ -9,8 +9,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <html lang="en">
   <head>
     <title>Incrementalist</title>
+    <link rel="icon" href="images/logo2.png">
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="images/favicon.ico">
 	 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	 <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
@@ -23,6 +23,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <link rel="stylesheet" href="others-code/alertify/default.css" />
     
     <script src="useful.js" defer="defer"></script>
+    <script src="canvas.js" defer="defer"></script>
+    
     <script src="tabs/options.js" defer="defer"></script>
     <script src="tabs/achievements.js" defer="defer"></script>
     <script src="tabs/statistics.js" defer="defer"></script>
@@ -30,19 +32,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <script src="tabs/sacrifice.js" defer="defer"></script>
     <script src="tabs/scaling.js" defer="defer"></script>
     <script src="tabs/increment.js" defer="defer"></script>
+    <script src="tabs/prestige/ppmain.js" defer="defer"></script>
+    <script src="tabs/prestige/tree.js" defer="defer"></script>
+    <script src="tabs/prestige/ppchallenges.js" defer="defer"></script>
+    
     <script src="load.js" defer="defer"></script>
     <script src="main.js" defer="defer"></script>
-    
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164027230-2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      
-      gtag('config', 'UA-164027230-2');
-    </script>
-    
   </head>
   <body>
     <div id="gameScreen">
@@ -54,22 +49,36 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="tab ch2" id="tabStatisticsb" onmouseup="tab('Statistics')">Statistics</div>
           </div>
           <div style="width: 100%; display: table; table-layout: fixed">
-            <div class="tab ch2" id="tabAutomationb" onmouseup="tab('Automation')"><span id="tabAutomationText" style="font-size: clamp(16px, 5.5vw, 18px)">Automation</span></div>
+            <div class="tab ch2" id="tabAutomationb" onmouseup="tab('Automation')"><span style="font-size: clamp(16px, 5.5vw, 18px)">Automation</span></div>
             <div class="tab ch2" id="tabSacrificeb" onmouseup="tab('Sacrifice')">Sacrifice</div>
             <div class="tab ch2" id="tabScalingb" onmouseup="tab('Scaling')">Scaling</div>
           </div>
-            <div style="width: 100%; display: table; table-layout: fixed">
+          <div style="width: 100%; display: table; table-layout: fixed">
             <div class="tab ch2 tabPurple" id="tabIncrementb" style="display: table-cell" onmouseup="tab('Increment')">Increment</div>
+            <div class="tab ch2 tabBlue" id="tabPrestigeb" style="display: table-cell" onmouseup="tab('Prestige')">Prestige</div>
           </div>
         </div>
         <div class="grayBorder" style="width: 100%; position: relative; right: 2px">
-          <div style="display: flex; justify-content: center">
-            <div class="ch2 ipInfo" id="ipInfo" style="width: 33%">
-              <span class="text" style="font-size: 14px"><span class="ba purpleText" id="ipx" style="font-size: 26px">0</span> <span id="ipText">Increment Points</span></span>><br>
-              <span class="text" style="font-size: 12px"><span id="ipSecText">You are gaining </span><span class="ba purpleText" id="ipSecx" style="font-size: 16px">0</span> IP per second</span>
-              <div class="pb ch"><div class="ch" id="pbip"></div><span class="cvh text notationBlind notationTrueblind" style="width: 100%; color: rgb(0, 0, 0); font-size: clamp(10px, 2.28vw, 18px)"><span class="ba" id="pbipsac">0</span> / <span class="ba" id="pbipgoal">0</span></span></div>
-              <span class="notationTrueblind"><span class="text purpleText" id="pbipunlock">Nothing</span></span>
+          <div class="table">
+            <div class="tableRow">
+              <div class="ch2" id="ipInfo" style="min-width: 33%">
+                <span class="text" style="font-size: 14px"><span class="ba purpleText" id="ipx" style="font-size: 26px">0</span> Increment Points</span><br>
+                <span class="text" style="font-size: 12px">You are gaining <span class="ba purpleText" id="ipSecx" style="font-size: 16px">0</span> IP per second</span>
+                <div class="pb ch"><div class="ch" id="pbip"></div><span class="cvh text notationBlind notationTrueblind" style="width: 100%; color: rgb(0, 0, 0); font-size: clamp(10px, 2.28vw, 18px)"><span class="ba" id="pbipsac">0</span> / <span class="ba" id="pbipgoal">0</span></span></div>
+                <span class="notationTrueblind"><span class="text purpleText" id="pbipunlock">Nothing</span></span>
+              </div>
+              <div class="ch2" id="ppInfo" style="min-width: 33%">
+                <span class="text" style="font-size: 14px"><span class="ba blueText" id="ppx" style="font-size: 26px">0</span> Prestige Points</span><br>
+                <span class="text" style="font-size: 12px">You are gaining <span class="ba blueText" id="ppSecx" style="font-size: 16px">0</span> PP per second</span>
+                <div class="pb ch"><div class="ch" id="pbpp"></div><span class="cvh text notationBlind notationTrueBlind" style="width: 100%; color: rgb(0, 0, 0); font-size: clamp(10px, 2.28vw, 18px)"><span class="ba" id="pbppsac">0</span> / <span class="ba" id="pbppgoal">0</span></span></div>
+                <span class="notationTrueBlind"><span class="text blueText" id="pbppunlock">Nothing</span></span>
+              </div>
             </div>
+          </div>
+          <div class="ch2" id="ppChallengeInfo" style="min-height: 75px; position: relative">
+            <span class="text">Currently in challenge <span class="ba blueText" id="currentPPChallenge">0</span></span><br>
+            <span class="text">Need <span class="ba purpleText" id="currentPPChallengeProgress">0</span> IP</span>
+            <div class="ch" id="exitPPChallenge" onmouseup="confirmExitPPChallenge()"><span class="cvh text blueText" id="ppChallengeExit" style="width: 100%">Exit Challenge</span></div>
           </div>
         </div>
         <div id="tabOptions">
@@ -79,31 +88,41 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
           </div>
           <div style="height: 44px; width: 100%; display: table">
-            <div class="grayBorder option" style="cursor: default"><span class="cvh text"></span></div>
-            <div class="grayBorder ch2 option dropdown">
-              <span class="chv text" style="width: 100%; overflow-wrap: break-word">Notation: <span class="text" id="notation">Scientific</span></span>
-              <div class="dropdown-content ch">
-                <div class="dropdown-item" style="border-top-left-radius: 10px; border-top-right-radius: 10px"><span class="text" onmouseup="setNotation('Scientific')">Scientific</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Engineering')">Engineering</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Logarithm')">Logarithm</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Standard')">Standard</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Letters')">Letters</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Mixed scientific')">Mixed Scientific</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Mixed engineering')">Mixed Engineering</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Infinity')">Infinity</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Brackets')">Brackets</span></div>
-                <div class="dropdown-item"><span class="text" onmouseup="setNotation('Blind')">Blind</span></div>
-                <div class="dropdown-item" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px"><span class="text" onmouseup="setNotation('True blind')">True Blind</span></div>
+            <!--<div class="grayBorder option" style="cursor: default">
+              <div class="cv ch2 text" style="width: 100%">
+                <span class="text" style="font-size: clamp(8px, 2.75vw, 18px)">UI Update Rate</span>
+                <input type="range" min="1" max="60" value="20" id="uiRateInput" style="width: 75%; outline: none; cursor: pointer" oninput="setUIRate()"><br>
+                <span class="ba" id="uiRate">20/sec</span>
+              </div>
+            </div>-->
+            <div class="grayBorder option dropdown">
+              <span class="cv ch2 text" style="width: 100%">Notation: <span class="text" id="notation">Scientific</span></span>
+              <div class="dropdown-content ch ch2">
+                <div class="dropdown-item" style="border-top-left-radius: 10px; border-top-right-radius: 10px" onmouseup="setNotation('Scientific')"><span class="text">Scientific</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Engineering')"><span class="text">Engineering</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Logarithm')"><span class="text">Logarithm</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Standard')"><span class="text">Standard</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Letters')"><span class="text">Letters</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Mixed scientific')"><span class="text">Mixed Scientific</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Mixed engineering')"><span class="text">Mixed Engineering</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Infinity')"><span class="text">Infinity</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Brackets')"><span class="text">Brackets</span></div>
+                <div class="dropdown-item" onmouseup="setNotation('Blind')"><span class="text">Blind</span></div>
+                <div class="dropdown-item" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px" onmouseup="setNotation('True blind')"><span class="text">True Blind</span></div>
               </div>
             </div>
             <div class="grayBorder option dropdown">
-              <span class="cv ch2 text" style="width: 100%; overflow-wrap: break-word">Confirmations</span>
+              <span class="cv ch2 text" style="width: 100%">Confirmations</span>
               <div class="dropdown-content ch ch2">
-                <div class="dropdown-item confirmations" id="confirmation-reset" style="border-top-left-radius: 10px; border-top-right-radius: 10px"><span class="text" onmouseup="toggleConfirmation('reset')">Reset</span></div>
-                <div class="dropdown-item confirmations" id="confirmation-sacrifice" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px"><span class="text" onmouseup="toggleConfirmation('sacrifice')">Sacrifice</span></div>
+                <div class="dropdown-item confirmations" id="confirmation-reset" style="border-top-left-radius: 10px; border-top-right-radius: 10px" onmouseup="toggleConfirmation('reset')"><span class="text">Reset</span></div>
+                <div class="dropdown-item confirmations" id="confirmation-sacrifice" onmouseup="toggleConfirmation('sacrifice')"><span class="text">Sacrifice</span></div>
+                <div class="dropdown-item confirmations" id="confirmation-prestige" onmouseup="toggleConfirmation('prestige')"><span class="text">Prestige</span></div>
+                <div class="dropdown-item confirmations" id="confirmation-challenge" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px" onmouseup="toggleConfirmation('challenge')"><span class="text">Challenge</span></div>
               </div>
             </div>
-            <div class="grayBorder option" style="cursor: default"><span class="cvh text"></span></div>
+            <div class="grayBorder option" id="logpb" onmouseup="toggleLogpb()">
+              <span class="cv ch2 text" style="width: 100%; font-size: clamp(10px, 3.5vw, 18px)">Show logarithmic<br>progress bars</span>
+            </div>
           </div>
           <br>
           <div style="height: 44px; width: 100%">
@@ -131,22 +150,35 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           </div>
         </div>
         <div id="tabAchievements">
+          <div class="ch2" style="width: 100%">
+            <span class="text">You have completed <span class="ba greenText" id="totalAchievements">0</span> Achievements</span><br>
+            <span class="text">Multiplying IP gain by <span class="purpleText">x<span class="ba" id="achievementBoost">0</span></span></span>
+          </div>
+          <br>
           <div class="table">
             <div class="tableRow">
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-1"><span class="text top" id="ach1-1Title">Simple enough</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first P variable</span><span class="text bottom achReward"></span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-2"><span class="text top" id="ach1-2Title">Automation</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Begin automation</span><span class="text bottom achReward"></span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-3"><span class="text top" id="ach1-3Title">Was it worth it?</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice for the first time</span><span class="text bottom achReward"></span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-4"><span class="text top" id="ach1-4Title">New variables</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first M variable</span><span class="text bottom achReward"></span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-5"><span class="text top" id="ach1-5Title">I think it was worth it</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice two times</span><span class="text bottom achReward">Reward: Automation is 2x faster</span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach1-6"><span class="text top" id="ach1-6Title">Click a few times</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Click the equation 2,500 times</span><span class="text bottom achReward">Reward: Clicking is <span id="ach1-6Reward">0</span> times more effective</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach1-1"><span class="achDisplayId">1-1</span><span class="text top" id="ach1-1Title">Simple enough</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first P variable</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach1-2"><span class="achDisplayId">1-2</span><span class="text top" id="ach1-2Title">Automation</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Begin automation</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach1-3"><span class="achDisplayId">1-3</span><span class="text top" id="ach1-3Title">Was it worth it?</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice for the first time</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach1-4"><span class="achDisplayId">1-4</span><span class="text top" id="ach1-4Title">New variables</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first M variable</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach1-5"><span class="achDisplayId">1-5</span><span class="text top" id="ach1-5Title">I think it was worth it</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice two times</span><span class="text bottom achReward">Reward: Automation is 2x faster</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach1-6"><span class="achDisplayId">1-6</span><span class="text top" id="ach1-6Title">Click a few times</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Click the equation 2,500 times</span><span class="text bottom achReward">Reward: Clicking is boosted based on total clicks [x<span class="ba" id="ach1-6Reward">0</span>]</span></div>
             </div>
             <div class="tableRow">
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-1"><span class="text top" id="ach2-1Title">It's still not better</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Get more P than P<sub>1</sub> after 1,000</span><span class="text bottom achReward">Reward: P's cost scales 5x slower</span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-2"><span class="text top" id="ach2-2Title">Exponentiation</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first E variable</span><span class="text bottom achReward"></span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-3"><span class="text top" id="ach2-3Title">Is this too op?</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice seven times</span><span class="text bottom achReward">Reward: The first automation is 10x faster</span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-4"><span class="text top" id="ach2-4Title">Exponential Age</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first Scaling E Upgrade</span><span class="text bottom achReward">Reward: The E multiplier is 7.5% more effective</span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-5"><span class="text top" id="ach2-5Title">[WIP]</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">[WIP]</span><span class="text bottom achReward"></span></div>
-              <div class="ch2 tableCell achIncomplete tooltip-element" id="ach2-6"><span class="text top" id="ach2-6Title">[WIP]</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">[WIP]</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach2-1"><span class="achDisplayId">2-1</span><span class="text top" id="ach2-1Title">It's still not better</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Get more P than P<sub>1</sub> after 1,000</span><span class="text bottom achReward">Reward: P's cost scales 5x slower</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach2-2"><span class="achDisplayId">2-2</span><span class="text top" id="ach2-2Title">Exponentiation</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first E variable</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach2-3"><span class="achDisplayId">2-3</span><span class="text top" id="ach2-3Title">Is this too op?</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Sacrifice seven times</span><span class="text bottom achReward">Reward: The first automation is 10x faster</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach2-4"><span class="achDisplayId">2-4</span><span class="text top" id="ach2-4Title">Exponential age</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy your first Scaling E Upgrade</span><span class="text bottom achReward">Reward: The E multiplier is 6% more effective</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach2-5"><span class="achDisplayId">2-5</span><span class="text top" id="ach2-5Title">[WIP]</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">[WIP]</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach2-6"><span class="achDisplayId">2-6</span><span class="text top" id="ach2-6Title">[WIP]</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">[WIP]</span><span class="text bottom achReward"></span></div>
+            </div>
+            <div class="tableRow">
+              <div class="ch2 achIncomplete tooltip-element" id="ach3-1"><span class="achDisplayId">3-1</span><span class="text top" id="ach3-1Title">Prestigious</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Prestige for the first time</span><span class="text bottom achReward">Reward: Start with <span class="ba" id="ach3-1Reward">0</span> IP on all resets</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach3-2"><span class="achDisplayId">3-2</span><span class="text top" id="ach3-2Title">Is it easy already?</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Prestige while sacrificing at most 10 times</span><span class="text bottom achReward">Reward: Sacrifices boost PP gain [x<span class="ba" id="ach3-2Reward">0</span>]</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach3-3"><span class="achDisplayId">3-3</span><span class="text top" id="ach3-3Title">Haha it's harder now</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Complette challenge 1 for the first time</span><span class="text bottom achReward">Reward: Challenge completions boost PP gain [x<span class="ba" id="ach3-3Reward">0</span>]</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach3-4"><span class="achDisplayId">3-4</span><span class="text top" id="ach3-4Title">Semi Automation</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">Buy all row 2 prestige tree upgrades</span><span class="text bottom achReward">Reward: Prestige tree upgrades are 5% stronger</span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach3-5"><span class="achDisplayId">3-5</span><span class="text top" id="ach3-5Title">[WIP]</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">[WIP]</span><span class="text bottom achReward"></span></div>
+              <div class="ch2 achIncomplete tooltip-element" id="ach3-6"><span class="achDisplayId">3-6</span><span class="text top" id="ach3-6Title">[WIP]</span><span class="text tooltip-content" style="width: 200px; margin-left: -105px">[WIP]</span><span class="text bottom achReward"></span></div>
             </div>
           </div>
         </div>
@@ -154,61 +186,83 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           <div class="ch2" style="width: 100%">
             <span class="text statText">You have gained a total of <span class="ba purpleText" id="statIPTotal">0</span> IP</span><br>
             <span class="text statText">Your highest IP is <span class="ba purpleText" id="statIPHighest">0</span> IP</span><br>
-            <span class="text statText">You have clicked the equation <span class="ba purpleText" id="statIPEquationClicks">0</span> times</span>
+            <span class="text statText">You have clicked the equation <span class="ba purpleText" id="statIPEquationClicks">0</span> times</span><br class="statPPUnlocks">
+            <span class="text statText statPPUnlocks">You have gained a total of <span class="ba blueText" id="statPPTotal">0</span> PP</span><br class="statPPUnlocks">
+            <span class="text statText statPPUnlocks">You have prestiged <span class="ba blueText" id="statPPCount">0</span> times</span><br class="statPPUnlocks">
+            <span class="text statText statPPUnlocks">You have sacrificed <span class="ba purpleText" id="statSacThisPP">0</span> times this prestige</span><br>
+            <span class="text statText statPPUnlocks">Your fastest prestige was in <span class="ba blueText" id="statPPBestTime">0</span></span>
           </div>
           <br>
           <div class="ch2" style="width: 100%">
+            <span class="text statText statPPUnlocks">Your last prestige was <span class="ba blueText" id="statPPTime">0</span> ago</span><br class="statPPUnlocks">
             <span class="text statText">You have been playing for <span class="ba purpleText" id="statTimePlayed">0</span></span>
           </div>
         </div>
         <div id="tabAutomation">
           <div id="autoIP" style="height: 34px; width: 100%">
+            <div class="maxAutoState canBuy maxAutoUnlocks" id="maxAutoIPState" style="float: left; position: relative" onmouseup="toggleMaxAutoIP()"><span class="cvh text blueText" style="font-size: 12px; font-weight: bold">MAX</span></div>
             <div class="cantBuy automations" id="autoIPb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationIP()">
-              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)"><span>Automate IP Gain </span>(<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoIPx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)">Automate IP Gain (<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoIPx">0</span>x</span>/sec)</span>
               <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba purpleText" id="autoIPCost">0</span> IP</span>
             </div>
           </div>
           <div id="autoP" style="height: 34px; width: 100%">
+            <div class="maxAutoState canBuy maxAutoUnlocks" id="maxAutoIncrementPState" style="float: left; position: relative" onmouseup="toggleMaxAutoIncrementP()"><span class="cvh text blueText" style="font-size: 12px; font-weight: bold">MAX</span></div>
             <div class="cantBuy automations" id="autoPb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationIncrementP()">
-              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)"><span>Automate P Variables </span>(<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoPx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)">Automate P Variables (<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoPx">0</span>x</span>/sec)</span>
               <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba purpleText" id="autoPCost">0</span> IP</span>
             </div>
           </div>
           <div id="autoM" style="height: 34px; width: 100%">
+            <div class="maxAutoState canBuy maxAutoUnlocks" id="maxAutoIncrementMState" style="float: left; position: relative" onmouseup="toggleMaxAutoIncrementM()"><span class="cvh text blueText" style="font-size: 12px; font-weight: bold">MAX</span></div>
             <div class="cantbuy automations" id="autoMb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationIncrementM()">
-              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)"><span>Automate M Variables </span>(<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoMx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)">Automate M Variables (<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="autoMx">0</span>x</span>/sec)</span>
               <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba purpleText" id="autoMCost">0</span> IP</span>
             </div>
           </div>
           <div id="autoE" style="height: 34px; width: 100%">
+            <div class="maxAutoState canBuy maxAutoUnlocks" id="maxAutoIncrementEState" style="float: left; position: relative" onmouseup="toggleMaxAutoIncrementE()"><span class="cvh text blueText" style="font-size: 12px; font-weight: bold">MAX</span></div>
             <div class="cantBuy automations" id="autoEb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationIncrementE()">
-              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)"><span>Automate E Variables </span>(<span class="purpleText notationBlind notationTrueBlind"><span class="ba" id="autoEx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)">Automate E Variables (<span class="purpleText notationBlind notationTrueBlind"><span class="ba" id="autoEx">0</span>x</span>/sec)</span>
               <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba purpleText" id="autoECost">0</span> IP</span>
+            </div>
+          </div>
+          <div id="autoSacrificeIP" style="height: 34px; width: 100%">
+            <div class="maxAutoState canBuy maxAutoUnlocks" id="maxAutoSacrificeIPState" style="float: left; position: relative" onmouseup="toggleMaxAutoSacrificeIP()"><span class="cvh text blueText" style="font-size: 12px; font-weight: bold">MAX</span></div>
+            <div class="cantBuy automations" id="autoSacrificeIPb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyAutomationSacrificeIP()">
+              <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3vw, 18px)">Automate Sacrifice (<span class="blueText notationBlind notationTrueBlind"><span class="ba" id="autoSacrificeIPx">0</span>x</span>/sec)</span>
+              <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3vw, 18px)">Cost: <span class="ba blueText" id="autoSacrificeIPCost">0</span> PP</span>
             </div>
           </div>
         </div>
         <div id="tabSacrifice">
-          <div class="ch2 cantBuy sacrifices" id="sacrificeIP" style="overflow-x: hidden; border-color: rgb(75, 0, 125)" onmouseup="confirmSacrificeIP()">
-            <span class="text">Sacrifice your IP and Variables for a boost</span><br>
-            <span class="text" id="sacrificeIPPUnlock">Multipliers per variable: P&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPP">0</span>x</span><span id="sacrificeIPMUnlock">; M&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPM">0</span>x</span></span><span id="sacrificeIPEUnlock">; E&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPE">0</span>x</span></span></span><br>
-            <span class="text">Unlock: <span class="notationTrueblind"><span class="purpleText" id="sacrificeIPUnlock">Variable: M</span></span></span><br>
-            <span class="text">Need: <span class="ba purpleText" id="sacrificeIPCost">0</span> IP</span>
+          <div style="position: relative; width: 100%">
+            <div class="autoSacrificeState canBuy" id="autoSacrificeIPState" style="float: left" onmouseup="automateSacrificeIP()"></div>
+            <div class="ch2 cantBuy sacrifices" id="sacrificeIP" style="height: 90px; overflow: hidden; border-color: rgb(75, 0, 125)" onmouseup="confirmSacrificeIP()">
+              <span class="text" style="font-size: clamp(11px, 4.1vw, 18px)">Sacrifice your IP and Variables for a boost</span><br>
+              <span class="text" id="sacrificeIPPUnlock" style="font-size: clamp(9px, 3.4vw, 18px)">Multipliers per variable: P&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPP">0</span>x</span><span id="sacrificeIPMUnlock">; M&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPM">0</span>x</span></span><span id="sacrificeIPEUnlock">; E&rArr;<span class="purpleText notationBlind notationTrueblind"><span class="ba" id="sacrificeIPE">0</span>x</span></span></span><br>
+              <span class="text">Unlock: <span class="notationTrueblind"><span class="purpleText" id="sacrificeIPUnlock">Variable: M</span></span></span><br>
+              <span class="text">Need: <span class="ba purpleText" id="sacrificeIPCost">0</span> IP</span>
+            </div>
           </div>
         </div>
         <div id="tabScaling">
           <div id="scalingP" style="height: 34px; width: 100%">
+            <div class="maxScalingState canBuy maxScalingUnlocks" id="maxScalingPState" style="float: left; position: relative" onmouseup="toggleMaxScalingP()"><span class="cvh text blueText" style="font-size: 12px; font-weight: bold">MAX</span></div>
             <div class="cantBuy scalings" id="scalingPb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyScalingP()">
               <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3.5vw, 18px)">Reduce P Costs (<span class="purpleText">x<span class="ba" id="scalingPx">0</span></span>)</span>
               <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3.5vw, 18px)">Cost: <span class="ba purpleText" id="scalingPCost">0</span> IP</span>
             </div>
           </div>
           <div id="scalingM" style="height: 34px; width: 100%">
+            <div class="maxScalingState canBuy maxScalingUnlocks" id="maxScalingMState" style="float: left; position: relative" onmouseup="toggleMaxScalingM()"><span class="cvh text blueText" style="font-size: 12px; font-weight: bold">MAX</span></div>
             <div class="cantBuy scalings" id="scalingMb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyScalingM()">
               <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3.5vw, 18px)">Reduce M Costs (<span class="purpleText">x<span class="ba" id="scalingMx">0</span></span>)</span>
               <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3.5vw, 18px)">Cost: <span class="ba purpleText" id="scalingMCost">0</span> IP</span>
             </div>
           </div>
           <div id="scalingE" style="height: 34px; width: 100%">
+            <div class="maxScalingState canBuy maxScalingUnlocks" id="maxScalingEState" style="float: left; position: relative" onmouseup="toggleMaxScalingE()"><span class="cvh text blueText" style="font-size: 12px; font-weight: bold">MAX</span></div>
             <div class="cantBuy scalings" id="scalingEb" style="height: 30px; overflow: hidden; position: relative; border-color: rgb(75, 0, 125)" onmouseup="buyScalingE()">
               <span class="cv text" style="float: left; left: 2px; font-size: clamp(10px, 3.5vw, 18px)">Reduce E Costs (<span class="purpleText">x<span class="ba" id="scalingEx">0</span></span>)</span>
               <span class="cv text" style="float: right; right: 2px; font-size: clamp(10px, 3.5vw, 18px)">Cost: <span class="ba purpleText" id="scalingECost">0</span> IP</span>
@@ -329,12 +383,176 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           </div>
         </div>
         <div id="tabPrestige">
-          
-        </div>
+          <div style="width: 100%">
+            <div style="width: 100%; display: table; table-layout: fixed">
+              <div class="tab tabBlue ch2" id="subTabPrestigeTreeb" style="display: table-cell" onmouseup="subTab.Prestige('Tree')"><span>Prestige Tree</span></div>
+              <div class="tab tabBlue ch2" id="subTabPrestigeChallengesb" onmouseup="subTab.Prestige('Challenges')">Challenges</div>
+            </div>
+          </div>
+          <div id="subTabPrestigeTree">
+            <div class="fill" id="canvasTabPT">
+              <div class="table" style="position: relative">
+                <div class="tableRow">
+                  <div class="ppCell" style="position: relative; cursor: pointer" onmouseup="confirmPrestige()">
+                    <div class="cv ch2" style="width: 100%">
+                      <span class="text blueText" style="font-size: 24px">Prestige</span><br>
+                      <span class="text" style="font-size: 14px"><span style="font-size: 18px">+</span><span class="ba blueText" id="ppGain" style="font-size: 18px">0</span> PP</span><br>
+                      <span class="text" id="ppNextText" style="font-size: 14px">Next in <span class="ba purpleText" id="ppNext" style="font-size: 18px">0</span> IP</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="ch2 text">Your PP is multipling IP gain by <span class="purpleText">x<span class="ba" id="ppBoost">0</span></span></span>
+                <div class="tableRow">
+                  <div class="canBuy" id="refundPT" onmouseup="toggleRefundPT()">
+                    <div class="cvh ch2" style="width: 100%">
+                      <span class="text" style="font-size: 17px">Refund on prestige</span><br>
+                      <span class="text">+<span class="ba blueText" id="refundPTx">0</span> PP</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="tableRow" id="ptr0" style="justify-content: center">
+                  <div class="ppCell ch2 cantBuy ptr0" id="pt0-1" onmouseup="pt('pt0-1')">
+                    <span class="ptDisplayId">0-1</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 20px">Unlock the prestige tree</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="tableRow" id="ptr1" style="justify-content: center">
+                  <div class="ppCell ch2 cantBuy ptr1" id="pt1-1" onmouseup="pt('pt1-1')">
+                    <span class="ptDisplayId">1-1</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">Automation speed is faster based on total PP</span><br>
+                      <span class="text">(<span class="purpleText">x<span class="ba" id="pt1-1x">0</span></span>)</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt1-1Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2 cantBuy ptr1" id="pt1-2" onmouseup="pt('pt1-2')">
+                    <span class="ptDisplayId">1-2</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">Multiplier P & M are better based on total PP</span><br>
+                      <span class="text">(<span class="purpleText">+<span class="ba" id="pt1-2x">0</span>%</span>)</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt1-2Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2 cantBuy ptr1" id="pt1-3" onmouseup="pt('pt1-3')">
+                    <span class="ptDisplayId">1-3</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">Scaling upgrades are better based on total PP</span><br>
+                      <span class="text">(<span class="purpleText">/<span class="ba" id="pt1-3x">0</span></span>) <span style="font-size: 13px">capped at <span class="ba purpleText" style="font-size: 16px">2</span></span></span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt1-3Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="tableRow" id="ptr2" style="justify-content: center">
+                  <div class="ppCell ch2 cantBuy ptr2" id="pt2-1" onmouseup="pt('pt2-1')">
+                    <span class="ptDisplayId">2-1</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">Keep all automation on sacrifice</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt2-1Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2 cantBuy ptr2" id="pt2-2" onmouseup="pt('pt2-2')">
+                    <span class="ptDisplayId">2-2</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">Option to buy max automation levels</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt2-2Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2 cantBuy ptr2" id="pt2-3" onmouseup="pt('pt2-3')">
+                    <span class="ptDisplayId">2-3</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">Sacrifice no longer resets your IP</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt2-3Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2 cantBuy ptr2" id="pt2-4" onmouseup="pt('pt2-4')">
+                    <span class="ptDisplayId">2-4</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">Option to buy max scalings</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt2-4Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2 cantBuy ptr2" id="pt2-5" onmouseup="pt('pt2-5')">
+                    <span class="ptDisplayId">2-5</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">Keep all scaling on sacrifice</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt2-5Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="tableRow" id="ptr3" style="justify-content: center; display: none">
+                  <div class="ppCell ch2 cantBuy ptr3" id="pt3-1" onmouseup="pt('pt3-1')">
+                    <span class="ptDisplayId">3-1</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">[WIP]</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt3-1Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2 cantBuy ptr3" id="pt3-2" onmouseup="pt('pt3-2')">
+                    <span class="ptDisplayId">3-2</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">[WIP]</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt3-2Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2 cantBuy ptr3" id="pt3-3" onmouseup="pt('pt3-3')">
+                    <span class="ptDisplayId">3-3</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span class="text" style="font-size: 13px">[WIP]</span><br>
+                      <span class="text">Cost: <span class="ba blueText" id="pt3-3Cost">0</span> PP</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="subTabPrestigeChallenges">
+            <!--<div class="ch2" style="width: 100%"><span class="text blueText">Running Challenge <span class="ba" id="currentPPChallenge">0</span></span></div>-->
+            <div class="table">
+              <div class="tableRow">
+                <div class="ppChallengeCell" id="ppChallenge1" onmouseup="confirmEnterPPChallenge(1)">
+                  <span class="ppChallengeDisplayId">1</span>
+                  <div class="chv ch2" style="width: 100%">
+                    <span class="text blueText" style="font-size: 24px; font-weight: bold">Slow Down</span><br>
+                    <span class="text" style="font-size: 14px">Automation speed is divided by completed achievements</span><br>
+                    <span class="text">Goal: <span class="ba purpleText" id="ppChallenge1Goal">0</span> IP</span><br>
+                    <span class="text">(<span class="ba blueText" id="ppChallenge1Completions">0</span>/<span class="ba blueText" id="ppChallenge1MaxCompletions">0</span>)</span><br><br>
+                    <span class="text">Reward: <span style="font-size: 13px">The first automation is faster based on equation clicks</span></span><br>
+                    <span class="text">(<span class="purpleText">x<span class="ba" id="ppChallenge1Reward">0</span></span>)</span><br>
+                  </div>
+                </div>
+                <div class="ppChallengeCell" id="ppChallenge2" onmouseup="confirmEnterPPChallenge(2)">
+                  <span class="ppChallengeDisplayId">2</span>
+                  <div class="chv ch2" style="width: 100%">
+                    <span class="text blueText" style="font-size: 24px; font-weight: bold">True Sacrifice</span><br>
+                    <span class="text" style="font-size: 14px">Buying any variable resets all lower variables and sacrifice is 5x weaker</span><br>
+                    <span class="text">Goal: <span class="ba purpleText" id="ppChallenge2Goal">0</span> IP</span><br>
+                    <span class="text">(<span class="ba blueText" id="ppChallenge2Completions">0</span>/<span class="ba blueText" id="ppChallenge2MaxCompletions">0</span>)</span><br><br>
+                    <span class="text">Reward: <span style="font-size: 13px">Sacrifice is cheaper<br>based on IP</span></span><br>
+                    <span class="text">(<span class="purpleText">/<span class="ba" id="ppChallenge2Reward">0</span></span>)</span>
+                  </div>
+                </div>
+                <div class="ppChallengeCell" id="ppChallenge3" onmouseup="confirmEnterPPChallenge(3)">
+                  <span class="ppChallengeDisplayId">3</span>
+                  <div class="chv ch2" style="width: 100%">
+                    <span class="text blueText" style="font-size: 24px; font-weight: bold">Climbing High</span><br>
+                    <span class="text" style="font-size: 14px">Increment's costs scale<br>substantially faster</span><br>
+                    <span class="text">Goal: <span class="ba purpleText" id="ppChallenge3Goal">0</span> IP</span><br>
+                    <span class="text">(<span class="ba blueText" id="ppChallenge3Completions">0</span>/<span class="ba blueText" id="ppChallenge3MaxCompletions">0</span>)</span><br><br>
+                    <span class="text">Reward: <span style="font-size: 13px">Achievement 3-1 is boosted based on highest IP</span></span><br>
+                    <span class="text">(<span class="purpleText">^<span class="ba" id="ppChallenge3Reward">0</span></span>)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         <div id="tabAscension">
           
         </div>
+        </div>
       </div>
+      <canvas class="canvas" id="canvasPT"></canvas>
       <span class="text" id="version" style="position: fixed; left: 2px; bottom: 2px; font-size: 12px">0</span>
     </div>
     <div id="loadingScreen">

@@ -1,8 +1,17 @@
+//UI Rate
+function setUIRate(rate) {
+  return;
+  if (typeof rate == "undefined") {rate = d("uiRateInput").value}
+  d("uiRate").textContent = rate + "/sec";
+  user.uiRate = rate;
+  updateRate = rate;
+}
+
 //Notations
 function setNotation(note) {
   user.notation = note;
   d("notation").textContent = user.notation;
-  updateAchievement();
+  /*updatePrestigeTreeCost()*/
   /*updateNotation();*/
 }
 function e(obj, exp, dec) {
@@ -19,13 +28,10 @@ function toggleConfirmation(str) {
   updateConfirmation(str);
 }
 
-function confirmReset() {
-  user.confirmation.reset = !user.confirmation.reset;
-  updateConfirmation("reset");
-}
-function confirmSacrifice() {
-  user.confirmation.sacrifice = !user.confirmation.sacrifice;
-  updateCOnfirmation("sacrifice");
+//Logarithmic Progress Bars
+function toggleLogpb() {
+  user.logpb = !user.logpb;
+  updateLogpb();
 }
 
 //Update Data
@@ -36,9 +42,17 @@ function updateNotation() {
     else {sc("notation" + specialNotations[i])}
   }
 }*/
+function updateOptions() {
+  updateConfirmations();
+  updateLogpb();
+}
 var confirmationStrings = dc("confirmations");
 function updateConfirmation(str) {
   if (user.confirmation[str]) {d("confirmation-" + str).style.backgroundColor = "rgb(25, 85, 25)"}
   else {d("confirmation-" + str).style.backgroundColor = "rgb(0, 0, 0)"}
 }
 function updateConfirmations() {for (let i = 0; i < confirmationStrings.length; i++) {updateConfirmation(confirmationStrings[i].textContent.toLowerCase())}}
+function updateLogpb() {
+  if (user.logpb) {d("logpb").style.backgroundColor = "rgb(25, 85, 25)"}
+  else {d("logpb").style.backgroundColor = "rgb(0, 0, 0)"}
+}
