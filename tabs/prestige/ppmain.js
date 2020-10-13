@@ -84,7 +84,7 @@ const goalsPPSac = [0, 0, 0];
 const unlocksPP = ["Prestige Tree", "Challenges", "Automate Sacrifice"];
 function updatepbpp() {
   let index = 0;
-  for (let i = 0; i < goalsPP.length; i++) {if (user.pp.sac.gte(goalsPP[i]) && user.sacrifice.pp >= goalsIPSac[i]) {index = i + 1}}
+  for (let i = 0; i < goalsPP.length; i++) {if (user.pp.sac.gte(goalsPP[i]) && (user.sacrifice.pp >= goalsIPSac[i] || true)) {index = i + 1}}
   let g = goalsPP[index];
   let s = goalsPPSac[index];
   let u = unlocksPP[index];
