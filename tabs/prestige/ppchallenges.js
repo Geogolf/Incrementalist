@@ -24,10 +24,10 @@ function confirmExitPPChallenge() {
   else {exitPPChallenge(c)}
 }
 function exitPPChallenge(c) {
-  resetFrom = "ppChallenge";
-  resetPPChallenge(c);
   user.challenge.pp[c].in = false;
   if (user.ip.x.gte(ppChallengeData[c].goals[user.challenge.pp[c].count])) {user.challenge.pp[c].count++}
+  resetFrom = "ppChallenge";
+  resetPPChallenge(c);
   unlockAutomation();
   unlockSacrifice();
   unlockIP();
