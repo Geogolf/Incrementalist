@@ -20,12 +20,12 @@ function enterPPChallenge(c) {
 function confirmExitPPChallenge() {
   let c = 0;
   for (let i = 1; i < ppChallengeData.length; i++) {if (user.challenge.pp[i].in) {c = i}}
-  if (user.ip.x.lt(ppChallengeData[c].goals[user.challenge.pp[c].count])) {alertify.confirm("Are you sure you want to exit the challenge? You will not complete the challenge", () => {exitPPChallenge(c)})}
+  if (user.ip.sac.lt(ppChallengeData[c].goals[user.challenge.pp[c].count])) {alertify.confirm("Are you sure you want to exit the challenge? You will not complete the challenge", () => {exitPPChallenge(c)})}
   else {exitPPChallenge(c)}
 }
 function exitPPChallenge(c) {
   user.challenge.pp[c].in = false;
-  if (user.ip.x.gte(ppChallengeData[c].goals[user.challenge.pp[c].count])) {user.challenge.pp[c].count++}
+  if (user.ip.sac.gte(ppChallengeData[c].goals[user.challenge.pp[c].count])) {user.challenge.pp[c].count++}
   resetFrom = "ppChallenge";
   resetPPChallenge(c);
   unlockAutomation();
@@ -69,7 +69,7 @@ function updatePPChallengeProgress() {
       let data = ppChallengeData[i];
       let userData = user.challenge.pp[i];
       d("currentPPChallenge").textContent = i;
-      if (user.ip.x.lt(data.goals[userData.count])) {
+      if (user.ip.sac.lt(data.goals[userData.count])) {
         d("currentPPChallengeProgress").textContent = e(data.goals[userData.count].minus(user.ip.sac));
         d("ppChallengeExit").textContent = "Exit Challenge";
       }
