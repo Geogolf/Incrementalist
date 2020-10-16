@@ -51,6 +51,9 @@ function unlocking() {
 function checkInfinite() {
   if (user.pp.count > 0) {infiniteIP = nd("1e10000")/*; inflog = 10000*/}
 }
+setInterval(() => {
+  checkInfinite();
+}, 1000);
 function simulateTime(ms) {
   let seconds = ms / 1000;
   if (seconds > 100000) {seconds = 100000}
