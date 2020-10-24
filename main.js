@@ -530,7 +530,6 @@ loadGame();
 setBrokenUser = true;
 intervals();
 di("version").textContent = user.version + " (Beta)";
-showTab("Options");
 
 //Temp
 const hideIds = ["tabAscensionb", "autoSacrificePPState", "apInfo", "apChallengeInfo"];
