@@ -16,28 +16,69 @@ table {margin-left: auto; margin-right: auto}
 sub {font-family: Book Antiqua}
 sup {font-family: Book Antiqua}
 hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
+canvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -999;
+}
+span {color: rgb(150, 150, 150); font-family: "Georgia"; overflow-wrap: break-word}
+input {
+  color: rgb(127, 127, 127);
+  background-color: rgb(50, 50, 50);
+  border: none;
+  font-size: 18px;
+  height: 18px;
+  width: 175px;
+  outline: none;
+}
+
+/* Position */
+.ch {position: absolute; left: 50%; transform: translateX(-50%)}
+.ch2 {text-align: center}
+.cv {position: absolute; top: 50%; transform: translateY(-50%)}
+.chv {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)}
+.cvh {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)}
 
 /* Text */
-.text {
-  color: rgb(150, 150, 150);
-  font-family: "Georgia";
-  overflow-wrap: break-word;
-}
+/*.text {color: rgb(150, 150, 150); font-family: "Georgia"; overflow-wrap: break-word}*/
 .redText {color: rgb(220, 20, 60)}
 .orangeText {color: rgb(255, 165, 0)}
 .yellowText {color: rgb(222, 222, 0)}
 .greenText {color: rgb(150, 200, 50)}
-.blueText {color: rgb(0, 0, 200)}
+.blueText {color: rgb(50, 50, 250)}
 .purpleText {color: rgb(150, 0, 210)}
 .goldText {color: rgb(212, 175, 55)}
 .whiteText {color: rgb(255, 255, 255)}
-.center {text-align: center}
 .ba {font-family: Book Antiqua}
 .ab {font-family: Book Antiqua}
+.top {position: absolute; top: 2px; right: 0px; left: 0px}
+.bottom {position: absolute; right: 0px; bottom: 2px; left: 0px}
+.infoText {
+  color: rgb(100, 100, 255);
+  font-weight: bold;
+  cursor: pointer;
+  transition: font-size .5s;
+}
+.infoText:hover {
+  font-size: 24px;
+}
 .achDisplayId {
   color: rgba(75, 125, 25, 0.25);
   width: 100%;
-  font-size: 50px;
+  font-size: 100px;
+  font-family: Book Antiqua;
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.eggDisplayId {
+  color: rgba(111, 111, 0, 0.25);
+  width: 100%;
+  font-size: 100px;
+  font-family: Book Antiqua;
   position: absolute;
   text-align: center;
   left: 50%;
@@ -45,9 +86,10 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   transform: translate(-50%, -50%);
 }
 .ptDisplayId {
-  color: rgb(20, 20, 50);
+  color: rgb(10, 10, 50);
   width: 100%;
   font-size: 100px;
+  font-family: Book Antiqua;
   position: absolute;
   text-align: center;
   left: 50%;
@@ -57,7 +99,8 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 .ppChallengeDisplayId {
   color: rgb(20, 20, 50);
   width: 100%;
-  font-size: 200px;
+  font-size: 160px;
+  font-family: Book Antiqua;
   position: absolute;
   text-align: center;
   left: 50%;
@@ -65,23 +108,31 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   transform: translate(-50%, -50%);
 }
 
-.top {position: absolute; top: 2px; right: 0px; left: 0px}
-.bottom {position: absolute; right: 0px; bottom: 2px; left: 0px}
-.achReward {font-size: 13.75px}
-.statText {font-size: 16px}
-.incrementText {font-size: clamp(10px, 3.75vw, 18px)}
-
-/* Position */
-.ch {position: absolute; left: 50%; transform: translateX(-50%)}
-.ch2 {text-align: center}
-.cv {position: absolute; top: 50%; transform: translateY(-50%)}
-.chv {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)}
-.cvh {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)}
-
 /* General Display */
-.fill {width: 100%; height: 100%}
-.grayBorder {border-color: rgb(127, 127, 127); border-width: 2px; border-style: solid}
-.grayBorder2 {border-color: rgb(63, 63, 63); border-width: 2px; border-style: solid}
+.tab {
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(200, 200, 200);
+  border-radius: 25px;
+  cursor: pointer;
+  outline: none;
+  transition: color .2s, font-weight .2s, background-color .2s;
+}
+.tab:hover {color: rgb(200, 200, 200); font-weight: bold; background-color: rgb(0, 0, 0)}
+.tabPurple {color: rgb(150, 0, 210); background-color: rgb(0, 0, 0); border-color: rgb(150, 0, 210)}
+.tabPurple:hover {color: rgb(0, 0, 0); background-color: rgb(150, 0, 210)}
+.tabBlue {color: rgb(25, 25, 255); background-color: rgb(0, 0, 0); border-color: rgb(25, 25, 255)}
+.tabBlue:hover {color: rgb(0, 0, 0); background-color: rgb(25, 25, 255)}
+.tabGreen {color: rgb(50, 200, 50); background-color: rgb(0, 0, 0); border-color: rgb(50, 200, 50)}
+.tabGreen:hover {color: rgb(0, 0, 0); background-color: rgb(50, 200, 50)}
+.tabYellow {color: rgb(222, 222, 0); background-color: rgb(0, 0, 0); border-color: rgb(222, 222, 0)}
+.tabYellow:hover {color: rgb(0, 0, 0); background-color: rgb(222, 222, 0)}
+.tabOrange {color: rgb(255, 165, 0); background-color: rgb(0, 0, 0); border-color: rgb(255, 165, 0)}
+.tabOrange:hover {color: rgb(0, 0, 0); background-color: rgb(255, 165, 0)}
+.tabRed {color: rgb(220, 20, 60); background-color: rgb(0, 0, 0); border-color: rgb(220, 20, 60)}
+.tabRed:hover {color: rgb(0, 0, 0); background-color: rgb(220, 20, 60)}
+
+.grayBorder {border: 2px solid rgb(127, 127, 127)}
+.grayBorder2 {border: 2px solid rgb(63, 63, 63)}
 .dropdown {position: relative}
 .dropdown:hover .dropdown-content {display: block}
 .dropdown-content {
@@ -96,11 +147,6 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 }
 .dropdown-item {border: 2px solid rgb(35, 140, 35); margin: 1px; transition: background-color .2s}
 .dropdown-item:hover {background-color: rgb(50, 50, 50)}
-.title {
-  background-color: rgb(25, 25, 25);
-  border: 0px;
-  border-radius: 44px;
-}
 .table {
   display: flex;
   flex-flow: column wrap;
@@ -113,49 +159,22 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 }
 
 /* Buttons */
-.increments {
-  border: 2px solid;
+.incrementb {
+  border: 2px solid rgb(75, 0, 125);
   border-radius: 10px;
   margin: 1px 0px 1px 0px;
 }
-.automations {
-  border: 2px solid;
+.prestigeb {
+  border: 2px solid rgb(12, 12, 150);
   border-radius: 10px;
   margin: 1px 0px 1px 0px;
 }
-.sacrifices {
-  border: 2px solid;
-  border-radius: 10px;
-  margin: 1px 0px 1px 0px;
-}
-.scalings {
-  border: 2px solid;
-  border-radius: 10px;
-  margin: 1px 0px 1px 0px;
-}
-.autoipState {
+.toggleState {
   border: 2px solid rgb(220, 20, 60);
-  border-radius: 5px;
+  border-radius: 7px;
   width: 30px;
   height: 30px;
-}
-.maxAutoState {
-  border: 2px solid rgb(220, 20, 60);
-  border-radius: 5px;
-  width: 30px;
-  height: 30px;
-}
-.maxScalingState {
-  border: 2px solid rgb(220, 20, 60);
-  border-radius: 5px;
-  width: 30px;
-  height: 30px;
-}
-.autoSacrificeState {
-  border: 2px solid rgb(220, 20, 60);
-  border-radius: 5px;
-  width: 30px;
-  height: 90px;
+  cursor: pointer;
 }
 .option {
   border: 2px solid rgb(35, 140, 35);
@@ -169,7 +188,7 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
 }
 .ppCell {
   background-color: rgb(0, 0, 0);
-  border: 2px solid rgb(0, 0, 200);
+  border: 2px solid rgb(50, 50, 250);
   border-radius: 10px;
   margin: 15px;
   height: 100px;
@@ -177,7 +196,7 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   position: relative;
 }
 #refundPT {
-  border: 2px solid rgb(0, 0, 200);
+  border: 2px solid rgb(50, 50, 250);
   border-radius: 10px;
   margin: 5px;
   height: 50px;
@@ -186,34 +205,26 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   cursor: pointer;
 }
 .ppChallengeCell {
-  border: 2px solid rgb(0, 0, 200);
+  border: 2px solid rgb(50, 50, 250);
   border-radius: 10px;
   margin: 10px;
   height: 200px;
   width: 225px;
   position: relative;
 }
-#exitPPChallenge {
-  border: 2px solid rgb(0, 0, 200);
-  border-radius: 10px;
-  height: 25px;
-  width: 185px;
-  cursor: pointer;
-  outline: none;
-  transition: font-size .2s;
-}
-#exitPPChallenge:hover {font-size: 20px}
 
-/* Can and Cannots */
-.achComplete {
-  background-color: rgb(25, 85, 25);
-  border: 2px solid rgb(35, 140, 35);
-  border-radius: 10px;
-  height: 150px;
-  width: 150px;
-  position: relative;
+/* Cells */
+.canBuy {
+  background-color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: background-color .2s;
 }
-.achIncomplete {
+.cantBuy {
+  background-color: rgb(25, 25, 25);
+  cursor: default;
+  transition: background-color .2s;
+}
+.achievement {
   background-color: rgb(25, 25, 25);
   border: 2px solid rgb(35, 140, 35);
   border-radius: 10px;
@@ -221,22 +232,21 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   width: 150px;
   position: relative;
 }
-.canBuy {
-  background-color: rgb(0, 0, 0);
-  cursor: pointer;
-  outline: none;
-  transition: background-color .2s;
+.egg {
+  background-color: rgb(25, 25, 25);
+  border: 2px solid rgb(222, 222, 0);
+  border-radius: 10px;
+  height: 150px;
+  width: 150px;
+  position: relative;
 }
-.cantBuy {
-  background-color: rgb(30, 30, 30);
-  outline: none;
-  transition: background-color .2s;
+.prestigeMilestone {
+  border: 2px solid rgb(50, 50, 250);
+  margin: 2px;
+  height: 50px;
+  width: 500px;
+  position: relative;
 }
-/*.ptBought {
-  background-color: rgb(25, 25, 85);
-  outline: none;
-  transition: background-color .2s;
-}*/
 .ppComplete {
   background-color: rgb(25, 25, 85);
   outline: none;
@@ -271,37 +281,6 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   opacity: 1;
 }
 
-/* Canvas */
-.canvas {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: -999;
-}
-
-/* Tabs */
-.tab {
-  background-color: rgb(255, 255, 255);
-  border: 2px solid rgb(200, 200, 200);
-  border-radius: 25px;
-  cursor: pointer;
-  outline: none;
-  transition: color .2s, font-weight .2s, background-color .2s;
-}
-.tab:hover {color: rgb(200, 200, 200); font-weight: bold; background-color: rgb(0, 0, 0)}
-.tabPurple {color: rgb(150, 0, 210); background-color: rgb(0, 0, 0); border-color: rgb(150, 0, 210)}
-.tabPurple:hover {color: rgb(0, 0, 0); background-color: rgb(150, 0, 210)}
-.tabBlue {color: rgb(25, 25, 255); background-color: rgb(0, 0, 0); border-color: rgb(25, 25, 255)}
-.tabBlue:hover {color: rgb(0, 0, 0); background-color: rgb(25, 25, 255)}
-.tabGreen {color: rgb(50, 200, 50); background-color: rgb(0, 0, 0); border-color: rgb(50, 200, 50)}
-.tabGreen:hover {color: rgb(0, 0, 0); background-color: rgb(50, 200, 50)}
-.tabYellow {color: rgb(222, 222, 0); background-color: rgb(0, 0, 0); border-color: rgb(222, 222, 0)}
-.tabYellow:hover {color: rgb(0, 0, 0); background-color: rgb(222, 222, 0)}
-.tabOrange {color: rgb(255, 165, 0); background-color: rgb(0, 0, 0); border-color: rgb(255, 165, 0)}
-.tabOrange:hover {color: rgb(0, 0, 0); background-color: rgb(255, 165, 0)}
-.tabRed {color: rgb(220, 20, 60); background-color: rgb(0, 0, 0); border-color: rgb(220, 20, 60)}
-.tabRed:hover {color: rgb(0, 0, 0); background-color: rgb(220, 20, 60)}
-
 /* Progress Bars */
 .pb {
   background-color: rgb(100, 100, 100);
@@ -318,7 +297,7 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   height: 100%;
 }
 #pbpp {
-  background-color: rgb(0, 0, 200);
+  background-color: rgb(50, 50, 250);
   border-radius: 25px;
   width: 0%;
   height: 100%;
@@ -330,25 +309,48 @@ hr {background-color: rgb(100, 100, 100); border: none; height: 2px}
   height: 100%;
 }
 
-/* Loading Screen */
-#gameScreen {
-  opacity: 0;
-  transition: opacity 1s;
+/* Loading */
+#loading {
+  border: 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
 }
 #loadingScreen {
-  position: fixed;
+  background-color: rgb(0, 0, 0);
+  position: absolute;
   top: 0px;
   left: 0px;
   height: 100%;
   width: 100%;
+  z-index: 10;
   opacity: 1;
-  z-index: 1;
-  transition: opacity 1s;
+  transition: opacity .75s;
 }
 #offlineBox {
   background-color: rgb(25, 25, 25);
   border: 2px solid rgb(35, 140, 35);
+  height: 125px;
   width: 50%;
   max-width: 500px;
   padding: 10px 0px 10px 0px;
+  z-index: 9;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+.close {
+  color: rgb(150, 150, 150);
+  border: 2px solid rgb(35, 140, 35);
+  border-radius: 10px;
+  height: 25px;
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 22px;
+  transition: color .2s, background-color .2s;
+}
+.close:hover {color: rgb(0, 0, 0); background-color: rgb(35, 140, 35)}

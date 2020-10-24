@@ -1,241 +1,173 @@
+//Data
+const increment = {
+  "P": {
+    highestNum: -1,
+    result: nd(0),
+    baseCost: 1,
+    dec: 0
+  },
+  "M": {
+    highestNum: -1,
+    result: nd(0),
+    baseCost: 1e7,
+    dec: 0
+  },
+  "E": {
+    highestNum: -1,
+    result: nd(0),
+    baseCost: 1e30,
+    dec: 2
+  }
+}
+for (let name in increment) {
+  for (let i=0; i<5; i++) {
+    di("increment"+name+i+"b").addEventListener("click", () => {buyIncrement(name, i)});
+  }
+}
+di("equationIPb").addEventListener("click", () => {clickEquation()});
+
 //Buttons
-function clickIncrement() {
-  let multi = nd(1);
-  if (user.achievements.includes("ach1-6")) {multi = multi.times(getAchievementReward("ach1-6"))}
-  increment(multi);
-  user.increment.ip++;
+function clickEquation() {
+  giveMoney("IP", getEquationIPResult().times(getClickMulti()));
+  user.ip.equationClicks++;
 }
-function increment(bulk) {
-  if (typeof bulk == "undefined") {bulk = 1}
-  let gain = getIncrementx(bulk).times(getPPBoost()).times(getAchievementBoost());
-  user.ip.x = user.ip.x.plus(gain);
-  user.ip.sac = user.ip.sac.plus(gain);
-  user.ip.total = user.ip.total.plus(gain);
-  if (user.ip.x.gt(user.ip.highest)) {user.ip.highest = user.ip.x}
-  unlockIP();
-}
-function buyIncrementP(n) {
-  let cost = getIncrementPCost(n);
-  if (user.ip.x.gte(cost) && cost.lt(infiniteIP)) {
-    user.ip.x = user.ip.x.minus(cost);
-    user.increment.p[n]++;
-    if (user.challenge.pp[2].in) {
-      for (let i = 0; i < n; i++) {
-        user.increment.p[i] = 0;
+function buyIncrement(name, num) {
+  let cost = getIncrementCost(name, num);
+  if (user.ip.current.gte(cost) && cost.lt(user.ip.infinite)) {
+    user.ip.current = user.ip.current.minus(cost);
+    if (name == "E" && num == 4) {
+      let condition = false;
+      for (name in increment) {
+        for (let i=0; i<5; i++) {
+          if (user.ip.increment[name].bought[i] > 0) {condition = true}
+        }
+      }
+      if (!condition) {giveEgg("egg1-2", true)}
+    }
+    user.ip.increment[name].bought[num]++;
+    if (user.pp.challenge[2].in) {
+      for (let i=0; i<num; i++) {
+        user.ip.increment[name].bought[i] = 0;
       }
     }
   }
 }
-function buyIncrementM(n) {
-  let cost = getIncrementMCost(n);
-  if (user.ip.x.gte(cost) && cost.lt(infiniteIP)) {
-    user.ip.x = user.ip.x.minus(cost);
-    user.increment.m[n]++;
-    if (user.challenge.pp[2].in) {
-      for (let i = 0; i < n; i++) {
-        user.increment.m[i] = 0;
-      }
-    }
+
+//Set Data
+function setIncrementData() {
+  for (let name in increment) {
+    setIncrementResult(name);
   }
 }
-function buyIncrementE(n) {
-  let cost = getIncrementECost(n);
-  if (user.ip.x.gte(cost) && cost.lt(infiniteIP)) {
-    user.ip.x = user.ip.x.minus(cost);
-    user.increment.e[n]++;
-    if (user.challenge.pp[2].in) {
-      for (let i = 0; i < n; i++) {
-        user.increment.e[i] = 0;
-      }
+function setIncrementHighestNum(name) {
+  for (let i=0; i<5; i++) {
+    if (di("increment"+name+i).style.display != "none") {
+      increment[name].highestNum = i;
     }
+    else if (i == 0) {increment[name].highestNum = -1}
+  }
+}
+function setIncrementResult(name) {
+  setIncrementHighestNum(name);
+  if (name == "P") {
+    let result = getIncrementx(name, increment[name].highestNum);
+    for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).plus(getIncrementx(name, i))}
+    if (isNaN(result)) {result = nd(1)}
+    increment[name].result = result;
+  }
+  if (name == "M") {
+    let result = getIncrementx(name, increment[name].highestNum);
+    for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).times(getIncrementx(name, i))}
+    if (isNaN(result)) {result = nd(1)}
+    increment[name].result = result;
+  }
+  if (name == "E") {
+    let result = getIncrementx(name, increment[name].highestNum);
+    for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).plus(getIncrementx(name, i))}
+    result = result.plus(1);
+    if (isNaN(result)) {result = nd(1)}
+    increment[name].result = result;
   }
 }
 
 //Get Data
-function getIncrementx(bulk) {
-  if (typeof bulk == "undefined") {bulk = 1}
-  let pn = -1;
-  let mn = -1;
-  let En = -1;
-  for (let i = 0; i < 5; i++) {if (d("incrementP" + i).style.display != "none") {pn = i}}
-  for (let i = 0; i < 5; i++) {if (d("incrementM" + i).style.display != "none") {mn = i}}
-  for (let i = 0; i < 5; i++) {if (d("incrementE" + i).style.display != "none") {En = i}}
-  let p = getIncrementP(pn);
-  let m = getIncrementM(mn);
-  let E = getIncrementE(En);
-  for (let i = (pn - 1); i > -1; i--) {p = p.times(getSacrificeIPP()).plus(getIncrementP(i))}
-  for (let i = (mn - 1); i > -1; i--) {m = m.times(getSacrificeIPM()).times(getIncrementM(i))}
-  for (let i = (En - 1); i > -1; i--) {E = E.times(getSacrificeIPE()).plus(getIncrementE(i))}
-  E = E.plus(1);
-  if (isNaN(p)) {p = nd(1)};
-  if (isNaN(m)) {m = nd(1)};
-  if (isNaN(E)) {E = nd(1)};
-  return p.times(m).pow(E).times(bulk);
-  
-  
-  /*let pn = -1;
-  for (let i = 0; i < 5; i++) {if (d("incrementP" + i).style.display != "none") {pn = i}}
-  let p = getIncrementP(pn);
-  for (let i = (pn - 1); i > -1; i--) {p = p.times(getSacrificeIPP()).plus(getIncrementP(i))}
-  let mn = -1;
-  for (let i = 0; i < 5; i++) {if (d("incrementM" + i).style.display != "none") {mn = i}}
-  let m = getIncrementM(mn);
-  for (let i = (mn - 1); i > -1; i--) {m = m.times(getSacrificeIPM()).times(getIncrementM(i))}
-  let En = -1;
-  for (let i = 0; i < 5; i++) {if (d("incrementE" + i).style.display != "none") {En = i}}
-  let E = getIncrementE(En);
-  for (let i = (En - 1); i > -1; i--) {E = E.times(getSacrificeIPE()).plus(getIncrementE(i))}
-  E = E.plus(1);
-  return p.times(m).pow(E).times(bulk);*/
+function getIPMulti() {
+  let multi = nd(1);
+  if (user.pp.pt.cells.includes("pt2-3")) {multi = multi.times(getPTReward("pt2-3"))}
+  return getAchievementBoost().times(getPPBoost()).times(multi);
 }
-function getIncrementP(n) {return nd(n + 1).pow(nd(n)).times(user.increment.p[n])}
-function getIncrementPCost(n) {return getIncrementPRatio(n).pow(user.increment.p[n]).round()}
-function getIncrementPRatio(n) {
-  let multi = 1;
-  if (user.achievements.includes("ach2-1")) {multi /= 5}
-  
-  if (user.challenge.pp[3].in) {return nd(1).plus(nd(25).times(Math.pow(2, n)).times(getScalingP().times(multi)))}
-  return nd(1).plus(nd(0.125).times(Math.pow(2, n)).times(getScalingP().times(multi)));
-  
-  /*if (user.achievements.includes("ach2-1")) {return nd(1).plus(nd(0.125).times(Math.pow(2, n)).times(getScalingP().divide(5)))}
-  else {return nd(1).plus(nd(0.125).times(Math.pow(2, n)).times(getScalingP()))}*/
+function getClickMulti() {
+  let multi = nd(1);
+  if (user.achievements.includes("ach1-6")) {multi = multi.times(getAchievementReward("ach1-6"))}
+  return multi;
 }
-function getIncrementM(n) {return nd(Math.pow(3, n)).times(user.increment.m[n]).plus(1)}
-function getIncrementMCost(n) {return nd(1e7).times(getIncrementMRatio(n).pow(user.increment.m[n]))}
-function getIncrementMRatio(n) {
-  if (user.challenge.pp[3].in) {return nd(1).plus(nd(100).pow(n + 1).minus(1).times(getScalingM()))}
-  return nd(1).plus(nd(1.3579).pow(n + 1).minus(1).times(getScalingM()));
+function getEquationIPResult() {
+  return getIPMulti().times(increment.P.result.times(increment.M.result).pow(increment.E.result));
 }
-function getIncrementE(n) {return nd(user.increment.e[n] + 1).log10().divide(3.5 / (Math.sqrt(n + 1)))}
-function getIncrementECost(n) {return nd(1e30).times(getIncrementERatio(n).pow(user.increment.e[n]))}
-function getIncrementERatio(n) {
-  if (user.challenge.pp[3].in) {return nd(1).plus(nd(1e100).pow(nd(n + 1).times(getScalingE())).minus(1))}
-  return nd(1).plus(nd(1e30).pow(nd(n + 1).times(getScalingE())).minus(1));
+function getIncrementx(name, num) {
+  if (name == "P") {return nd(num+1).pow(nd(num)).times(user.ip.increment[name].bought[num])}
+  if (name == "M") {return nd(Math.pow(3, num)).times(user.ip.increment[name].bought[num]).plus(1)}
+  if (name == "E") {return nd(user.ip.increment[name].bought[num]+1).log10().divide(3.5/(Math.sqrt(num+1)))}
 }
-
-//Unlock Data
-function unlockIP() {
-  let sac = user.sacrifice.ip;
-  let ip = user.ip.sac;
-  let pp = user.pp.sac;
-  if (ip.gte(1000)) {sc("incrementP1Unlocks")} else {hc("incrementP1Unlocks")}
-  if (ip.gte(2500) || sac >= 1 || pp >= 1) {st("tabAutomationb")} else {h("tabAutomationb")}
-  if (ip.gte(2500) || (user.pt.cells.includes("pt2-1") && resetFrom == "Sacrifice" && !ih("autoIP"))) {s("autoIP")} else {h("autoIP")}
-  if (ip.gte(10000)) {sc("incrementP2Unlocks")} else {hc("incrementP2Unlocks")}
-  if (ip.gte(50000)) {sc("incrementP3Unlocks")} else {hc("incrementP3Unlocks")}
-  if (ip.gte(250000) || (user.pt.cells.includes("pt2-1") && resetFrom == "Sacrifice" && !ih("autoP"))) {s("autoP")} else {h("autoP")}
-  if (ip.gte(1e6)) {sc("incrementP4Unlocks")} else {hc("incrementP4Unlocks")}
-  if (ip.gte(1e7) || sac >= 1 || pp >= 1) {st("tabSacrificeb")} else {h("tabSacrificeb")}
-  if (ip.gte(5e9) && sac >= 1) {sc("incrementM1Unlocks")} else {hc("incrementM1Unlocks")}
-  if (ip.gte(1e13) && sac >= 2) {sc("incrementM2Unlocks")} else {hc("incrementM2Unlocks")}
-  if (ip.gte(5e15) && sac >= 2) {sc("incrementM3Unlocks")} else {hc("incrementM3Unlocks")}
-  if ((ip.gte(1e21) && sac >= 3) || (user.pt.cells.includes("pt2-1") && resetFrom == "Sacrifice" && !ih("autoM"))) {s("autoM")} else {h("autoM")}
-  if ((ip.gte(2.5e21) && sac >= 3) || sac >= 4 || pp >= 1) {st("tabScalingb")} else {h("tabScalingb")}
-  if ((ip.gte(2.5e21) && sac >= 3) || (user.pt.cells.includes("pt2-5") && resetFrom == "Sacrifice" && !ih("scalingP"))) {s("scalingP")} else {h("scalingP")}
-  if (ip.gte(7.5e21) && sac >= 3) {sc("incrementM4Unlocks")} else {hc("incrementM4Unlocks")}
-  if (ip.gte(3.33e33) && sac >= 5) {sc("incrementE1Unlocks")} else {hc("incrementE1Unlocks")}
-  if (ip.gte(3.7e37) && sac >= 6) {sc("incrementE2Unlocks")} else {hc("incrementE2Unlocks")}
-  if ((ip.gte(1e44) && sac >= 7) || (user.pt.cells.includes("pt2-5") && resetFrom == "Sacrifice" && !ih("scalingM"))) {s("scalingM")} else {h("scalingM")}
-  if (ip.gte(2.25e45) && sac >= 7) {sc("incrementE3Unlocks")} else {hc("incrementE3Unlocks")}
-  if (ip.gte(4e57) && sac >= 8) {sc("incrementE4Unlocks")} else {hc("incrementE4Unlocks")}
-  if ((ip.gte(8.5e85) && sac >= 10) || (user.pt.cells.includes("pt2-1") && resetFrom == "Sacrifice" && !ih("autoE"))) {s("autoE")} else {h("autoE")}
-  if ((ip.gte(8.5e85) && sac >= 10) || (user.pt.cells.includes("pt2-5") && resetFrom == "Sacrifice" && !ih("scalingE"))) {s("scalingE")} else {h("scalingE")}
-  if (ip.gte(1e100) && sac >= 11 || pp >= 1) {st("tabPrestigeb"); s("ppInfo"); s("confirmation-prestige")} else {h("tabPrestigeb"); h("ppInfo"); h("confirmation-prestige")}
+function getIncrementCost(name, num) {
+  return nd(increment[name].baseCost).times(getIncrementRatio(name, num).pow(user.ip.increment[name].bought[num])).floor();
+}
+function getIncrementRatio(name, num) {
+  if (name == "P") {
+    let multi = nd(1);
+    if (user.achievements.includes("ach2-1")) {multi = multi.times(getAchievementReward("ach2-1"))}
+    if (user.pp.pt.cells.includes("pt2-5")) {
+      let thisMulti = getPTReward("pt2-5").minus(num).pow(2);
+      if (user.pp.pt.cells.includes("pt3-3")) {thisMulti = thisMulti.times(1.25)}
+      multi = multi.times(thisMulti);
+    }
+    let scale = nd(0.125);
+    if (user.pp.challenge[3].in) {scale = nd(25)}
+    return nd(1).plus(scale.times(Math.pow(2, num)).divide(getScalingEffect("P").times(multi)))
+  }
+  if (name == "M") {
+    let scale = nd(1.3579);
+    if (user.pp.challenge[3].in) {scale = nd(100)}
+    return nd(1).plus(scale.pow(num+1).minus(1).divide(getScalingEffect("M")));
+  }
+  if (name == "E") {
+    let scale = nd(1e30);
+    if (user.pp.challenge[3].in) {scale = nd(1e100)}
+    return nd(1).plus(scale.pow(nd(num+1).divide(getScalingEffect("E"))).minus(1));
+  }
 }
 
 //Update Data
-const goalsIP = [nd(1000), nd(2500), nd(10000), nd(50000), nd(250000), nd(1e6), nd(5e9), nd(1e13), nd(5e15), nd(1e21), nd(2.5e21), nd(7.5e21), nd(3.33e33), nd(3.7e37), nd(1e44), nd(2.25e45), nd(4e57), nd(8.5e85), nd(1e100), nd(1e100)];
-const goalsIPSac = [0, 0, 0, 0, 0, 0, 1, 2, 2, 3, 3, 3, 5, 6, 7, 7, 8, 10, 11, 12];
-const unlocksIP = ["Variable P<sub>1</sub>", "Automate IP", "Variable P<sub>2</sub>", "Variable P<sub>3</sub>", "Automate P", "Variable P<sub>4</sub>", "Variable M<sub>1</sub>", "Variable M<sub>2</sub>", "Variable M<sub>3</sub>", "Automate M", "Scaling P", "Variable M<sub>4</sub>", "Variable E<sub>1</sub>", "Variable E<sub>2</sub>", "Scaling M", "Variable E<sub>3</sub>", "Variable E<sub>4</sub>", "Automate E and Scaling E", "Prestige", "There's More"];
-function updatepbip() {
-  let index = 0;
-  for (let i = 0; i < goalsIP.length; i++) {
-    if (user.ip.sac.gte(goalsIP[i]) && user.sacrifice.ip >= goalsIPSac[i]) {
-      index = i + 1;
+function updateIncrements() {
+  for (let name in increment) {
+    for (let i=0; i<5; i++) {
+      updateIncrement(name, i);
+      updateCoefficient(name, i);
     }
   }
-  let g = goalsIP[index];
-  let s = goalsIPSac[index];
-  let u = unlocksIP[index];
-  if (g == undefined) {g = goalsIP[index - 1]}
-  if (s == undefined) {s = goalsIPSac[index - 1]}
-  if (u == undefined) {u = "End Game"}
-  let sacCost = getSacrificeIPCost();
-  if (g.gt(sacCost) && !isNaN(sacCost) && !sacCost.eq(infiniteIP)) {
-    g = sacCost;
-    u = "Sacrifice";
-  }
-  d("pbipsac").textContent = e(user.ip.sac);
-  d("pbipgoal").textContent = e(g);
-  d("pbipunlock").innerHTML = u;
-  if (g.gt(1e100) || user.logpb) {d("pbip").style.width = nd(user.ip.sac).log10().divide(g.log10()).times(100) + "%"}
-  else {d("pbip").style.width = user.ip.sac.divide(g).times(100) + "%"}
-  if (user.ip.sac.divide(g) > 1) {d("pbip").style.width = "100%"}
 }
 function updateEquationIP() {
-  let pn = -1;
-  let mn = -1;
-  let En = -1;
-  for (let i = 0; i < 5; i++) {if (d("incrementP" + i).style.display != "none") {pn = i}}
-  for (let i = 0; i < 5; i++) {if (d("incrementM" + i).style.display != "none") {mn = i}}
-  for (let i = 0; i < 5; i++) {if (d("incrementE" + i).style.display != "none") {En = i}}
-  let p = getIncrementP(pn);
-  let m = getIncrementM(mn);
-  let E = getIncrementE(En);
-  for (let i = (pn - 1); i > -1; i--) {p = p.times(getSacrificeIPP()).plus(getIncrementP(i))}
-  for (let i = (mn - 1); i > -1; i--) {m = m.times(getSacrificeIPM()).times(getIncrementM(i))}
-  for (let i = (En - 1); i > -1; i--) {E = E.times(getSacrificeIPE()).plus(getIncrementE(i))}
-  E = E.plus(1);
-  if (isNaN(p)) {p = nd(1)};
-  if (isNaN(m)) {m = nd(1)};
-  if (isNaN(E)) {E = nd(1)};
-  
-  d("ipEquationP").textContent = e(p);
-  d("ipEquationM").textContent = e(m);
-  d("ipEquationE").textContent = e(E, 2, 2);
-  d("ipEquationResult").textContent = e(p.times(m).pow(E));
-  if (user.achievements.includes("ach1-6")) {d("ipEquationClickResult").textContent = e(p.times(m).pow(E).times(getAchievementReward("ach1-6")).times(getPPBoost()).times(getAchievementBoost()))}
-}
-function updateCoefficientP() {
-  let arr = dc("coefficientP");
-  for (let i = 0; i < arr.length; i++) {arr[i].textContent = e(getSacrificeIPP())}
-}
-function updateCoefficientM() {
-  let arr = dc("coefficientM");
-  for (let i = 0; i < arr.length; i++) {arr[i].textContent = e(getSacrificeIPM())}
-}
-function updateCoefficientE() {
-  let arr = dc("coefficientE");
-  for (let i = 0; i < arr.length; i++) {arr[i].textContent = e(getSacrificeIPE(), 2, 2)}
-}
-
-function updateIncrementP(n) {
-  if (d("incrementP" + n).style.display != "none") {
-    let cost = getIncrementPCost(n);
-    if (user.ip.x.lt(cost) || cost.gte(infiniteIP)) {rpc("canBuy", "cantBuy", "incrementP" + n + "b")}
-    else {rpc("cantBuy", "canBuy", "incrementP" + n + "b")}
-    if (cost.gte(infiniteIP) && showInfinite) {cost = "Infinite"}
-    d("incrementP" + n + "x").textContent = e(getIncrementP(n));
-    d("incrementP" + n + "Cost").textContent = e(cost);
+  di("equationCx").textContent = e("d", getIPMulti(), 2, 2);
+  for (let name in increment) {
+    di("equation"+name+"x").textContent = e("d", increment[name].result, 2, increment[name].dec);
   }
+  let result = getEquationIPResult();
+  di("equationIPResult").textContent = e("d", result, 2, 0);
+  di("equationClickResult").textContent = e("d", result.times(getClickMulti()), 2, 0);
 }
-function updateIncrementM(n) {
-  if (d("incrementM" + n).style.display != "none") {
-    let cost = getIncrementMCost(n);
-    if (user.ip.x.lt(cost) || cost.gte(infiniteIP)) {rpc("canBuy", "cantBuy", "incrementM" + n + "b")}
-    else {rpc("cantBuy", "canBuy", "incrementM" + n + "b")}
-    if (cost.gte(infiniteIP) && showInfinite) {cost = "Infinite"}
-    d("incrementM" + n + "x").textContent = e(getIncrementM(n));
-    d("incrementM" + n + "Cost").textContent = e(cost);
-  }
+function updateCoefficient(name, num) {
+  if (num == 4) {return}
+  di("coefficient"+name+num).textContent = e("d", getSacrificeBoost("IP", name), 2, increment[name].dec);
 }
-function updateIncrementE(n) {
-  if (d("incrementE" + n).style.display != "none") {
-    let cost = getIncrementECost(n);
-    if (user.ip.x.lt(cost) || cost.gte(infiniteIP)) {rpc("canBuy", "cantBuy", "incrementE" + n + "b")}
-    else {rpc("cantBuy", "canBuy", "incrementE" + n + "b")}
-    if (cost.gte(infiniteIP) && showInfinite) {cost = "Infinite"}
-    d("incrementE" + n + "x").textContent = e(getIncrementE(n), 2, 2);
-    d("incrementE" + n + "Cost").textContent = e(cost);
+function updateIncrement(name, num) {
+  if (di("increment"+name+num).style.display != "none") {
+    let cost = getIncrementCost(name, num);
+    if (user.ip.current.lt(cost) || cost.gte(user.ip.infinite)) {replaceClass("canBuy", "cantBuy", "increment"+name+num+"b")}
+    else {replaceClass("cantBuy", "canBuy", "increment"+name+num+"b")}
+    if (cost.gte(user.ip.infinite) && showInfinite) {cost = "Infinite"}
+    let dec = 0;
+    if (name == "E") {dec = 2}
+    di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), 2, dec);
+    di("increment"+name+num+"Cost").textContent = e("d", cost, 2, 0);
   }
 }
