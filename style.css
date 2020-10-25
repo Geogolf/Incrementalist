@@ -320,7 +320,7 @@ input {
 }
 #loadingScreen {
   background-color: rgb(0, 0, 0);
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   height: 100%;
