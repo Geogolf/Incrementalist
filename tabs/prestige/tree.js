@@ -1,152 +1,97 @@
-//Buttons
-function pt(id) {
-  let cost = getPrestigeTreeCost(id);
-  if (user.pp.x.gte(cost) && !user.pt.cells.includes(id)) {
-    user.pp.x = user.pp.x.minus(cost);
-    user.pt.cells.push(id);
-    user.pt.refundAmount = user.pt.refundAmount.plus(cost);
-    unlockPT();
-    resizeCanvas("pt");
-  }
+//Data
+const pt = {
+  "pt0-1": {from: [], cost: {type: "static", cost: 0}},
+  "pt1-1": {from: ["pt0-1"], cost: {type: "rowIncrease", effect: ["pt1-2", "pt1-3"], baseCost: 1, scaleCost: 2}},
+  "pt1-2": {from: ["pt0-1"], cost: {type: "rowIncrease", effect: ["pt1-1", "pt1-3"], baseCost: 1, scaleCost: 2}},
+  "pt1-3": {from: ["pt0-1"], cost: {type: "rowIncrease", effect: ["pt1-1", "pt1-2"], baseCost: 1, scaleCost: 2}},
+  "pt2-1": {from: ["pt1-1"], cost: {type: "rowIncrease", effect: ["pt2-2"], baseCost: 7, scaleCost: 1.6}},
+  "pt2-2": {from: ["pt1-1"], cost: {type: "rowIncrease", effect: ["pt2-1"], baseCost: 7, scaleCost: 1.6}},
+  "pt2-3": {from: ["pt1-2"], cost: {type: "static", cost: 50}},
+  "pt2-4": {from: ["pt1-3"], cost: {type: "rowIncrease", effect: ["pt2-5"], baseCost: 7, scaleCost: 1.6}},
+  "pt2-5": {from: ["pt1-3"], cost: {type: "rowIncrease", effect: ["pt2-4"], baseCost: 7, scaleCost: 1.6}},
+  "pt3-1": {from: ["pt2-1", "pt2-2"], cost: {type: "rowIncrease", effect: ["pt3-4"], baseCost: 250, scaleCost: 2}},
+  "pt3-2": {from: ["pt2-3"], cost: {type: "static", cost: 500}},
+  "pt3-3": {from: ["pt2-3"], cost: {type: "static", cost: 500}},
+  "pt3-4": {from: ["pt2-4", "pt2-5"], cost: {type: "rowIncrease", effect: ["pt3-1"], baseCost: 250, scaleCost: 2}},
+  "pt4-1": {from: ["pt3-1", "pt3-2", "pt3-3", "pt3-4"], cost: {type: "static", cost: 50000}}
 }
+for (let id in pt) {
+  di(id).addEventListener("click", () => {buyPT(id)});
+}
+di("refundPT").addEventListener("click", () => {toggleRefundPT()});
+
+//Buttons
 function toggleRefundPT() {
-  user.pt.refund = !user.pt.refund;
-  updateRefundPT();
+  user.pp.pt.refund = !user.pp.pt.refund;
 }
 function refundPT() {
-  let refund = getRefundAmount();
-  user.pp.x = user.pp.x.plus(refund);
-  if (user.pt.cells.includes("pt0-1")) {user.pt.cells = ["pt0-1"]}
-  else {user.pt.cells = []}
-  user.pt.refund = false;
-  user.pt.refundAmount = nd(0);
-  for (each in user.max) {user.max[each] = false}
-  unlockPT();
-  resizeCanvas("pt");
-  updateRefundPT();
+  user.pp.current = user.pp.current.plus(user.pp.pt.refundAmount);
+  if (user.pp.pt.cells.includes("pt0-1")) {user.pp.pt.cells = ["pt0-1"]}
+  else {user.pp.pt.cells = []}
+  user.pp.pt.refund = false;
+  user.pp.pt.refundAmount = nd(0);
+  for (name in user.automation) {user.automation[name].buyMax = false; updateMaxAutoState(name)}
+  for (name in user.scaling) {user.scaling[name].buyMax = false}
 }
-
-//Data
-const pts = {
-  "pt0-1": {type: "static", cost: 0},
-  "pt1-1": {type: "rowIncrease", effect: ["pt1-2", "pt1-3"], baseCost: 1, scaleCost: 2},
-  "pt1-2": {type: "rowIncrease", effect: ["pt1-1", "pt1-3"], baseCost: 1, scaleCost: 2},
-  "pt1-3": {type: "rowIncrease", effect: ["pt1-1", "pt1-2"], baseCost: 1, scaleCost: 2},
-  "pt2-1": {type: "rowIncrease", effect: ["pt2-2"], baseCost: 5, scaleCost: 2},
-  "pt2-2": {type: "rowIncrease", effect: ["pt2-1"], baseCost: 5, scaleCost: 2},
-  /*"pt2-1": {type: "pairedIncrease", effect: [["pt2-2", "pt2-4"], ["pt2-5"]], baseCost: 5, scaleCost: [5, 2]},
-  "pt2-2": {type: "pairedIncrease", effect: [["pt2-1", "pt2-5"], ["pt2-4"]], baseCost: 5, scaleCost: [5, 2]},*/
-  "pt2-3": {type: "static", cost: 50},
-  "pt2-4": {type: "rowIncrease", effect: ["pt2-5"], baseCost: 5, scaleCost: 2},
-  "pt2-5": {type: "rowIncrease", effect: ["pt2-4"], baseCost: 5, scaleCost: 2},
-  /*"pt2-4": {type: "pairedIncrease", effect: [["pt2-1", "pt2-5"], ["pt2-2"]], baseCost: 5, scaleCost: [5, 2]},
-  "pt2-5": {type: "pairedIncrease", effect: [["pt2-2", "pt2-4"], ["pt2-1"]], baseCost: 5, scaleCost: [5, 2]},*/
-  "pt3-1": {type: "static", cost: 0},
-  "pt3-2": {type: "static", cost: 0},
-  "pt3-3": {type: "static", cost: 0},
+function buyPT(id) {
+  if (!user.pp.challenge[4].in) {
+    let cost = getPTCost(id);
+    if (user.pp.current.gte(cost) && cost.lt(user.pp.infinite) && !user.pp.pt.cells.includes(id)) {
+      user.pp.current = user.pp.current.minus(cost);
+      user.pp.pt.cells.push(id);
+      user.pp.pt.refundAmount = user.pp.pt.refundAmount.plus(cost);
+    }
+  }
 }
 
 //Get Data
-function getPrestigeTreex(id) {
-  if (id == "pt1-1") {return user.pp.sac.plus(1).ln().divide(1.125).plus(1)}
-  if (id == "pt1-2") {return user.pp.sac.divide(11).plus(1).log10().times(100)}
+function getPTCap(id) {
+  if (id == "pt1-3") {return nd(2).plus(getPPChallengeReward(4))}
+}
+function getPTReward(id) {
+  let multi = nd(1);
+  if (user.pp.pt.cells.includes("pt3-3")) {multi = multi.times(1.25)}
+  if (id == "pt1-1") {return user.pp.sac.plus(1).ln().divide(1.125).plus(1).times(multi)}
+  if (id == "pt1-2") {return user.pp.sac.divide(11).plus(1).log10().times(100).times(multi)}
   if (id == "pt1-3") {
-    let x = user.pp.sac.plus(1.55).sqrt().log10().plus(1);
-    if (x.gte(2)) {x = nd(2)}
+    let x = user.pp.sac.plus(1.55).sqrt().log10().plus(1).times(multi);
+    let cap = getPTCap("pt1-3");
+    if (x.gt(cap)) {x = cap}
     return x;
   }
+  if (id == "pt2-1") {return nd(Math.sqrt(user.pp.pt.cells.length+1)).times(multi)}
+  if (id == "pt2-3") {return user.ip.sac.pow(0.1).plus(1).times(multi)}
+  if (id == "pt2-5") {return nd(5)}
+  if (id == "pt4-1") {return user.ip.sac.plus(1).log10().plus(1).log10().plus(1).times(multi)}
 }
-function getPrestigeTreeCost(id) {
-  let data = pts[id];
-  let userData = user.pt.cells;
-  /*if (data.type == "pairedIncrease") {
-    if (userData.includes(id)) {return nd(0)}
-    let cost = nd(data.baseCost);
-    for (let i = 0; i < data.effect.length; i++) {
-      let boughtI = false;
-      for (let j = 0; j < data.effect[i].length; j++) {
-        if (userData.includes(data.effect[i][j])) {boughtI = true}
-      }
-      if (boughtI) {
-        cost = nd(data.baseCost).times(data.scaleCost[i]);
-        break;
-      }
-    }
-    return cost;
-  }*/
+function getPTCost(id) {
+  let data = pt[id].cost;
+  if (data.type == "static") {return nd(data.cost)}
   if (data.type == "rowIncrease") {
-    if (userData.includes(id)) {return nd(0)}
+    if (user.pp.pt.cells.includes(id)) {return nd(0)}
     let effected = 0;
-    for (let i = 0; i < data.effect.length; i++) {if (userData.includes(data.effect[i])) {effected++}}
+    for (let i=0; i<data.effect.length; i++) {if (user.pp.pt.cells.includes(data.effect[i])) {effected++}}
     return nd(data.baseCost).times(nd(data.scaleCost).pow(effected)).floor();
   }
-  if (data.type == "static") {
-    return nd(data.cost);
-  }
-}
-function getRefundAmount() {
-  return user.pt.refundAmount;
-  
-  /*let refund = nd(0);
-  let userData = user.pt.cells;
-  let a = 0;
-  for (let i = 1; i <= 3; i++) {if (userData.includes("pt1-" + i)) {a++}}
-  refund = refund.plus(Math.pow(2, a) - 1);
-  if (userData.includes("pt2-1") || userData.includes("pt2-2")) {
-    if (userData.includes("pt2-1") && userData.includes("pt2-2")) {refund = refund.plus(15)}
-    else {refund = refund.plus(5)}
-  }
-  if (user.pt.cells.includes("pt2-3")) {refund = refund.plus(25)}
-  if (userData.includes("pt2-4") || userData.includes("pt2-5")) {
-    if (userData.includes("pt2-4") && userData.includes("pt2-5")) {refund = refund.plus(15)}
-    else {refund = refund.plus(5)}
-  }
-  return refund;*/
-}
-
-//Unlock Data
-function unlockPT() {
-  if (user.pt.cells.includes("pt0-1")) {s("pt1-1"); s("pt1-2"); s("pt1-3")} else {h("pt1-1"); h("pt1-2"); h("pt1-3")}
-  if (user.pt.cells.includes("pt1-1")) {s("pt2-1"); s("pt2-2")} else {h("pt2-1"); h("pt2-2")}
-  if (user.pt.cells.includes("pt1-2")) {s("pt2-3")} else {h("pt2-3")}
-  if (user.pt.cells.includes("pt1-3")) {s("pt2-4"); s("pt2-5")} else {h("pt2-4"); h("pt2-5")}
-  if (user.pt.cells.includes("pt2-2")) {/*("pt3-1"); */sc("maxAutoUnlocks")} else {/*h("pt3-1"); */hc("maxAutoUnlocks")}
-  /*if (user.pt.cells.includes("pt2-3")) {s("pt3-2")} else {h("pt3-2")}*/
-  if (user.pt.cells.includes("pt2-4")) {/*("pt3-3"); */sc("maxScalingUnlocks")} else {/*h("pt3-3"); */hc("maxScalingUnlocks")}
 }
 
 //Update Data
 function updatePrestigeTree() {
-  for (id in pts) {
-    if (d(id) != null && !ih(id)) {
-      /*if (user.pp.x.gte(getPrestigeTreeCost(id)) && !user.pt.cells.includes(id)) {rpc("cantBuy", "canBuy", id)}
-      else {rpc("canBuy", "cantBuy", id)}*/
-      
-      if (user.pt.cells.includes(id)) {rc("cantBuy", id); rc("canBuy", id); ac("ppComplete", id)}
-      else if (user.pp.x.lt(getPrestigeTreeCost(id))) {rc("ppComplete", id); rc("canBuy", id); ac("cantBuy", id)}
-      else {rc("ppComplete", id); rc("cantBuy", id); ac("canBuy", id)}
-      
-      if (d(id + "x") != null) {d(id + "x").textContent = e(getPrestigeTreex(id), 2, 2)}
-      if (d(id + "Cost") != null) {d(id + "Cost").textContent = e(getPrestigeTreeCost(id))}
+  for (let id in pt) {
+    if (di(id).style.display != "none") {
+      let cost = getPTCost(id);
+      if (user.pp.pt.cells.includes(id)) {removeClass("cantBuy", id); removeClass("canBuy", id); addClass("ppComplete", id)}
+      else if (user.pp.current.lt(cost) || cost.gte(user.pp.infinite)) {removeClass("canBuy", id); removeClass("ppComplete", id); addClass("cantBuy", id)}
+      else {removeClass("ppComplete", id); removeClass("cantBuy", id); addClass("canBuy", id)}
+      if (di(id+"x") != null) {di(id+"x").textContent = e("d", getPTReward(id), 2, 2)}
+      if (cost.gte(user.pp.infinite)) {cost = "Infinite"}
+      if (di(id+"Cost") != null) {di(id+"Cost").textContent = e("d", cost, 2, 0)}
     }
   }
-  
-  /*for (let i = 1; i <= 3; i += 2) {
-    for (let k = 1; k <= 3; k++) {
-      let id = "pt" + i + "-" + k;
-      if (user.pp.x.gte(getPrestigeTreeCost(id)) && !user.pt.cells.includes(id)) {rpc("cantBuy", "canBuy", id)}
-      else {rpc("canBuy", "cantBuy", id)}
-      if (d(id) != null && d(id).style.display != null) {
-        if (d(id + "x") != null) {d(id + "x").textContent = e(getPrestigeTreex(id), 2, 2)}
-        d(id + "Cost").textContent = e(getPrestigeTreeCost(id));
-      }
-    }
-  }*/
+  di("pt1-3Cap").textContent = e("d", getPTCap("pt1-3"), 2, 2);
 }
 function updateRefundPT() {
-  if (!user.pt.refund) {rpc("cantBuy", "canBuy", "refundPT")}
-  else {rpc("canBuy", "cantBuy", "refundPT")}
-}
-function updateRefundPTx() {
-  d("refundPTx").textContent = e(getRefundAmount());
+  if (!user.pp.pt.refund) {replaceClass("cantBuy", "canBuy", "refundPT")}
+  else {replaceClass("canBuy", "cantBuy", "refundPT")}
+  di("refundPTx").textContent = e("d", user.pp.pt.refundAmount, 2, 0);
 }

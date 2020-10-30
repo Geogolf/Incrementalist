@@ -51,11 +51,11 @@ N/A
 
   var MAX_SIGNIFICANT_DIGITS = 17; //Maximum number of digits of precision to assume in Number
 
-  var EXP_LIMIT = 9e15; //If we're ABOVE this value, increase a layer. (9e15 is close to the largest integer that can fit in a Number.)
+  var EXP_LIMIT = 1e9/*9e15*/; //If we're ABOVE this value, increase a layer. (9e15 is close to the largest integer that can fit in a Number.)
   
-  var LAYER_DOWN = Math.log10(9e15); //If we're BELOW this value, drop down a layer. About 15.954.
+  var LAYER_DOWN = Math.log10(1e9/*9e15*/); //If we're BELOW this value, drop down a layer. About 15.954.
   
-  var FIRST_NEG_LAYER = 1/9e15; //At layer 0, smaller non-zero numbers than this become layer 1 numbers with negative mag. After that the pattern continues as normal.
+  var FIRST_NEG_LAYER = 1/1e9/*9e15*/; //At layer 0, smaller non-zero numbers than this become layer 1 numbers with negative mag. After that the pattern continues as normal.
 
   var NUMBER_EXP_MAX = 308; //The largest exponent that can appear in a Number, though not all mantissas are valid here.
 
