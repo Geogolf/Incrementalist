@@ -3,29 +3,57 @@ di("prestige").addEventListener("click", () => {confirmPrestige()});
 
 //Buttons
 function confirmPrestige() {
-  if (user.options.confirmations.includes("Prestige")) {alertify.confirm("Are you sure you want to prestige?", () => {prestige()})}
-  else {prestige()}
+  if (user.options.confirmations.includes("Prestige")) {alertify.confirm("Are you sure you want to prestige?", () => {runPrestige(true, true)})}
+  else {runPrestige(true, true)}
 }
-function prestige() {
+function runPrestige(achCheck, warn) {
   if (user.ip.sac.gte(1e100)) {
-    resetFrom = "Prestige";
-    giveMoney("PP", getPPGain());
+    if (achCheck) {resetFrom = "Prestige"}
+    let gain = getPPGain();
+    giveMoney("PP", gain);
+    user.pp.lastGain = gain;
     user.pp.count++;
     if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
+    user.time.lastPrestige = user.time.thisPrestige;
     user.time.thisPrestige = 0;
     if (user.pp.pt.refund) {refundPT()}
-    /*resetPrestige();*/
+    reset = "Prestige";
+  }
+  else if (warn) {
+    setTimeout(() => {
+      alertify.confirm("You will not earn any PP. Do you want to continue?", () => {
+        if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
+        user.time.lastPrestige = user.time.thisPrestige;
+        user.time.thisPrestige = 0;
+        if (user.pp.pt.refund) {refundPT()}
+        reset = "Prestige";
+      });
+    }, 1);
+  }
+}
+function prestige() {
+  runPrestige(true, true);
+  
+  /*if (user.ip.sac.gte(1e100)) {
+    resetFrom = "Prestige";
+    let gain = getPPGain();
+    giveMoney("PP", gain);
+    user.pp.lastGain = gain;
+    user.pp.count++;
+    if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
+    user.time.lastPrestige = user.time.thisPrestige;
+    user.time.thisPrestige = 0;
+    if (user.pp.pt.refund) {refundPT()}
     reset = "Prestige";
   }
   else {
     setTimeout(() => {
       alertify.confirm("You will not earn any PP. Do you want to continue?", () => {
         if (user.pp.pt.refund) {refundPT()}
-        /*resetPrestige();*/
         reset = "Prestige";
       });
     }, 1);
-  }
+  }*/
 }
 
 //Get Data
@@ -33,6 +61,7 @@ function getPPGainMulti() {
   let multi = nd(1);
   if (user.achievements.includes("ach3-2")) {multi = multi.times(getAchievementReward("ach3-2"))}
   if (user.achievements.includes("ach3-3")) {multi = multi.times(getAchievementReward("ach3-3"))}
+  /*if (user.pp.pt.cells.includes("pt5-4")) {multi = multi.times(getPTReward("pt5-4"))}*/
   return multi;
 }
 function getPPGain() {
@@ -47,14 +76,23 @@ function getPPNext() {
   if (next.lt(1e100)) {next = nd(1e100)}
   return next;
 }
-function getPPBoost() {return nd(user.pp.current.plus(1).log10().plus(1))}
+function getPPBoost() {
+  let exp = nd(1);
+  /*if (user.pp.pt.cells.includes("pt5-1")) {exp = exp.times(getPTReward("pt5-1"))}*/
+  return nd(user.pp.current.plus(1).log10().plus(1)).pow(exp);
+}
 
 //Update Data
 function updatePrestige() {
-  di("ppGain").textContent = e("d", getPPGain(), 2, 0);
-  let dif = getPPNext().minus(user.ip.sac);
-  if (dif.gt(0)) {di("ppNext").textContent = e("d", dif, 2, 0)}
-  else {di("ppNext").textContent = e("d", nd(0), 2, 0)}
+  let gain = getPPGain();
+  di("ppGain").textContent = e("d", gain, 2, 0);
+  if (gain.gte(100)) {hideId("ppNextText")}
+  else {
+    showId("ppNextText");
+    let dif = getPPNext().minus(user.ip.sac);
+    if (dif.gt(0)) {di("ppNext").textContent = e("d", dif, 2, 0)}
+    else {di("ppNext").textContent = e("d", nd(0), 2, 0)}
+  }
   di("ppBoost").textContent = e("d", getPPBoost(), 2, 2);
 }
 

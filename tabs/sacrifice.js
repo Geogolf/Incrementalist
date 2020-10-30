@@ -1,18 +1,20 @@
 //Data
 const sacrifice = {
-  "IP": {
-    costs: ["1e7", "1e12", "9e17", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832"],
-    unlocks: ["Variable M, P Multiplier", "Nothing", "M Multiplier", "Nothing", "Variable E", "Nothing", "E Multiplier", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing"],
+  IP: {
+    costs: ["1e7", "1e12", "9e17", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832"/*, "1e2050"*/],
+    unlocks: ["Variable M, P Multiplier", "Nothing", "M Multiplier", "Nothing", "Variable E", "Nothing", "E Multiplier", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing"/*, "Nothing"*/],
     boosts: {
-      "P": {dec: 0},
-      "M": {dec: 0},
-      "E": {dec: 2}
+      P: {dec: 0},
+      M: {dec: 0},
+      E: {dec: 2}
     }
   },
-  "PP": {
-    costs: ["1e281"],
-    unlocks: ["Variable T"],
-    boosts: {}
+  PP: {
+    costs: ["1e281"/*, "1e1775"*/],
+    unlocks: ["Variable T"/*, "Prestige Power"*/],
+    boosts: {
+      C2: {dec: 2}
+    }
   }
 }
 for (let layer in sacrifice) {
@@ -69,9 +71,18 @@ function getSacrificeBoost(layer, boost) {
       let multi = nd(1);
       let strength = nd(1);
       if (user.achievements.includes("ach2-4")) {multi = multi.times(getAchievementReward("ach2-4").divide(100).plus(1))}
+      if (user.pp.pt.cells.includes("pt1-2") && user.pp.pt.cells.includes("pt5-3")) {multi = multi.times(getPTReward("pt5-3").divide(100).plus(1))}
       if (user.pp.challenge[2].in) {strength = strength.divide(5)}
       if (user.sacrifice.IP > 6) {return nd((Math.max(6, user.sacrifice.IP*strength)-6)/4.2+1).log10().times(multi).plus(1)}
       else {return nd(1)}
+    }
+    if (boost == "T") {
+      return nd(1);
+    }
+  }
+  if (layer == "PP") {
+    if (boost == "C2") {
+      return nd(1.1).pow(user.sacrifice.PP);
     }
   }
 }

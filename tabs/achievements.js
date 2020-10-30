@@ -3,7 +3,7 @@ const achievements = {
   "ach1-1": {title: "Simple enough", desc: "Buy your first P variable", hasReward: false},
   "ach1-2": {title: "Automation", desc: "Begin automation", hasReward: false},
   "ach1-3": {title: "Was it worth it?", desc: "Sacrifice for the first time", hasReward: false},
-  "ach1-4": {title: "New variables", desc: "Buy your first M variable", hasReward: false},
+  "ach1-4": {title: "Multiplication", desc: "Buy your first M variable", hasReward: false},
   "ach1-5": {title: "I think it was worth it", desc: "Sacrifice two times", hasReward: true},
   "ach1-6": {title: "Click a few times", desc: "Click the equation 2,500 times", hasReward: true},
   "ach2-1": {title: "It's not better", desc: "Get more P than P1 after 1,000", hasReward: true},
@@ -17,7 +17,17 @@ const achievements = {
   "ach3-3": {title: "Haha it's harder now", desc: "Complete prestige challenge 1 for the first time", hasReward: true},
   "ach3-4": {title: "Stonks", desc: "Buy prestige upgrade 2-3", hasReward: false},
   "ach3-5": {title: "Full automation", desc: "Fully automate prestiges", hasReward: false},
+  /*"ach3-6": {title: "Sacrifice your PP", desc: "Sacrifice PP for the first time", hasReward: false},*/
   "ach3-6": {title: "[WIP]", desc: "[WIP]", hasReward: false},
+  /*"ach4-1": {title: "Tetration", desc: "Buy your first T variable", hasReward: false},
+  "ach4-2": {title: "The answer", desc: "42"},
+  "ach4-3": {title: "Stonks 2.0", desc: "Buy prestige upgrade 5-1", hasReward: false},*/
+  "ach4-1": {title: "[WIP]", desc: "[WIP]", hasReward: false},
+  "ach4-2": {title: "[WIP]", desc: "[WIP]", hasReward: false},
+  "ach4-3": {title: "[WIP]", desc: "[WIP]", hasReward: false},
+  "ach4-4": {title: "[WIP]", desc: "[WIP]", hasReward: false},
+  "ach4-5": {title: "[WIP]", desc: "[WIP]", hasReward: false},
+  "ach4-6": {title: "[WIP]", desc: "[WIP]", hasReward: false},
 }
 for (let id in achievements) {
   let data = achievements[id];
@@ -26,10 +36,11 @@ for (let id in achievements) {
 }
 const eggs = {
   "egg1-1": {title: "That was quite a mistake", desc: "Remind Geo of his big mistake"},
-  "egg1-2": {title: "EEEE", desc: "Only EEEE"},
+  "egg1-2": {title: "EEEE", desc: "Only EEEE"}, //Removed cause of a bug
   "egg1-3": {title: "I know \"enough\" code", desc: "Find Geo's coding weakness"}, //
   "egg1-4": {title: "Congrats?", desc: "There is literally nothing you have to do"},
-  "egg1-5": {title: "Yep, it's there", desc: "Perform a pixel perfect click"}
+  "egg1-5": {title: "Yep, it's there", desc: "Perform a pixel perfect click"},
+  "egg1-6": {title: "Free money", desc: "Try to give yourself money"}
 }
 for (let id in eggs) {
   hideId(id);
@@ -50,6 +61,7 @@ function giveEgg(id, notify) {
     if (notify) {alertify.warning(eggs[id].title)}
     showId(id);
   }
+  showId(id);
   if (user.eggs.length != 1) {showId("eggS")}
   else {hideId("eggS")}
 }
@@ -60,9 +72,9 @@ function getAchievementBoost() {
 }
 function getAchievementReward(id) {
   let multi = nd(1);
-  if (user.pp.pt.cells.includes("pt3-2")) {multi = multi.times(1.1)}
+  if (user.pp.pt.cells.includes("pt3-2")) {multi = multi.times(getPTReward("pt3-2").divide(100).plus(1))}
   if (id == "ach1-5") {return nd(2).times(multi)}
-  if (id == "ach1-6") {return nd(2.5).pow(nd(user.ip.equationClicks*2).pow(1.35).plus(1).log10()).times(multi)}
+  if (id == "ach1-6") {return nd(2.5).pow(user.ip.equationClicks.times(2).pow(1.35).plus(1).log10()).times(multi)}
   if (id == "ach2-1") {return nd(5).times(multi)}
   if (id == "ach2-3") {return nd(10).times(multi)}
   if (id == "ach2-4") {
