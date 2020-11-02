@@ -358,6 +358,7 @@ function runGameTime(active, time) {
     for (let i=0; i<pt[id].from.length; i++) {if (!user.pp.pt.cells.includes(pt[id].from[i]) || user.sacrifice.PP < pt[id].sac) {show = false}}
     if (show) {showId(id)} else {hideId(id)}
   }
+  if (user.pp.pt.cells.includes("pt5-2")) {hideId("pt1-1Tooltip"); hideId("pt2-1Tooltip")} else {showId("pt1-1Tooltip"); showId("pt2-1Tooltip")}
   
   //General
   if (user.ip.sac.gte(layers.IP.goals[18]) && user.sacrifice.IP >= layers.IP.goalsSac[18] || user.pp.count > 0 || user.pp.total.gt(0)) {showId("ppInfo")} else {hideId("ppInfo")}
