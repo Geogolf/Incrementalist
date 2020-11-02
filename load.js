@@ -1,24 +1,24 @@
 //Fix Data
 function fixnd(obj) {
-  obj.ip.current = nd(obj.ip.current);
-  obj.ip.sac = nd(obj.ip.sac);
-  obj.ip.total = nd(obj.ip.total);
-  obj.ip.highest = nd(obj.ip.highest);
-  obj.ip.infinite = nd(obj.ip.infinite);
-  obj.pp.current = nd(obj.pp.current);
-  obj.pp.sac = nd(obj.pp.sac);
-  obj.pp.total = nd(obj.pp.total);
-  obj.pp.highest = nd(obj.pp.highest);
-  obj.pp.infinite = nd(obj.pp.infinite);
-  obj.pp.pt.refundAmount = nd(obj.pp.pt.refundAmount);
-  obj.automation.Prestige.at = nd(obj.automation.Prestige.at);
+  if (typeof obj.ip.current != "undefined") {obj.ip.current = nd(obj.ip.current)}
+  if (typeof obj.ip.sac != "undefined") {obj.ip.sac = nd(obj.ip.sac)}
+  if (typeof obj.ip.total != "undefined") {obj.ip.total = nd(obj.ip.total)}
+  if (typeof obj.ip.highest != "undefined") {obj.ip.highest = nd(obj.ip.highest)}
+  if (typeof obj.ip.infinite != "undefined") {obj.ip.infinite = nd(obj.ip.infinite)}
+  if (typeof obj.ip.equationClicks != "undefined") {obj.ip.equationClicks = nd(obj.ip.equationClicks)}
+  if (typeof obj.pp.current != "undefined") {obj.pp.current = nd(obj.pp.current)}
+  if (typeof obj.pp.sac != "undefined") {obj.pp.sac = nd(obj.pp.sac)}
+  if (typeof obj.pp.total != "undefined") {obj.pp.total = nd(obj.pp.total)}
+  if (typeof obj.pp.highest != "undefined") {obj.pp.highest = nd(obj.pp.highest)}
+  if (typeof obj.pp.infinite != "undefined") {obj.pp.infinite = nd(obj.pp.infinite)}
+  if (typeof obj.pp.pt.refundAmount != "undefined") {obj.pp.pt.refundAmount = nd(obj.pp.pt.refundAmount)}
+  if (typeof obj.automation.Prestige.at != "undefined") {obj.automation.Prestige.at = nd(obj.automation.Prestige.at)}
+  if (typeof obj.pp.lastGain != "undefined") {obj.pp.lastGain = nd(obj.pp.lastGain)}
 }
 
 //Load
 function loadGame() {
-  setBrokenUser = false;
   let data = JSON.parse(localStorage.getItem("user"));
-  brokenUser = data;
   if (data != null) {loadData(data)}
   else {loadData(setUser())}
   di("loadingScreen").style.opacity = 0;
@@ -214,6 +214,27 @@ function loadData(data) {
     delete user.pp.bestTime;
     user.version = "0.4.0";
   }
+  if (user.version == "0.4.0") {
+    user.options.uiRate = 20;
+    user.automation.IncrementT = {buyMax: false, bought: 0, enabled: [false, false, false, false, false]}
+    user.ip.increment.T = {}
+    user.ip.increment.T.bought = [0, 0, 0, 0, 0];
+    user.pp.lastGain = 0;
+    if (user.pp.pt.cells.includes("pt3-1") || user.pp.pt.cells.includes("pt3-4")) {
+      if (user.pp.pt.cells.includes("pt3-1") && user.pp.pt.cells.includes("pt3-4")) {
+        user.pp.current = Number(user.pp.current)+150;
+        user.pp.pt.refundAmount = Number(user.pp.pt.refundAmount)-150;
+      }
+      else {
+        user.pp.current = Number(user.pp.current)+100;
+        user.pp.pt.refundAmount = Number(user.pp.pt.refundAmount)-100;
+      }
+    }
+    user.pp.challenge.push({in: false, count: 0});
+    user.time.bestPrestige = 31536000000;
+    user.version = "0.4.1";
+  }
+  for (let i=0; i<user.eggs.length; i++) {showId(user.eggs[i])}
   fixnd(user);
   showTab(user.tab.main);
   updateOptions();
@@ -221,6 +242,7 @@ function loadData(data) {
   setPrestigeAt(user.automation.Prestige.at);
   console.log("Offline for "+showTime(nd(Date.now()-user.time.lastUpdate)));
   simulateTime(Date.now()-user.time.lastUpdate);
+  /*setUIRate();*/
   save();
   if (user.version == versionStart) {alertify.message("Loaded Version " + user.version)}
   else {alertify.message("Loaded Version " + versionStart + " > " + user.version)}

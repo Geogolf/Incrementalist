@@ -35,6 +35,13 @@ const automation = {
     ],
     array: true
   },
+  "IncrementT": {
+    currency: "ip",
+    scaling: [
+      {type: "t", scaleAt: 0, newCost: "1e1550", effect: 2}
+    ],
+    array: true
+  },
   "SacrificeIP": {
     currency: "pp",
     scaling: [
@@ -110,8 +117,8 @@ function setPrestigeAt(at) {
 function getAutomationRate(name) {
   let multi = nd(1);
   if (user.achievements.includes("ach1-5")) {multi = multi.times(getAchievementReward("ach1-5"))}
-  if (user.pp.pt.cells.includes("pt1-1")) {multi = multi.times(getPTReward("pt1-1"))}
-  if (user.pp.pt.cells.includes("pt2-1")) {multi = multi.times(getPTReward("pt2-1"))}
+  if (user.pp.pt.cells.includes("pt1-1") && automation[name].currency == "ip") {multi = multi.times(getPTReward("pt1-1"))}
+  if (user.pp.pt.cells.includes("pt2-1") && automation[name].currency == "ip") {multi = multi.times(getPTReward("pt2-1"))}
   if (user.pp.challenge[1].in) {multi = multi.divide(Math.pow(user.achievements.length, 1.5))}
   
   if (name == "IP") {
@@ -121,8 +128,9 @@ function getAutomationRate(name) {
   if (name == "IncrementP") {multi = multi.times(10)}
   if (name == "IncrementM") {multi = multi.times(10)}
   if (name == "IncrementE") {multi = multi.times(10)}
-  if (name == "SacrificeIP") {multi = multi.divide(25)}
-  if (name == "Prestige") {multi = multi.divide(50)}
+  if (name == "IncrementT") {multi = multi.times(10)}
+  if (name == "SacrificeIP") {multi = multi.divide(2/*25*/)}
+  if (name == "Prestige") {multi = multi.divide(2/*50*/)}
   return nd(user.automation[name].bought).times(multi);
 }
 function getAutomationCost(name) {
@@ -132,6 +140,7 @@ function getAutomationCost(name) {
   let userData = user.automation[name];
   if (data.type == "m") {return nd(data.newCost).times(Math.pow(data.effect, userData.bought-data.scaleAt)).round()}
   if (data.type == "e") {return nd(data.newCost).pow(Math.pow(data.effect, userData.bought-data.scaleAt))}
+  if (data.type == "t") {return nd(data.newCost).tetrate(nd(data.effect).pow(userData.bought-data.scaleAt))}
 }
 
 //Update Data

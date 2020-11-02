@@ -4,19 +4,29 @@ const increment = {
     highestNum: -1,
     result: nd(0),
     baseCost: 1,
+    auto: true,
     dec: 0
   },
   "M": {
     highestNum: -1,
     result: nd(0),
     baseCost: 1e7,
+    auto: true,
     dec: 0
   },
   "E": {
     highestNum: -1,
     result: nd(0),
     baseCost: 1e30,
+    auto: true,
     dec: 2
+  },
+  "T": {
+    highestNum: -1,
+    result: nd(0),
+    baseCost: "1e800",
+    auto: false,
+    dec: 4
   }
 }
 for (let name in increment) {
@@ -29,13 +39,13 @@ di("equationIPb").addEventListener("click", () => {clickEquation()});
 //Buttons
 function clickEquation() {
   giveMoney("IP", getEquationIPResult().times(getClickMulti()));
-  user.ip.equationClicks++;
+  user.ip.equationClicks = user.ip.equationClicks.plus(1);
 }
 function buyIncrement(name, num) {
   let cost = getIncrementCost(name, num);
   if (user.ip.current.gte(cost) && cost.lt(user.ip.infinite)) {
     user.ip.current = user.ip.current.minus(cost);
-    if (name == "E" && num == 4) {
+    /*if (name == "E" && num == 4) {
       let condition = false;
       for (name in increment) {
         for (let i=0; i<5; i++) {
@@ -43,7 +53,7 @@ function buyIncrement(name, num) {
         }
       }
       if (!condition) {giveEgg("egg1-2", true)}
-    }
+    }*/
     user.ip.increment[name].bought[num]++;
     if (user.pp.challenge[2].in) {
       for (let i=0; i<num; i++) {
@@ -69,6 +79,7 @@ function setIncrementHighestNum(name) {
 }
 function setIncrementResult(name) {
   setIncrementHighestNum(name);
+  if (name == "T") {increment.T.result = nd(1)}
   if (name == "P") {
     let result = getIncrementx(name, increment[name].highestNum);
     for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).plus(getIncrementx(name, i))}
@@ -88,6 +99,13 @@ function setIncrementResult(name) {
     if (isNaN(result)) {result = nd(1)}
     increment[name].result = result;
   }
+  if (name == "T") {
+    let result = getIncrementx(name, increment[name].highestNum);
+    for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).plus(getIncrementx(name, i))}
+    result = result.plus(1);
+    if (isNaN(result)) {result = nd(1)}
+    increment[name].result = result;
+  }
 }
 
 //Get Data
@@ -96,21 +114,26 @@ function getIPMulti() {
   if (user.pp.pt.cells.includes("pt2-3")) {multi = multi.times(getPTReward("pt2-3"))}
   return getAchievementBoost().times(getPPBoost()).times(multi);
 }
+function getIPExponent() {
+  return getSacrificeBoost("PP", "C2");
+}
 function getClickMulti() {
   let multi = nd(1);
   if (user.achievements.includes("ach1-6")) {multi = multi.times(getAchievementReward("ach1-6"))}
   return multi;
 }
 function getEquationIPResult() {
-  return getIPMulti().times(increment.P.result.times(increment.M.result).pow(increment.E.result));
+  return getIPMulti().times(increment.P.result.times(increment.M.result).pow(increment.E.result).tetrate(increment.T.result).pow(getIPExponent()));
 }
 function getIncrementx(name, num) {
   if (name == "P") {return nd(num+1).pow(nd(num)).times(user.ip.increment[name].bought[num])}
   if (name == "M") {return nd(Math.pow(3, num)).times(user.ip.increment[name].bought[num]).plus(1)}
   if (name == "E") {return nd(user.ip.increment[name].bought[num]+1).log10().divide(3.5/(Math.sqrt(num+1)))}
+  if (name == "T") {return nd(user.ip.increment[name].bought[num]+1).pow(nd(0.0001443+num/30000)).minus(1)}
 }
 function getIncrementCost(name, num) {
-  return nd(increment[name].baseCost).times(getIncrementRatio(name, num).pow(user.ip.increment[name].bought[num])).floor();
+  if (name == "T") {return nd(increment[name].baseCost).pow(nd(num+2).pow(user.ip.increment[name].bought[num])).floor()}
+  else {return nd(increment[name].baseCost).times(getIncrementRatio(name, num).pow(user.ip.increment[name].bought[num])).floor()}
 }
 function getIncrementRatio(name, num) {
   if (name == "P") {
@@ -148,6 +171,7 @@ function updateIncrements() {
 }
 function updateEquationIP() {
   di("equationCx").textContent = e("d", getIPMulti(), 2, 2);
+  di("equationC2x").textContent = e("d", getIPExponent(), 2, 2);
   for (let name in increment) {
     di("equation"+name+"x").textContent = e("d", increment[name].result, 2, increment[name].dec);
   }
@@ -165,9 +189,7 @@ function updateIncrement(name, num) {
     if (user.ip.current.lt(cost) || cost.gte(user.ip.infinite)) {replaceClass("canBuy", "cantBuy", "increment"+name+num+"b")}
     else {replaceClass("cantBuy", "canBuy", "increment"+name+num+"b")}
     if (cost.gte(user.ip.infinite) && showInfinite) {cost = "Infinite"}
-    let dec = 0;
-    if (name == "E") {dec = 2}
-    di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), 2, dec);
+    di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), 2, increment[name].dec);
     di("increment"+name+num+"Cost").textContent = e("d", cost, 2, 0);
   }
 }

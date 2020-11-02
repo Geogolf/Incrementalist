@@ -1,9 +1,10 @@
 const ppChallenge = [
   "null",
-  {goals: [nd("1e153"), nd("1e250"), nd("4.27e427")], maxCompletions: 3},
-  {goals: [nd("1e42"), nd("1e73")], maxCompletions: 2},
-  {goals: [nd("1e93")], maxCompletions: 1},
-  {goals: [nd("1e105")], maxCompletions: 1}
+  {goals: [nd("1e153"), nd("1e250"), nd("4.27e427"), nd("1e799")], maxCompletions:4},
+  {goals: [nd("1e42"), nd("1e73"), nd("1e181")], maxCompletions: 3},
+  {goals: [nd("1e93"), nd("3.27e327")], maxCompletions: 2},
+  {goals: [nd("1e105"), nd("2.06e206")], maxCompletions: 2},
+  /*{goals: [nd("1e10000")], maxCompletions: 1}*/
 ];
 for (let i=1; i<ppChallenge.length; i++){
   di("ppChallenge"+i).addEventListener("click", () => {confirmEnterPPChallenge(i)});
@@ -40,12 +41,14 @@ function exitPPChallenge(c) {
 
 //Get Data
 function getPPChallengeReward(c) {
-  if (c == 1) {return nd(user.ip.equationClicks).plus(Math.E).ln().pow(Math.pow(user.pp.challenge[1].count, 2))}
-  /*if (c == 1) {return nd(user.ip.equationClicks).times(Math.pow(user.pp.challenge[c].count, 50)).plus(10).log10().pow(Math.pow(user.pp.challenge[c].count, 2))}*/
-  /*if (c == 1) {return nd(user.pp.challenge[c].count+1).pow(10).times(nd(user.pp.challenge[c].count+10).log10().pow(nd(Math.pow(user.ip.equationClicks, 2)+1).log10()))}*/
-  if (c == 2) {return user.ip.sac.plus(1).pow(0.2*user.pp.challenge[c].count)}
-  if (c == 3) {return user.ip.highest.plus(1).log10().pow(2).plus(1).log10().times(user.pp.challenge[c].count).plus(1)}
-  if (c == 4) {return nd(0.5).times(user.pp.challenge[c].count)}
+  let exp = nd(1);
+  if (user.pp.pt.cells.includes("pt5-5")) {exp = exp.times(2)}
+  if (c == 1) {return user.ip.equationClicks.plus(Math.E).ln().pow(Math.pow(user.pp.challenge[1].count, 2)).pow(exp)}
+  /*if (c == 1) {return user.ip.equationClicks.times(Math.pow(user.pp.challenge[c].count, 50)).plus(10).log10().pow(Math.pow(user.pp.challenge[c].count, 2))}*/
+  /*if (c == 1) {return nd(user.pp.challenge[c].count+1).pow(10).times(nd(user.pp.challenge[c].count+10).log10().pow(user.ip.equationClicks.pow(2).plus(1).log10()))}*/
+  if (c == 2) {return user.ip.sac.plus(1).pow(0.2*user.pp.challenge[c].count).pow(exp)}
+  if (c == 3) {return user.ip.highest.plus(1).log10().pow(2).plus(1).log10().times(user.pp.challenge[c].count).plus(1).pow(exp)}
+  if (c == 4) {return nd(0.5).times(user.pp.challenge[c].count).pow(exp)}
 }
 
 //Update Data

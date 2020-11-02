@@ -9,11 +9,16 @@ const pt = {
   "pt2-3": {from: ["pt1-2"], cost: {type: "static", cost: 50}},
   "pt2-4": {from: ["pt1-3"], cost: {type: "rowIncrease", effect: ["pt2-5"], baseCost: 7, scaleCost: 1.6}},
   "pt2-5": {from: ["pt1-3"], cost: {type: "rowIncrease", effect: ["pt2-4"], baseCost: 7, scaleCost: 1.6}},
-  "pt3-1": {from: ["pt2-1", "pt2-2"], cost: {type: "rowIncrease", effect: ["pt3-4"], baseCost: 250, scaleCost: 2}},
+  "pt3-1": {from: ["pt2-1", "pt2-2"], cost: {type: "rowIncrease", effect: ["pt3-4"], baseCost: 150, scaleCost: 3}},
   "pt3-2": {from: ["pt2-3"], cost: {type: "static", cost: 500}},
   "pt3-3": {from: ["pt2-3"], cost: {type: "static", cost: 500}},
-  "pt3-4": {from: ["pt2-4", "pt2-5"], cost: {type: "rowIncrease", effect: ["pt3-1"], baseCost: 250, scaleCost: 2}},
-  "pt4-1": {from: ["pt3-1", "pt3-2", "pt3-3", "pt3-4"], cost: {type: "static", cost: 50000}}
+  "pt3-4": {from: ["pt2-4", "pt2-5"], cost: {type: "rowIncrease", effect: ["pt3-1"], baseCost: 150, scaleCost: 3}},
+  "pt4-1": {from: ["pt3-1", "pt3-2", "pt3-3", "pt3-4"], cost: {type: "static", cost: 50000}},
+  /*"pt5-1": {from: ["pt5-2"], cost: {type: "rowIncrease", effect: ["pt5-4"], baseCost: 550000, scaleCost: 10}},
+  "pt5-2": {from: ["pt4-1"], cost: {type: "static", cost: 50000}},
+  "pt5-3": {from: ["pt4-1"], cost: {type: "static", cost: 150000}},
+  "pt5-4": {from: ["pt4-1"], cost: {type: "rowIncrease", effect: ["pt5-1"], baseCost: 600000, scaleCost: 10}},
+  "pt5-5": {from: ["pt5-4"], cost: {type: "static", cost: 1e10}}*/
 }
 for (let id in pt) {
   di(id).addEventListener("click", () => {buyPT(id)});
@@ -62,7 +67,15 @@ function getPTReward(id) {
   if (id == "pt2-1") {return nd(Math.sqrt(user.pp.pt.cells.length+1)).times(multi)}
   if (id == "pt2-3") {return user.ip.sac.pow(0.1).plus(1).times(multi)}
   if (id == "pt2-5") {return nd(5)}
+  if (id == "pt3-2") {return nd(10).times(multi)}
   if (id == "pt4-1") {return user.ip.sac.plus(1).log10().plus(1).log10().plus(1).times(multi)}
+  /*if (id == "pt5-1") {return user.ip.sac.plus(1).log10().divide(8).plus(1)}
+  if (id == "pt5-3") {return user.pp.sac.divide(11).plus(1).log10().times(100).ln().times(multi)}
+  if (id == "pt5-4") {
+    let bought = 0;
+    for (let name in scaling) {bought += user.scaling[name].bought}
+    return nd(Math.sqrt(bought)).plus(1);
+  }*/
 }
 function getPTCost(id) {
   let data = pt[id].cost;

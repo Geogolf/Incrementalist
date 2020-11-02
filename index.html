@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+MIT License
+Copyright (c) 2020 Geogolf 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
 <html lang="en">
   <head>
     <title>Incrementalist</title>
@@ -46,6 +53,7 @@
     <div id="loadingScreen"><img id="loading" src="images/loading.png"></div>
     <div class="ch2" id="offlineBox" style="display: none">
       <span>You were away for </span><span class="goldText" id="offlineTime">Error</span><br>
+      <span id="offlineLoading">Loading... Can take up to a minute</span><br>
       <span id="offlineIP" style="width: 100%">You gained <span class="ba purpleText" id="offlineIPx">Error</span> Increment Points</span><br>
       <span id="offlinePP" style="width: 100%">You gained <span class="ba blueText" id="offlinePPx">Error</span> Prestige Points</span><br>
       <span id="offlinePPCount" style="width: 100%">You prestiged <span class="ba blueText" id="offlinePPCountx">Error</span> times</span>
@@ -112,12 +120,18 @@
             </div>
           </div>
           <div style="height: 44px; width: 100%; display: table; table-layout: fixed">
+            <!--<div class="option" id="UIRate">
+              <div class="cv ch2" style="width: 100%">
+                <span>UI Update Rate</span><br>
+                <input type="range" min="1" max="60" value="20" id="UIRateInput" style="width: 75%; outline: none; cursor: pointer"><br>
+                <span class="ba" id="UIRatex">Error</span><span>/sec</span>
+              </div>
+            </div>-->
             <div class="option dropdown">
               <span class="cv ch2" style="width: 100%">Notations</span>
               <div class="dropdown-content ch ch2">
                 <div class="dropdown-item" id="notationScientific"><span>Scientific</span></div>
                 <div class="dropdown-item" id="notationLogarithm"><span>Logarithm</span></div>
-                <!--<div class="dropdown-item" id="notationInfinity"><span>Infinity</span></div>-->
                 <div class="dropdown-item" id="notationBlind"><span>Blind</span></div>
               </div>
             </div>
@@ -191,6 +205,14 @@
                 <div class="ch2 achievement tooltip-element" id="ach3-5"><span class="achDisplayId">3-5</span><span class="top" id="ach3-5Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach3-5Description" style="width: 200px; margin-left: -105px">Error</span></div>
                 <div class="ch2 achievement tooltip-element" id="ach3-6"><span class="achDisplayId">3-6</span><span class="top" id="ach3-6Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach3-6Description" style="width: 200px; margin-left: -105px">Error</span></div>
               </div>
+              <div class="tableRow">
+                <div class="ch2 achievement tooltip-element" id="ach4-1"><span class="achDisplayId">4-1</span><span class="top" id="ach4-1Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-1Description" style="width: 200px; margin-left: -105px">Error</span></div>
+                <div class="ch2 achievement tooltip-element" id="ach4-2"><span class="achDisplayId">4-2</span><span class="top" id="ach4-2Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-2Description" style="width: 200px; margin-left: -105px">Error</span></div>
+                <div class="ch2 achievement tooltip-element" id="ach4-3"><span class="achDisplayId">4-3</span><span class="top" id="ach4-3Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-3Description" style="width: 200px; margin-left: -105px">Error</span></div>
+                <div class="ch2 achievement tooltip-element" id="ach4-4"><span class="achDisplayId">4-4</span><span class="top" id="ach4-4Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-4Description" style="width: 200px; margin-left: -105px">Error</span></div>
+                <div class="ch2 achievement tooltip-element" id="ach4-5"><span class="achDisplayId">4-5</span><span class="top" id="ach4-5Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-5Description" style="width: 200px; margin-left: -105px">Error</span></div>
+                <div class="ch2 achievement tooltip-element" id="ach4-6"><span class="achDisplayId">4-6</span><span class="top" id="ach4-6Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-6Description" style="width: 200px; margin-left: -105px">Error</span></div>
+              </div>
             </div>
           </div>
           <div id="subTabAchievementsEggs">
@@ -205,6 +227,7 @@
                 <div class="ch2 egg tooltip-element" id="egg1-3"><span class="top" id="egg1-3Title">Error</span><span class="tooltip-content" id="egg1-3Description" style="width: 200px; margin-left: -105px">Error</span></div>
                 <div class="ch2 egg tooltip-element" id="egg1-4"><span class="top" id="egg1-4Title">Error</span><span class="tooltip-content" id="egg1-4Description" style="width: 200px; margin-left: -105px">Error</span></div>
                 <div class="ch2 egg tooltip-element" id="egg1-5"><span class="top" id="egg1-5Title">Error</span><span class="tooltip-content" id="egg1-5Description" style="width: 200px; margin-left: -105px">Error</span></div>
+                <div class="ch2 egg tooltip-element" id="egg1-6"><span class="top" id="egg1-6Title">Error</span><span class="tooltip-content" id="egg1-6Description" style="width: 200px; margin-left: -105px">Error</span></div>
               </div>
             </div>
           </div>
@@ -255,6 +278,13 @@
               <span class="cv" style="right: 2px">Cost: <span class="ba purpleText" id="autoIncrementECost">Error</span> IP</span>
             </div>
           </div>
+          <div id="autoIncrementT" style="height: 34px; width: 100%">
+            <div class="toggleState maxAutoUnlocks" id="maxAutoIncrementTState" style="float: left; position: relative"><span class="cvh blueText" style="font-size: 11px; font-weight: bold">MAX</span></div>
+            <div class="incrementb" id="autoIncrementTb" style="height: 30px; overflow: hidden; position: relative">
+              <span class="cv" style="left: 2px">Automate T Gain (<span class="ba purpleText" id="autoIncrementTRate">Error</span><span class="purpleText">x</span>/sec)</span>
+              <span class="cv" style="right: 2px">Cost: <span class="ba purpleText" id="autoIncrementTCost">Error</span> IP</span>
+            </div>
+          </div>
           <div id="autoSacrificeIP" style="height: 34px; width: 100%">
             <div class="toggleState maxAutoUnlocks" id="maxAutoSacrificeIPState" style="float: left; position: relative"><span class="cvh blueText" style="font-size: 11px; font-weight: bold">MAX</span></div>
             <div class="prestigeb" id="autoSacrificeIPb" style="height: 30px; overflow: hidden; position: relative">
@@ -284,7 +314,7 @@
             <div class="toggleState" id="autoSacrificePPState" style="float: left; height: 90px"></div>
             <div class="ch2 prestigeb" id="sacrificePPb" style="height: 90px; overflow: hidden">
               <span>Sacrifice all your IP and PP content for a boost</span><br>
-              <span></span><br>
+              <span id="sacrificePPC2Unlock">Boosts: IP&rArr;<span class="purpleText">^</span><span class="ba purpleText" id="sacrificePPC2">Error</span></span><br>
               <span>Unlock: <span class="blueText" id="sacrificePPUnlock">Error</span></span><br>
               <span>Need: <span class="ba blueText" id="sacrificePPCost">Error</span> PP</span>
             </div>
@@ -317,10 +347,10 @@
           <div id="equationIP" style="position: relative; height: 50px; width: 100%">
             <div class="toggleState" id="autoIPState" style="width: 46px; height: 46px; float: left"></div>
             <div class="grayBorder2" id="equationIPb" style="height: 46px; overflow: hidden; position: relative; cursor: pointer">
-              <span class="cv" style="position: absolute; left: 2px">IP = IP+<span class="equationCUnlocks">C</span><span class="equationCUnlocks">(</span>P<span class="incrementM0Unlocks">xM</span><span class="equationCUnlocks">)</span><sup class="incrementE0Unlocks">E</sup> &rArr; <span class="ba purpleText equationCUnlocks" id="equationCx">Error</span><span class="equationCUnlocks">(</span><span class="ba purpleText" id="equationPx">Error</span><span class="incrementM0Unlocks">x<span class="ba purpleText" id="equationMx">Error</span></span><span class="equationCUnlocks">)</span><sup class="purpleText incrementE0Unlocks" id="equationEx">Error</sup><span class="equationCUnlocks"> &rArr; <span class="ba purpleText" id="equationIPResult">Error</span></span><span id="equationClickUnlock"> &rArr; <span class="ba purpleText" id="equationClickResult">Error</span>/Click</span></span>
+              <span class="cv" style="position: absolute; left: 2px">IP = IP+<sup class="incrementT0Unlocks">T</sup><span class="incrementM0Unlocks">(</span>P<span class="incrementM0Unlocks">xM</span><span class="incrementM0Unlocks">)</span><sup class="incrementE0Unlocks">E</sup> &rArr; <span class="ba purpleText equationCUnlocks" id="equationCx">Error</span><span class="incrementT0Unlocks">(</span><sup class="ba purpleText incrementT0Unlocks" id="equationTx">Error</sup><span class="equationCUnlocks">(</span><span class="ba purpleText" id="equationPx">Error</span><span class="incrementM0Unlocks">x<span class="ba purpleText" id="equationMx">Error</span></span><span class="equationCUnlocks">)</span><sup class="purpleText incrementE0Unlocks" id="equationEx">Error</sup><span class="incrementT0Unlocks">)</span><sup class="ba purpleText incrementT0Unlocks" id="equationC2x">Error</sup><span class="equationCUnlocks"> &rArr; <span class="ba purpleText" id="equationIPResult">Error</span></span><span id="equationClickUnlock"> &rArr; <span class="ba purpleText" id="equationClickResult">Error</span>/Click</span></span>
             </div>
           </div>
-          <div id="incrementP0" style="position: relative; height: 34px; width: 100%">
+          <div class="incrementP0Unlocks" id="incrementP0" style="position: relative; height: 34px; width: 100%">
             <div class="toggleState autoIncrementPUnlocks" id="autoIncrementP0State" style="float: left"></div>
             <div class="incrementb" id="incrementP0b" style="height: 30px; overflow: hidden; position: relative">
               <span class="cv" style="position: absolute; left: 2px">P = <span class="incrementP1Unlocks"><span class="ba purpleText coefficientP" id="coefficientP0">Error</span>P<sub>1</sub> + </span><span class="ba purpleText" id="incrementP0x">Error</span></span>
@@ -427,6 +457,42 @@
               <span class="cv" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementE4Cost">Error</span> IP</span>
             </div>
           </div>
+          <br class="incrementT0Unlocks">
+          <div class="incrementT0Unlocks" id="incrementT0" style="position: relative; height: 34px; width: 100%">
+            <div class="toggleState autoIncrementTUnlocks" id="autoIncrementT0State" style="float: left"></div>
+            <div class="incrementb" id="incrementT0b" style="height: 30px; overflow: hidden; position: relative">
+              <span class="cv" style="position: absolute; left: 2px">T = <span class="ba">1</span> + <span class="incrementT1Unlocks"><span class="ba purpleText coefficientT" id="coefficientT0">Error</span>T<sub>1</sub> + </span><span class="ba purpleText" id="incrementT0x">Error</span></span>
+              <span class="cv" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementT0Cost">Error</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementT1Unlocks" id="incrementT1" style="position: relative; height: 34px; width: 100%">
+            <div class="toggleState autoIncrementTUnlocks" id="autoIncrementT1State" style="float: left"></div>
+            <div class="incrementb" id="incrementT1b" style="height: 30px; overflow: hidden; position: relative">
+              <span class="cv" style="position: absolute; left: 2px">T<sub>1</sub> = <span class="incrementT2Unlocks"><span class="ba purpleText coefficientT" id="coefficientT1">Error</span>T<sub>2</sub> + </span><span class="ba purpleText" id="incrementT1x">Error</span></span>
+              <span class="cv" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementT1Cost">Error</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementT2Unlocks" id="incrementT2" style="position: relative; height: 34px; width: 100%">
+            <div class="toggleState autoIncrementTUnlocks" id="autoIncrementT2State" style="float: left"></div>
+            <div class="incrementb" id="incrementT2b" style="height: 30px; overflow: hidden; position: relative">
+              <span class="cv" style="position: absolute; left: 2px">T<sub>2</sub> = <span class="incrementT3Unlocks"><span class="ba purpleText coefficientT" id="coefficientT2">Error</span>T<sub>3</sub> + </span><span class="ba purpleText" id="incrementT2x">Error</span></span>
+              <span class="cv" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementT2Cost">Error</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementT3Unlocks" id="incrementT3" style="position: relative; height: 34px; width: 100%">
+            <div class="toggleState autoIncrementTUnlocks" id="autoIncrementT3State" style="float: left"></div>
+            <div class="incrementb" id="incrementT3b" style="height: 30px; overflow: hidden; position: relative">
+              <span class="cv" style="position: absolute; left: 2px">T<sub>3</sub> = <span class="incrementT4Unlocks"><span class="ba purpleText coefficientT" id="coefficientT3">Error</span>T<sub>4</sub> + </span><span class="ba purpleText" id="incrementT3x">Error</span></span>
+              <span class="cv" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementT3Cost">Error</span> IP</span>
+            </div>
+          </div>
+          <div class="incrementT4Unlocks" id="incrementT4" style="position: relative; height: 34px; width: 100%">
+            <div class="toggleState autoIncrementTUnlocks" id="autoIncrementT4State" style="float: left"></div>
+            <div class="incrementb" id="incrementT4b" style="height: 30px; overflow: hidden; position: relative">
+              <span class="cv" style="position: absolute; left: 2px">T<sub>4</sub> = <span class="ba purpleText" id="incrementT4x">Error</span></span>
+              <span class="cv" style="position: absolute; right: 2px">Cost: <span class="ba purpleText" id="incrementT4Cost">Error</span> IP</span>
+            </div>
+          </div>
         </div>
         <div id="tabPrestige">
           <div>
@@ -434,6 +500,7 @@
               <div class="tab tabBlue ch2" id="subTabPrestigeMilestonesb" style="display: table-cell">Milestones</div>
               <div class="tab tabBlue ch2" id="subTabPrestigeTreeb" style="display: table-cell">Tree</div>
               <div class="tab tabBlue ch2" id="subTabPrestigeChallengesb" style="display: table-cell">Challenges</div>
+              <!--<div class="tab tabBlue ch2" id="subTabPrestigePowerb" style="display: table-cell">Power</div>-->
             </div>
           </div>
           <div id="subTabPrestigeMilestones">
@@ -441,6 +508,7 @@
             <div class="ch prestigeMilestone" id="pm2"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm2Req">Error</span><span> Prestiges</span><br><span id="pm2Desc">Error</span></div></div>
             <div class="ch prestigeMilestone" id="pm3"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm3Req">Error</span><span> Prestiges</span><br><span id="pm3Desc">Error</span></div></div>
             <div class="ch prestigeMilestone" id="pm4"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm4Req">Error</span><span> Prestiges</span><br><span id="pm4Desc">Error</span></div></div>
+            <!--<div class="ch prestigeMilestone" id="pm5"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm5Req">Error</span><span> Prestiges</span><br><span id="pm5Desc">Error</span></div></div>-->
           </div>
           <div id="subTabPrestigeTree">
             <div id="canvasTabPT" style="height: 100%; width: 100%">
@@ -450,7 +518,7 @@
                     <div class="cv ch2" style="width: 100%">
                       <span class="blueText" style="font-size: 24px">Prestige</span><br>
                       <span>+</span><span class="ba purpleText" id="ppGain">Error</span><span class="font-size: 14px"> PP</span><br>
-                      <span style="font-size: 14px">Next in <span class="ba purpleText" id="ppNext" style="font-size: 18px">Error</span> IP</span>
+                      <span id="ppNextText" style="font-size: 14px">Next in <span class="ba purpleText" id="ppNext" style="font-size: 18px">Error</span> IP</span>
                     </div>
                   </div>
                 </div>
@@ -474,7 +542,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="tableRow" style="justify-content: center">
+                <div class="tableRow" id="ptr1" style="justify-content: center">
                   <div class="ppCell ch2" id="pt1-1">
                     <span class="ptDisplayId">1-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
@@ -500,7 +568,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="tableRow" style="justify-content: center">
+                <div class="tableRow" id="ptr2" style="justify-content: center">
                   <div class="ppCell ch2" id="pt2-1">
                     <span class="ptDisplayId">2-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
@@ -540,7 +608,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="tableRow" style="justify-content: center">
+                <div class="tableRow" id="ptr3" style="justify-content: center">
                   <div class="ppCell ch2" id="pt3-1">
                     <span class="ptDisplayId">3-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
@@ -551,7 +619,7 @@
                   <div class="ppCell ch2" id="pt3-2">
                     <span class="ptDisplayId">3-2</span>
                     <div class="cv" style="position: relative; z-index: 1">
-                      <span style="font-size: 13px">Achievements are 10% stronger</span><br>
+                      <span style="font-size: 13px">Achievements are <span class="ba purpleText" id="pt3-2x">Error</span><span class="purpleText">%</span> stronger</span><br>
                       <span>Cost: <span class="ba blueText" id="pt3-2Cost">Error</span> PP</span>
                     </div>
                   </div>
@@ -570,7 +638,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="tableRow" style="justify-content: center">
+                <div class="tableRow" id="ptr4" style="justify-content: center">
                   <div class="ppCell ch2" id="pt4-1">
                     <span class="ptDisplayId">4-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
@@ -580,13 +648,56 @@
                     </div>
                   </div>
                 </div>
+                <div class="tableRow" id="ptr5" style="justify-content: center">
+                  
+                </div>
+                <!--<div class="tableRow" id="ptr5" style="justify-content: center">
+                  <div class="ppCell ch2" id="pt5-1">
+                    <span class="ptDisplayId">5-1</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span style="font-size: 13px">PP boost to IP is<br>boosted based on IP</span><br>
+                      <span>(<span class="purpleText">^</span><span class="ba purpleText" id="pt5-1x">Error</span>)</span><br>
+                      <span>Cost: <span class="ba blueText" id="pt5-1Cost">Error</span> IP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2" id="pt5-2">
+                    <span class="ptDisplayId">5-2</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span style="font-size: 13px">The first automation clicks the equation</span><br>
+                      <span>Cost: <span class="ba blueText" id="pt5-2Cost">Error</span> IP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2" id="pt5-3">
+                    <span class="ptDisplayId">5-3</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span style="font-size: 13px">Tree upgrade 2-1 affects the E multiplier with reduced effect</span><br>
+                      <span>(<span class="ba purpleText" id="pt5-3x">Error</span><span class="purpleText">%</span>)</span><br>
+                      <span>Cost: <span class="ba blueText" id="pt5-3Cost">Error</span> IP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2" id="pt5-4">
+                    <span class="ptDisplayId">5-4</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span style="font-size: 13px">Prestige requirement scales slower based on scaling levels</span><br>
+                      <span>(<span class="purpleText">/</span><span class="ba purpleText" id="pt5-4x">Error</span>)</span><br>
+                      <span>Cost: <span class="ba blueText" id="pt5-4Cost">Error</span> IP</span>
+                    </div>
+                  </div>
+                  <div class="ppCell ch2" id="pt5-5">
+                    <span class="ptDisplayId">5-5</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span style="font-size: 13px">[WIP]</span><br>
+                      <span>Cost: <span class="ba blueText" id="pt5-5Cost">Error</span> IP</span>
+                    </div>
+                  </div>
+                </div>-->
               </div>
             </div>
           </div>
           <div id="subTabPrestigeChallenges">
             <div class="table">
               <div class="tableRow">
-                <div class="ppChallengeCell" id="ppChallenge1">
+                <div class="ppChallengeCell ppChallenges" id="ppChallenge1">
                   <span class="ppChallengeDisplayId">1</span>
                   <div class="cvh ch2" style="width: 100%">
                     <span class="blueText" style="font-size: 24px; font-weight: bold">Slow Down</span><br>
@@ -597,7 +708,7 @@
                     <span>(<span class="ba purpleText" id="ppChallenge1Reward">Error</span><span class="purpleText">x</span>)</span>
                   </div>
                 </div>
-                <div class="ppChallengeCell" id="ppChallenge2">
+                <div class="ppChallengeCell ppChallenges" id="ppChallenge2">
                   <span class="ppChallengeDisplayId">2</span>
                   <div class="cvh ch2" style="width: 100%">
                     <span class="blueText" style="font-size: 24px; font-weight: bold">True Sacrifice</span><br>
@@ -608,7 +719,7 @@
                     <span>(<span class="purpleText">/</span><span class="ba purpleText" id="ppChallenge2Reward">Error</span>)</span>
                   </div>
                 </div>
-                <div class="ppChallengeCell" id="ppChallenge3">
+                <div class="ppChallengeCell ppChallenges" id="ppChallenge3">
                   <span class="ppChallengeDisplayId">3</span>
                   <div class="cvh ch2" style="width: 100%">
                     <span class="blueText" style="font-size: 24px; font-weight: bold">Climbing High</span><br>
@@ -619,7 +730,7 @@
                     <span>(<span class="purpleText">^</span><span class="ba purpleText" id="ppChallenge3Reward">Error</span>)</span>
                   </div>
                 </div>
-                <div class="ppChallengeCell" id="ppChallenge4">
+                <div class="ppChallengeCell ppChallenges" id="ppChallenge4">
                   <span class="ppChallengeDisplayId">4</span>
                   <div class="cvh ch2" style="width: 100%">
                     <span class="blueText" style="font-size: 24px; font-weight: bold">Timber</span><br>
@@ -630,9 +741,23 @@
                     <span>(<span class="purpleText">+</span><span class="ba purpleText" id="ppChallenge4Reward">Error</span>)</span>
                   </div>
                 </div>
+                <!--<div class="ppChallengeCell" id="ppChallenge5">
+                  <span class="ppChallengeDisplayId">5</span>
+                  <div class="cvh ch2" style="width: 100%">
+                    <span class="blueText" style="font-size: 24px; font-weight: bold"></span><br>
+                    <span style="font-size: 14px"></span><br><br><br>
+                    <span>Goal: <span class="ba purpleText" id="ppChallenge5Goal">Error</span> IP</span><br>
+                    <span>(<span class="ba blueText" id="ppChallenge5Completions">Error</span>/<span class="ba blueText" id="ppChallenge5MaxCompletions">Error</span>)</span><br>
+                    <span>Reward: <span style="font-size: 13px"></span></span><br>
+                    <span>(<span class="ba purpleText" id="ppChallenge5Reward">Error</span>)</span>
+                  </div>
+                </div>-->
               </div>
             </div>
           </div>
+          <!--<div id="subTabPrestigePower">
+            
+          </div>-->
         </div>
         <div id="tabAscension">
           
@@ -641,78 +766,5 @@
       <div class="ch" style="position: fixed; bottom: 2px"><span style="font-weight: bold"><span class="infoText">Version <span id="version" style="color: rgb(100, 100, 255)">Error</span></span><span> | </span><span class="infoText" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</span><span> | </span><span class="infoText" onmouseup="window.open('https://geogolf.github.io/Incrementalist-Changelog')">Changelog</span></span></div>
       <canvas id="canvasPT"></canvas>
     </div>
-    
-    
-    
-<!--
-    <div id="gameScreen">
-      <div class="ch grayBorder" style="width: 90%; min-width: 250px; max-width: 1000px">
-        <div id="tabPrestige">
-          <div id="subTabPrestigeChallenges">
-            <div class="table">
-              <div class="tableRow">
-                <div class="ppChallengeCell" id="ppChallenge1" onmouseup="confirmEnterPPChallenge(1)">
-                  <span class="ppChallengeDisplayId">1</span>
-                  <div class="chv ch2" style="width: 100%">
-                    <span class="text blueText" style="font-size: 24px; font-weight: bold">Slow Down</span><br>
-                    <span class="text" style="font-size: 14px">Automation speed is divided by completed achievements</span><br>
-                    <span class="text">Goal: <span class="ba purpleText" id="ppChallenge1Goal">0</span> IP</span><br>
-                    <span class="text">(<span class="ba blueText" id="ppChallenge1Completions">0</span>/<span class="ba blueText" id="ppChallenge1MaxCompletions">0</span>)</span><br><br>
-                    <span class="text">Reward: <span style="font-size: 13px">The first automation is faster based on equation clicks</span></span><br>
-                    <span class="text">(<span class="purpleText">x<span class="ba" id="ppChallenge1Reward">0</span></span>)</span><br>
-                  </div>
-                </div>
-                <div class="ppChallengeCell" id="ppChallenge2" onmouseup="confirmEnterPPChallenge(2)">
-                  <span class="ppChallengeDisplayId">2</span>
-                  <div class="chv ch2" style="width: 100%">
-                    <span class="text blueText" style="font-size: 24px; font-weight: bold">True Sacrifice</span><br>
-                    <span class="text" style="font-size: 14px">Buying any variable resets all lower variables and sacrifice is 5x weaker</span><br>
-                    <span class="text">Goal: <span class="ba purpleText" id="ppChallenge2Goal">0</span> IP</span><br>
-                    <span class="text">(<span class="ba blueText" id="ppChallenge2Completions">0</span>/<span class="ba blueText" id="ppChallenge2MaxCompletions">0</span>)</span><br><br>
-                    <span class="text">Reward: <span style="font-size: 13px">Sacrifice is cheaper<br>based on IP</span></span><br>
-                    <span class="text">(<span class="purpleText">/<span class="ba" id="ppChallenge2Reward">0</span></span>)</span>
-                  </div>
-                </div>
-                <div class="ppChallengeCell" id="ppChallenge3" onmouseup="confirmEnterPPChallenge(3)">
-                  <span class="ppChallengeDisplayId">3</span>
-                  <div class="chv ch2" style="width: 100%">
-                    <span class="text blueText" style="font-size: 24px; font-weight: bold">Climbing High</span><br>
-                    <span class="text" style="font-size: 14px">Increment's costs scale<br>substantially faster</span><br>
-                    <span class="text">Goal: <span class="ba purpleText" id="ppChallenge3Goal">0</span> IP</span><br>
-                    <span class="text">(<span class="ba blueText" id="ppChallenge3Completions">0</span>/<span class="ba blueText" id="ppChallenge3MaxCompletions">0</span>)</span><br><br>
-                    <span class="text">Reward: <span style="font-size: 13px">Achievement 3-1 is boosted based on highest IP</span></span><br>
-                    <span class="text">(<span class="purpleText">^<span class="ba" id="ppChallenge3Reward">0</span></span>)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <div id="tabAscension">
-          
-        </div>
-        </div>
-      </div>
-      <canvas class="canvas" id="canvasPT"></canvas>
-      <span class="text" id="version" style="position: fixed; left: 2px; bottom: 2px; font-size: 12px">0</span>
-    </div>
-    <div id="loadingScreen">
-      <div class="chv ch2" id="offlineBox">
-        <span class="goldText text" style="font-size: clamp(10px, 4vw, 18px)">You were offline for</span><br>
-        <span class="text" id="offlineTime" style="color: rgb(200, 200, 200); font-size: clamp(10px, 5vw, 18px)">0</span>
-        <hr>
-        <span class="goldText text" style="font-size: clamp(10px, 2.5vw, 18px)">Calculating offline progress:</span><br>
-        <div class="pb ch"><div class="ch" id="pbOffline"></div><span class="text cvh" id="offlineProgress" style="width: 100%; color: rgb(0, 0, 0)">0</span></div>
-        <hr>
-        <span class="redText text" style="cursor: pointer; font-size: clamp(10px, 3.5vw, 18px)" onmouseup="skipOfflineProgress()">Skip offline progress</span>
-        <div style="height: 44px; width: 100%; display: table; position: relative; top: 70px">
-          <div class="grayBorder option" style="height: 40px; width: 25%; position: relative" onmouseup="save()"><span class="cvh text" style="width: 100%; font-size: clamp(10px, 4.5vw, 18px)">Save</span></div>
-          <div class="grayBorder option" style="height: 40px; width: 25%; position: relative" onmouseup="exporty()"><span class="cvh text" style="width: 100%; font-size: clamp(10px, 3vw, 18px)">Export</span></div>
-          <div class="grayBorder option" style="height: 40px; width: 25%; position: relative" onmouseup="importy()"><span class="cvh text" style="width: 100%; font-size: clamp(10px, 3vw, 18px)">Import</span></div>
-          <div class="grayBorder option" style="height: 40px; width: 25%; position: relative" onmouseup="confirmResetAll()"><span class="cvh text" style="width: 100%; font-size: clamp(10px, 3.5vw, 18px)">Reset</span></div>
-        </div>
-      </div>
-    </div>
-    <div style="display: none"><div class="nul" id="nul"></div></div>
--->
   </body>
 </html>

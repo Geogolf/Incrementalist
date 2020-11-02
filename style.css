@@ -332,7 +332,7 @@ input {
 #offlineBox {
   background-color: rgb(25, 25, 25);
   border: 2px solid rgb(35, 140, 35);
-  height: 125px;
+  height: 150px;
   width: 50%;
   max-width: 500px;
   padding: 10px 0px 10px 0px;
