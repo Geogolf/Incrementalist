@@ -5,7 +5,7 @@ const pm = [
   {req: 15, desc: "Automation stays enabled on sacrifice"},
   {req: 25, desc: "Sacrifice no longer resets your IP"},
   {req: 50, desc: "Sacrifice no longer resets your variables"},
-  /*{req: 10000, desc: "Keep the previous layer unlocked on prestige"}*/
+  {req: 25000, desc: "Keep the previous layer unlocked on prestige"}
 ];
 for (let i=1; i<pm.length; i++) {
   di("pm"+i+"Desc").textContent = pm[i].desc;

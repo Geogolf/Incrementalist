@@ -26,7 +26,7 @@ const increment = {
     result: nd(0),
     baseCost: "1e800",
     auto: false,
-    dec: 4
+    dec: 5
   }
 }
 for (let name in increment) {
@@ -60,7 +60,9 @@ function buyIncrement(name, num) {
         user.ip.increment[name].bought[i] = 0;
       }
     }
+    return true;
   }
+  else {return false}
 }
 
 //Set Data
@@ -79,20 +81,22 @@ function setIncrementHighestNum(name) {
 }
 function setIncrementResult(name) {
   setIncrementHighestNum(name);
-  if (name == "T") {increment.T.result = nd(1)}
   if (name == "P") {
+    if (increment[name].highestNum < 0) {increment[name].result = nd(0); return}
     let result = getIncrementx(name, increment[name].highestNum);
     for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).plus(getIncrementx(name, i))}
     if (isNaN(result)) {result = nd(1)}
     increment[name].result = result;
   }
   if (name == "M") {
+    if (increment[name].highestNum < 0) {increment[name].result = nd(1); return}
     let result = getIncrementx(name, increment[name].highestNum);
     for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).times(getIncrementx(name, i))}
     if (isNaN(result)) {result = nd(1)}
     increment[name].result = result;
   }
   if (name == "E") {
+    if (increment[name].highestNum < 0) {increment[name].result = nd(1); return}
     let result = getIncrementx(name, increment[name].highestNum);
     for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).plus(getIncrementx(name, i))}
     result = result.plus(1);
@@ -100,6 +104,7 @@ function setIncrementResult(name) {
     increment[name].result = result;
   }
   if (name == "T") {
+    if (increment[name].highestNum < 0) {increment[name].result = nd(1); return}
     let result = getIncrementx(name, increment[name].highestNum);
     for (let i=(increment[name].highestNum-1); i>-1; i--) {result = result.times(getSacrificeBoost("IP", name)).plus(getIncrementx(name, i))}
     result = result.plus(1);

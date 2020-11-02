@@ -38,7 +38,7 @@ const automation = {
   "IncrementT": {
     currency: "ip",
     scaling: [
-      {type: "t", scaleAt: 0, newCost: "1e1550", effect: 2}
+      {type: "t", scaleAt: 0, newCost: "1e1560", effect: 2}
     ],
     array: true
   },
@@ -109,16 +109,16 @@ function setPrestigeAt(at) {
   at = nd(at).round();
   if (at.lt(1) || isNaN(at.mag)) {alertify.error("Invalid Input"); at = nd(1)}
   user.automation.Prestige.at = at;
-  di("prestigeAt").value = e("d", at, 2, 0);
-  di("autoPrestigeAt").textContent = e("d", at, 2, 0)
+  di("prestigeAt").value = e("d", at, 2, 0, true);
+  di("autoPrestigeAt").textContent = e("d", at, 2, 0);
 }
 
 //Get Data
 function getAutomationRate(name) {
   let multi = nd(1);
   if (user.achievements.includes("ach1-5")) {multi = multi.times(getAchievementReward("ach1-5"))}
-  if (user.pp.pt.cells.includes("pt1-1") && automation[name].currency == "ip") {multi = multi.times(getPTReward("pt1-1"))}
-  if (user.pp.pt.cells.includes("pt2-1") && automation[name].currency == "ip") {multi = multi.times(getPTReward("pt2-1"))}
+  if (user.pp.pt.cells.includes("pt1-1") && (automation[name].currency == "ip" || user.pp.pt.cells.includes("pt5-2"))) {multi = multi.times(getPTReward("pt1-1"))}
+  if (user.pp.pt.cells.includes("pt2-1") && (automation[name].currency == "ip" || user.pp.pt.cells.includes("pt5-2"))) {multi = multi.times(getPTReward("pt2-1"))}
   if (user.pp.challenge[1].in) {multi = multi.divide(Math.pow(user.achievements.length, 1.5))}
   
   if (name == "IP") {
@@ -129,8 +129,8 @@ function getAutomationRate(name) {
   if (name == "IncrementM") {multi = multi.times(10)}
   if (name == "IncrementE") {multi = multi.times(10)}
   if (name == "IncrementT") {multi = multi.times(10)}
-  if (name == "SacrificeIP") {multi = multi.divide(2/*25*/)}
-  if (name == "Prestige") {multi = multi.divide(2/*50*/)}
+  if (name == "SacrificeIP") {if (!user.pp.pt.cells.includes("pt5-2")) {multi = multi.divide(2)}}
+  if (name == "Prestige") {if (!user.pp.pt.cells.includes("pt5-2")) {multi = multi.divide(2)}}
   return nd(user.automation[name].bought).times(multi);
 }
 function getAutomationCost(name) {

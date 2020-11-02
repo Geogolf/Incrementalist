@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-<!--
-MIT License
-Copyright (c) 2020 Geogolf 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--->
 <html lang="en">
   <head>
     <title>Incrementalist</title>
@@ -38,21 +31,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     
     <script src="load.js" defer="defer"></script>
     <script src="main.js" defer="defer"></script>
-    
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164027230-2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      
-      gtag('config', 'UA-164027230-2');
-    </script>
   </head>
   <body>
     <div id="loadingScreen"><img id="loading" src="images/loading.png"></div>
     <div class="ch2" id="offlineBox" style="display: none">
-      <span>You were away for </span><span class="goldText" id="offlineTime">Error</span><br>
+      <span>You were away for </span><br>
+      <span class="goldText" id="offlineTime">Error</span><br>
       <span id="offlineLoading">Loading... Can take up to a minute</span><br>
       <span id="offlineIP" style="width: 100%">You gained <span class="ba purpleText" id="offlineIPx">Error</span> Increment Points</span><br>
       <span id="offlinePP" style="width: 100%">You gained <span class="ba blueText" id="offlinePPx">Error</span> Prestige Points</span><br>
@@ -120,13 +104,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
           </div>
           <div style="height: 44px; width: 100%; display: table; table-layout: fixed">
-            <!--<div class="option" id="UIRate">
-              <div class="cv ch2" style="width: 100%">
-                <span>UI Update Rate</span><br>
-                <input type="range" min="1" max="60" value="20" id="UIRateInput" style="width: 75%; outline: none; cursor: pointer"><br>
-                <span class="ba" id="UIRatex">Error</span><span>/sec</span>
-              </div>
-            </div>-->
             <div class="option dropdown">
               <span class="cv ch2" style="width: 100%">Notations</span>
               <div class="dropdown-content ch ch2">
@@ -144,8 +121,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="dropdown-item" id="confirmationChallenge"><span>Challenge</span></div>
               </div>
             </div>
-            <div class="option" id="logpb" style="transition: background-color .2s">
-              <span class="cv ch2" id="Logpb" style="width: 100%">Show logarithmic<br>progress bars</span>
+            <div class="option" id="Logpb" style="transition: background-color .2s">
+              <span class="cv ch2" style="width: 100%">Show logarithmic progress bars</span>
+            </div>
+          <!--</div>
+          <div style="height: 44px; width: 100%; display: table; table-layout: fixed">
+            <div class="option" id="UIRate">
+              <div class="cv ch2" style="width: 100%">
+                <span>UI Update Rate</span><br>
+                <input type="range" min="1" max="60" value="20" id="UIRateInput" style="width: 75%; outline: none; cursor: pointer"><br>
+                <span class="ba" id="UIRatex">Error</span><span>/sec</span>
+              </div>
+            </div>-->
+            <div class="option" id="SmartAutoPrestige" style="transition: background-color .2s">
+              <span class="cv ch2" style="width: 100%">Toggle smart auto prestige</span>
             </div>
           </div>
           <br>
@@ -209,7 +198,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="ch2 achievement tooltip-element" id="ach4-1"><span class="achDisplayId">4-1</span><span class="top" id="ach4-1Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-1Description" style="width: 200px; margin-left: -105px">Error</span></div>
                 <div class="ch2 achievement tooltip-element" id="ach4-2"><span class="achDisplayId">4-2</span><span class="top" id="ach4-2Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-2Description" style="width: 200px; margin-left: -105px">Error</span></div>
                 <div class="ch2 achievement tooltip-element" id="ach4-3"><span class="achDisplayId">4-3</span><span class="top" id="ach4-3Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-3Description" style="width: 200px; margin-left: -105px">Error</span></div>
-                <div class="ch2 achievement tooltip-element" id="ach4-4"><span class="achDisplayId">4-4</span><span class="top" id="ach4-4Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-4Description" style="width: 200px; margin-left: -105px">Error</span></div>
+                <div class="ch2 achievement tooltip-element" id="ach4-4"><span class="achDisplayId">4-4</span><span class="top" id="ach4-4Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-4Description" style="width: 200px; margin-left: -105px">Error</span><span class="bottom" style="font-size: 14px">Reward: Challenge goals are lower based on IP [<span class="purpleText">/</span><span class="ba purpleText" id="ach4-4Reward" style="font-weight: bold">Error</span>]</span></div>
                 <div class="ch2 achievement tooltip-element" id="ach4-5"><span class="achDisplayId">4-5</span><span class="top" id="ach4-5Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-5Description" style="width: 200px; margin-left: -105px">Error</span></div>
                 <div class="ch2 achievement tooltip-element" id="ach4-6"><span class="achDisplayId">4-6</span><span class="top" id="ach4-6Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-6Description" style="width: 200px; margin-left: -105px">Error</span></div>
               </div>
@@ -231,6 +220,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
               </div>
             </div>
           </div>
+          <br>
         </div>
         <div id="tabStatistics">
           <div class="ch2">
@@ -240,6 +230,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <span style="font-size: 16px">You have clicked the equation <span class="ba purpleText" id="statEquationClicks">Error</span> times</span><br class="statPPUnlocks">
             <span class="statPPUnlocks" style="font-size: 16px">You have sacrificed <span class="ba purpleText" id="statIPSacrifices">Error</span> times this prestige</span><br class="statPPUnlocks">
             <span class="statPPUnlocks" style="font-size: 16px">You have gained a total of <span class="ba blueText" id="statPPTotal">Error</span> PP</span><br class="statPPUnlocks">
+            <span class="statPPUnlocks" style="font-size: 16px">Current pp infinity is <span class="ba blueText" id="statPPInfinite">Error</span> PP</span><br class="statPPUnlocks">
             <span class="statPPUnlocks" style="font-size: 16px">You have prestiged <span class="ba blueText" id="statPPCount">Error</span> times</span><br class="statPPUnlocks">
             <span class="statPPUnlocks" style="font-size: 16px">Your fastest prestige lasted <span class="ba blueText" id="statPPTime">Error</span></span>
           </div>
@@ -508,7 +499,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="ch prestigeMilestone" id="pm2"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm2Req">Error</span><span> Prestiges</span><br><span id="pm2Desc">Error</span></div></div>
             <div class="ch prestigeMilestone" id="pm3"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm3Req">Error</span><span> Prestiges</span><br><span id="pm3Desc">Error</span></div></div>
             <div class="ch prestigeMilestone" id="pm4"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm4Req">Error</span><span> Prestiges</span><br><span id="pm4Desc">Error</span></div></div>
-            <!--<div class="ch prestigeMilestone" id="pm5"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm5Req">Error</span><span> Prestiges</span><br><span id="pm5Desc">Error</span></div></div>-->
+            <div class="ch prestigeMilestone" id="pm5"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm5Req">Error</span><span> Prestiges</span><br><span id="pm5Desc">Error</span></div></div>
           </div>
           <div id="subTabPrestigeTree">
             <div id="canvasTabPT" style="height: 100%; width: 100%">
@@ -649,9 +640,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                   </div>
                 </div>
                 <div class="tableRow" id="ptr5" style="justify-content: center">
-                  
-                </div>
-                <!--<div class="tableRow" id="ptr5" style="justify-content: center">
                   <div class="ppCell ch2" id="pt5-1">
                     <span class="ptDisplayId">5-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
@@ -663,14 +651,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                   <div class="ppCell ch2" id="pt5-2">
                     <span class="ptDisplayId">5-2</span>
                     <div class="cv" style="position: relative; z-index: 1">
-                      <span style="font-size: 13px">The first automation clicks the equation</span><br>
+                      <span style="font-size: 13px">Automation boosts apply to all automation</span><br>
                       <span>Cost: <span class="ba blueText" id="pt5-2Cost">Error</span> IP</span>
                     </div>
                   </div>
                   <div class="ppCell ch2" id="pt5-3">
                     <span class="ptDisplayId">5-3</span>
                     <div class="cv" style="position: relative; z-index: 1">
-                      <span style="font-size: 13px">Tree upgrade 2-1 affects the E multiplier with reduced effect</span><br>
+                      <span style="font-size: 13px">Tree upgrade 1-2 affects the E multiplier with reduced effect</span><br>
                       <span>(<span class="ba purpleText" id="pt5-3x">Error</span><span class="purpleText">%</span>)</span><br>
                       <span>Cost: <span class="ba blueText" id="pt5-3Cost">Error</span> IP</span>
                     </div>
@@ -680,19 +668,30 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">Prestige requirement scales slower based on scaling levels</span><br>
                       <span>(<span class="purpleText">/</span><span class="ba purpleText" id="pt5-4x">Error</span>)</span><br>
-                      <span>Cost: <span class="ba blueText" id="pt5-4Cost">Error</span> IP</span>
+                      <span style="font-size: 14px">Cost: <span class="ba blueText" id="pt5-4Cost" style="font-size: 18px">Error</span> IP</span>
                     </div>
                   </div>
-                  <div class="ppCell ch2" id="pt5-5">
+                  <!--<div class="ppCell ch2" id="pt5-5">
                     <span class="ptDisplayId">5-5</span>
                     <div class="cv" style="position: relative; z-index: 1">
-                      <span style="font-size: 13px">[WIP]</span><br>
-                      <span>Cost: <span class="ba blueText" id="pt5-5Cost">Error</span> IP</span>
+                      <span style="font-size: 13px">The boost from achievements is stronger based on total PP</span><br>
+                      <span>(<span class="purpleText">^</span><span class="ba purpleText" id="pt5-5x">Error</span>)</span><br>
+                      <span style="font-size: 14px">Cost: <span class="ba blueText" id="pt5-5Cost" style="font-size: 18px">Error</span> IP</span>
+                    </div>
+                  </div>-->
+                </div>
+                <div class="tableRow" id="ptr6" style="justify-content: center">
+                  <div class="ppCell ch2" id="pt6-1">
+                    <span class="ptDisplayId">6-1</span>
+                    <div class="cv" style="position: relative; z-index: 1">
+                      <span style="font-size: 13px">Achievement 3-2 is tetrated 3 times</span><br>
+                      <span>Cost: <span class="ba blueText" id="pt6-1Cost">Error</span> IP</span>
                     </div>
                   </div>
-                </div>-->
+                </div>
               </div>
             </div>
+            <br>
           </div>
           <div id="subTabPrestigeChallenges">
             <div class="table">

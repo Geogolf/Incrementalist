@@ -7,16 +7,6 @@ const canvasData = {
     lineCount: 8,
     color: "rgb(100, 100, 200)",
     width: "10"
-    /*lineData: [
-      {fromId: "pt0-1", toId: "pt1-1", color: "rgb(100, 100, 200)", width: "10"},
-      {fromId: "pt0-1", toId: "pt1-2", color: "rgb(100, 100, 200)", width: "10"},
-      {fromId: "pt0-1", toId: "pt1-3", color: "rgb(100, 100, 200)", width: "10"},
-      {fromId: "pt1-1", toId: "pt2-1", color: "rgb(100, 100, 200)", width: "10"},
-      {fromId: "pt1-1", toId: "pt2-2", color: "rgb(100, 100, 200)", width: "10"},
-      {fromId: "pt1-2", toId: "pt2-3", color: "rgb(100, 100, 200)", width: "10"},
-      {fromId: "pt1-3", toId: "pt2-4", color: "rgb(100, 100, 200)", width: "10"},
-      {fromId: "pt1-3", toId: "pt2-5", color: "rgb(100, 100, 200)", width: "10"}
-    ]*/
   }
 }
 
@@ -57,11 +47,6 @@ function drawTree(kind) {
       }
     }
   }
-  
-  /*for (let i=0; i<canvasData[kind].lineCount; i++) {
-    let data = canvasData[kind].lineData[i];
-    drawTreeBranch(data.fromId, data.toId, data.color, data.width);
-  }*/
 }
 
 function drawTreeBranch(from, to, color, width) {

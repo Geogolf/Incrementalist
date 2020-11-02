@@ -1,9 +1,10 @@
 //Data
 const options = {
-  /*UIRate: {type: "Input", onclick: () => {setUIRate()}},*/
   Notation: {type: "Dropdown", onclick: (note) => {setNotation(note)}, items: ["Scientific"/*, "Engineering"*/, "Logarithm"/*, "Letters"*//*, "Infinity"*/, "Blind"]},
   Confirmation: {type: "Dropdown", onclick: (con) => {toggleConfirmation(con)}, items: ["Reset", "Sacrifice", "Prestige", "Challenge"]},
   Logpb: {type: "None", onclick: () => {toggleLogpb()}},
+  SmartAutoPrestige: {type: "None", onclick: () => {toggleSmartAutoPrestige()}},
+  /*UIRate: {type: "Input", onclick: () => {setUIRate()}},*/
   Save: {type: "None", onclick: () => {save(true)}},
   Export: {type: "None", onclick: () => {exporty()}},
   Import: {type: "None", onclick: () => {importy()}},
@@ -12,9 +13,9 @@ const options = {
 for (let name in options) {
   let data = options[name];
   /*if (data.type == "Input") {
-    di(name+"Input").addEventListener("input", () => {setUIRate()});
-  }
-  else */if (data.type == "Dropdown") {
+    di(name+"Input").addEventListener("input", () => {data.onclick()});
+  }*/
+  if (data.type == "Dropdown") {
     for (k=0; k<data.items.length; k++) {
       let item = data.items[k];
       di(name.toLowerCase()+item).addEventListener("click", () => {data.onclick(item)});
@@ -24,14 +25,10 @@ for (let name in options) {
     di(name.toLowerCase()+data.items[data.items.length-1]).style.borderBottomLeftRadius = "10px";
     di(name.toLowerCase()+data.items[data.items.length-1]).style.borderBottomRightRadius = "10px";
   }
-  else {di(name).addEventListener("click", () => {data.onclick()})}
+  if (data.type == "None") {di(name).addEventListener("click", () => {data.onclick()})}
 }
 
 //Functions
-/*function setUIRate(rate) {
-  rate = rate || di("UIRateInput").value;
-  user.options.uiRate = rate;
-}*/
 function setNotation(note) {
   user.options.notation = note;
   updateNotation(note);
@@ -42,6 +39,15 @@ function toggleConfirmation(con) {
   updateConfirmation(con);
 }
 function toggleLogpb() {user.options.logpb = !user.options.logpb}
+/*function setUIRate(rate) {
+  rate = rate || di("UIRateInput").value;
+  di("UIRateInput").value = rate;
+  user.options.uiRate = rate;
+  updateRate = Number(rate);
+  refreshGameInterval();
+}*/
+function toggleSmartAutoPrestige() {user.options.smartAutoPrestige = !user.options.smartAutoPrestige}
+
 function save(notify) {
   localStorage.setItem("user", JSON.stringify(user));
   if (notify) {alertify.success("Game Saved")}
@@ -67,16 +73,15 @@ function resetAll(notify) {
 
 //Update Data
 function updateOptions() {
-  /*updateUIRate();*/
   updateNotation(user.options.notation);
   for (let i=0; i<options.Confirmation.items.length; i++) {
     updateConfirmation(options.Confirmation.items[i]);
   }
   updateLogpb();
+  /*updateUIRate();*/
+  updateSmartAutoPrestige();
 }
-/*function updateUIRate() {
-  di("UIRatex").textContent = e("d", nd(user.options.uiRate), 2, 0);
-}*/
+
 function updateNotation(note) {
   for (let i=0; i<options.Notation.items.length; i++) {di("notation"+options.Notation.items[i]).style.backgroundColor = "rgb(0, 0, 0)"}
   di("notation"+note).style.backgroundColor = "rgb(25, 85, 25)";
@@ -86,6 +91,13 @@ function updateConfirmation(con) {
   else {di("confirmation"+con).style.backgroundColor = "rgb(0, 0, 0)"}
 }
 function updateLogpb() {
-  if (user.options.logpb) {di("logpb").style.backgroundColor = "rgb(25, 85, 25)"}
-  else {di("logpb").style.backgroundColor = "rgb(0, 0, 0)"}
+  if (user.options.logpb) {di("Logpb").style.backgroundColor = "rgb(25, 85, 25)"}
+  else {di("Logpb").style.backgroundColor = "rgb(0, 0, 0)"}
+}
+/*function updateUIRate() {
+  di("UIRatex").textContent = e("d", nd(user.options.uiRate), 2, 0);
+}*/
+function updateSmartAutoPrestige() {
+  if (user.options.smartAutoPrestige) {di("SmartAutoPrestige").style.backgroundColor = "rgb(25, 85, 25)"}
+  else {di("SmartAutoPrestige").style.backgroundColor = "rgb(0, 0, 0)"}
 }

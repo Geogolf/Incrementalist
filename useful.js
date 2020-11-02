@@ -16,7 +16,7 @@ function removeClass(cl, id) {document.getElementById(id).classList.remove(cl)}
 function replaceClass(cl1, cl2, id) {document.getElementById(id).classList.remove(cl1); document.getElementById(id).classList.add(cl2)}
 
 //Very Useful
-function e(note, obj, exp, dec) {
+function e(note, obj, exp, dec, noCommas) {
   if (typeof obj == "undefined") {return "Error"}
   if (obj == "Infinite") {return "Infinite"}
   if (note == "d") {note = user.options.notation}
@@ -24,16 +24,20 @@ function e(note, obj, exp, dec) {
   if (typeof dec == "undefined" || dec == "d") {dec = 0}
   if (note == "Scientific" || note == "Logarithm") {
     let m = Math.pow(10, obj.mag-Math.floor(obj.mag));
-    let e;
-    if (note == "Scientific") {e = Math.floor(obj.mag)}
-    if (note == "Logarithm") {e = obj.mag}
-    let upperMag;
+    let e = obj.mag;
+    if (note == "Scientific") {e = Math.floor(e)}
     if (m.toFixed(exp) >= 10) {m /= 10; e++}
-    upperMag = m.toFixed(exp)+"e"+e.toLocaleString();
-    if (note == "Logarithm") {upperMag = "e"+Number(e.toFixed(exp)).toLocaleString()}
+    let upperMag = m.toFixed(exp)+"e";
+    if (!noCommas) {upperMag += e.toLocaleString()}
+    else {upperMag += e}
+    if (note == "Logarithm") {
+      if (!noCommas) {upperMag = "e"+Number(e.toFixed(exp)).toLocaleString()}
+      else {upperMag = "e"+e.toFixed(exp)}
+    }
     if (obj.layer == 0) {
       if (obj.lt(1000)) {return obj.mag.toFixed(dec)}
-      else {return Math.floor(obj.mag).toLocaleString()}
+      else if (!noCommas) {return Math.floor(obj.mag).toLocaleString()}
+      else {return Math.floor(obj.mag)}
     }
     if (obj.layer > 0) {
       let eString = "";
@@ -83,8 +87,9 @@ function copyToClipboard2(el) {
   else {el.select()}
   document.execCommand("copy");
 }
-function showTime(ms, full) {
-  if (typeof ms == "undefined" || ms >= Number.MAX_VALUE/* || ms == 0*/) {return "Infinite Time"}
+function showTime(ms) {
+  if (user.options.notation == "Blind") {return ""}
+  if (typeof ms == "undefined" || ms >= Number.MAX_VALUE) {return "Infinite Time"}
   if (ms == 0) {return "0.000 Seconds"}
   let time = Math.floor(ms)/1000;
   let y = e("d", nd(Math.floor(time/31536000)));
@@ -99,18 +104,17 @@ function showTime(ms, full) {
   if (time%60 >= 10 || m > 0) {s = Math.floor(time%60)}
   else {s = (time%60).toFixed(3)}
   let ss = (s == 1) ? " Second" : " Seconds";
-  full = true;
-  if (full) {
-    if (y == 0) {y = ""; yy = ""}
-    if (d == 0) {d = ""; dd = ""}
-    else if (y > 0) {yy += ", "}
-    if (h == 0) {h = ""; hh = ""}
-    else if (d > 0) {dd += ", "}
-    if (m == 0) {m = ""; mm = ""}
-    else if (h > 0) {hh += ", "}
-    if (s == 0) {s = ""; ss = ""}
-    else if (m > 0) {mm += ", and "}
-  }
+  
+  if (y == 0) {y = ""; yy = ""}
+  else if (time%31536000 > 0) {yy += ", "}
+  if (d == 0) {d = ""; dd = ""}
+  else if (time%86400 > 0) {dd += ", "}
+  if (h == 0) {h = ""; hh = ""}
+  else if (time%3600 > 0) {hh += ", "}
+  if (m == 0) {m = ""; mm = ""}
+  else if (time%60 > 0) {mm += ", "}
+  if (s == 0) {s = ""; ss = ""}
+  
   return y+yy+d+dd+h+hh+m+mm+s+ss;
 }
 function random(min, max, floor) {

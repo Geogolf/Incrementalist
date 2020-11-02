@@ -6,10 +6,11 @@ function setUser() {
       Prestige: "Tree"
     },
     options: {
-      uiRate: 20,
       notation: "Scientific",
       confirmations: ["Reset", "Sacrifice", "Prestige", "Challenge"],
       logpb: false,
+      uiRate: 20,
+      smartAutoPrestige: false,
     },
     achievements: [],
     eggs: [],
@@ -68,7 +69,7 @@ function setUser() {
       lastPrestige: 0,
       bestPrestige: 31536000000
     },
-    version: "0.4.1",
+    version: "0.5.0",
     atEnd: false,
     beta: false
   }
@@ -80,8 +81,8 @@ var user = setUser();
 var gameTimeInterval;
 var resetFrom = "Nothing"; //For achievements or special conditions
 var reset = "Nothing"; //For actual resetting
+var updateRate = 20;
 
-const updateRate = 20; //Remove unless you can figure out how to change it and not break the game
 const showInfinite = true;
 const layers = {
   "IP": {
@@ -189,7 +190,9 @@ function updatePointDisplay(layer) {
     g = cost;
     u = "Sacrifice";
   }
-  /*if (layer == "PP" && !user.atEnd && user.pp.sac.gte(cost)) {user.atEnd = true; alertify.confirm("You have reached the end of the game. Check the discord for upcomming updates")}*/
+  
+  if (layer == "PP" && !user.atEnd && user.sacrifice.PP == 1 && user.pp.sac.gte(cost)) {user.atEnd = true; alertify.confirm("You have reached the end of the game. Check the discord for upcoming updates")}
+  
   di("pb"+layer.toLowerCase()+"Sac").textContent = e("d", user[layer.toLowerCase()].sac, 2, 0);
   di("pb"+layer.toLowerCase()+"Goal").textContent = e("d", g, 2, 0);
   di("pb"+layer.toLowerCase()+"Unlock").innerHTML = u;
@@ -229,7 +232,7 @@ document.addEventListener("keydown", (event) => {
   if (keys["p"] && !keys["s"]) {confirmPrestige()}
   if (keys["s"]) {
     if (keys["i"]) {confirmRunSacrifice("IP")}
-    if (keys["p"] && false) {confirmRunSacrifice("PP")}
+    if (keys["p"]) {confirmRunSacrifice("PP")}
   }
 });
 document.addEventListener("keyup", (event) => {keys[event.key] = false});
@@ -238,7 +241,8 @@ function simulateTime(time, active) {
   showId("offlineBox");
   di("offlineTime").textContent = showTime(nd(time));
   runGameTime(true, 1);
-  let ticks = Math.floor(time/1000*updateRate);
+  let ticksPerSecond = 20;
+  let ticks = Math.floor(time/1000*ticksPerSecond);
   if (ticks > 72000) {ticks = 72000}
   var userStart = JSON.parse(JSON.stringify(user));
   fixnd(userStart);
@@ -247,7 +251,7 @@ function simulateTime(time, active) {
   showId("offlineLoading");
   setTimeout(() => {
     let ticksDone = 0;
-    for (ticksDone=0; ticksDone<ticks; ticksDone++) {runGameTime(false, 1000/updateRate)}
+    for (ticksDone=0; ticksDone<ticks; ticksDone++) {runGameTime(false, 1000/ticksPerSecond)}
     
     if (user.ip.current.gt(userStart.ip.current)) {showId("offlineIP"); di("offlineIPx").textContent = e("d", user.ip.current.minus(userStart.ip.current), 2, 0)}
     if (user.pp.current.gt(userStart.pp.current)) {showId("offlinePP"); di("offlinePPx").textContent = e("d", user.pp.current.minus(userStart.pp.current), 2, 0)}
@@ -265,7 +269,9 @@ function runGameTime(active, time) {
   //Set time diff
   let thisUpdate = Date.now();
   if (typeof time == "undefined") {time = Math.min(thisUpdate-user.time.lastUpdate, 43200000)}
-  let ticks = Math.floor(time*updateRate/1000);
+  let ticksPerSecond = 20;
+  /*let ticks = Math.floor(time*ticksPerSecond/1000);*/
+  let ticks = (time*ticksPerSecond/1000);
   
   
   
@@ -276,7 +282,7 @@ function runGameTime(active, time) {
   for (let name in increment) {
     setIncrementResult(name);
   }
-  if (user.pp.count > 0 || user.pp.total.gt(0)) {user.ip.infinite = nd("1ee6")}
+  if (user.pp.count > 0 || user.pp.total.gt(0)) {user.ip.infinite = nd("1ee4")}
   
   
   
@@ -294,7 +300,7 @@ function runGameTime(active, time) {
   //Check for achievements
   if (active) {
     let condition = false;
-    for (let i=0; i<5; i++) {if (user.ip.increment.P.bought[i]) {condition = true}}
+    for (let i=0; i<5; i++) {if (user.ip.increment.P.bought[i] > 0) {condition = true}}
     if (condition) {giveAchievement("ach1-1", true)}
     condition = false;
     for (let name in automation) {
@@ -304,14 +310,14 @@ function runGameTime(active, time) {
     if (condition) {giveAchievement("ach1-2", true)}
     condition = false;
     if (user.sacrifice.IP >= 1) {giveAchievement("ach1-3", true)}
-    for (let i=0; i<5; i++) {if (user.ip.increment.M.bought[i]) {condition = true}}
+    for (let i=0; i<5; i++) {if (user.ip.increment.M.bought[i] > 0) {condition = true}}
     if (condition) {giveAchievement("ach1-4", true)}
     condition = false;
     if (user.sacrifice.IP >= 2) {giveAchievement("ach1-5", true)}
     if (user.ip.equationClicks.gte(2500)) {giveAchievement("ach1-6", true); showId("equationClickUnlock")} else {hideId("equationClickUnlock")}
     let cost = getIncrementx("P", 1);
     if (cost.gte(1000) && getIncrementx("P", 0).gt(cost)) {giveAchievement("ach2-1", true)}
-    for (let i=0; i<5; i++) {if (user.ip.increment.E.bought[i]) {condition = true}}
+    for (let i=0; i<5; i++) {if (user.ip.increment.E.bought[i] > 0) {condition = true}}
     if (condition) {giveAchievement("ach2-2", true)}
     condition = false;
     if (user.sacrifice.IP >= 7) {giveAchievement("ach2-3", true)}
@@ -323,7 +329,12 @@ function runGameTime(active, time) {
     if (user.pp.challenge[1].count >= 1) {giveAchievement("ach3-3", true)}
     if (user.pp.pt.cells.includes("pt2-3")) {giveAchievement("ach3-4", true)}
     if (user.pp.milestones >= 2 && user.pp.pt.cells.includes("pt3-1") && user.pp.pt.cells.includes("pt3-4") && user.automation.Prestige.enabled) {giveAchievement("ach3-5")} //Doesn't check if you have any automation ENABLED except for auto prestige
-    /*if (user.sacrifice.PP > 0) {giveAchievement("ach3-6", true)}*/
+    if (user.sacrifice.PP > 0) {giveAchievement("ach3-6", true)}
+    for (let i=0; i<5; i++) {if (user.ip.increment.T.bought[i] > 0) {condition = true}}
+    if (condition) {giveAchievement("ach4-1", true)}
+    condition = false;
+    if (user.pp.pt.cells.includes("pt5-1")) {giveAchievement("ach4-3", true)}
+    //Ach4-4 checked in resetPrestige()
   }
   
   
@@ -333,9 +344,8 @@ function runGameTime(active, time) {
   //Other
   if (user.pp.count > 0 || user.pp.total.gt(0)) {showId("pt0-1")} else {hideId("pt0-1")}
   for (let id in pt) {
-    if (id == "pt0-1") {continue};
     let show = true;
-    for (let i=0; i<pt[id].from.length; i++) {if (!user.pp.pt.cells.includes(pt[id].from[i])) {show = false}}
+    for (let i=0; i<pt[id].from.length; i++) {if (!user.pp.pt.cells.includes(pt[id].from[i]) || user.sacrifice.PP < pt[id].sac) {show = false}}
     if (show) {showId(id)} else {hideId(id)}
   }
   
@@ -383,7 +393,8 @@ function runGameTime(active, time) {
       showClass("coefficient"+names[i]);
     }
   }
-  if (user.sacrifice.PP >= 1 && false) {showClass("incrementT0Unlocks")} else {hideClass("incrementT0Unlocks")}
+  if (user.sacrifice.PP >= 1) {showClass("incrementT0Unlocks")} else {hideClass("incrementT0Unlocks")}
+  if (user.sacrifice.PP >= 2) {showClass("incrementT1Unlocks")} else {hideClass("incrementT1Unlocks")}
   
   //Unlock Automation
   if (user.pp.milestones < 5) {
@@ -391,6 +402,7 @@ function runGameTime(active, time) {
     if (user.ip.sac.gte(layers.IP.goals[4])) {showId("autoIncrementP")} else {hideId("autoIncrementP")}
     if (user.ip.sac.gte(layers.IP.goals[9]) && user.sacrifice.IP >= layers.IP.goalsSac[9]) {showId("autoIncrementM")} else {hideId("autoIncrementM")}
     if (user.ip.sac.gte(layers.IP.goals[17]) && user.sacrifice.IP >= layers.IP.goalsSac[17]) {showId("autoIncrementE"); showId("scalingE")} else {hideId("autoIncrementE"); hideId("scalingE")}
+    hideId("autoIncrementT");
   }
   else {
     showId("autoIP");
@@ -403,7 +415,7 @@ function runGameTime(active, time) {
   //Unlock Sacrifice
   if (user.pp.milestones < 5) {if (user.ip.sac.gte(sacrifice.IP.costs[0]) || user.sacrifice.IP > 0 || user.pp.count > 0 || user.pp.total.gt(0)) {showId("sacrificeIP"); showClass("hotkeySIUnlocks")} else {hideId("sacrificeIP"); hideClass("hotkeySIUnlocks")}}
   else {showId("sacrificeIP"); showClass("hotkeySIUnlocks")}
-  if ((user.pp.sac.gte(getSacrificeCost("PP", 0)) || user.sacrifice.PP > 0) && false) {showId("sacrificePP"); showClass("hotkeySPUnlocks")} else {hideId("sacrificePP"); hideClass("hotkeySPUnlocks")}
+  if ((user.pp.sac.gte(getSacrificeCost("PP", 0)) || user.sacrifice.PP > 0)) {showId("sacrificePP"); showClass("hotkeySPUnlocks")} else {hideId("sacrificePP"); hideClass("hotkeySPUnlocks")}
   
   if (user.sacrifice.IP >= 1) {showId("sacrificeIPPUnlock")} else {hideId("sacrificeIPPUnlock")}
   if (user.sacrifice.IP >= 3) {showId("sacrificeIPMUnlock")} else {hideId("sacrificeIPMUnlock")}
@@ -418,11 +430,18 @@ function runGameTime(active, time) {
   if (user.pp.pt.cells.includes("pt2-4")) {showClass("maxScalingUnlocks")} else {hideClass("maxScalingUnlocks")}
   
   //Unlock Toggle Automation
-  if (user.automation.IP.bought > 0) {showId("autoIPState")} else {hideId("autoIPState")}
-  if (user.automation.IncrementP.bought > 0) {showClass("autoIncrementPUnlocks")} else {hideClass("autoIncrementPUnlocks")}
-  if (user.automation.IncrementM.bought > 0) {showClass("autoIncrementMUnlocks")} else {hideClass("autoIncrementMUnlocks")}
-  if (user.automation.IncrementE.bought > 0) {showClass("autoIncrementEUnlocks")} else {hideClass("autoIncrementEUnlocks")}
-  if (user.automation.IncrementT.bought > 0) {showClass("autoIncrementTUnlocks")} else {hideClass("autoIncrementTUnlocks")}
+  if (user.pp.milestones < 2 || !user.pp.pt.cells.includes("pt3-1")) {
+    if (user.automation.IP.bought > 0) {showId("autoIPState")} else {hideId("autoIPState")}
+    if (user.automation.IncrementP.bought > 0) {showClass("autoIncrementPUnlocks")} else {hideClass("autoIncrementPUnlocks")}
+    if (user.automation.IncrementM.bought > 0) {showClass("autoIncrementMUnlocks")} else {hideClass("autoIncrementMUnlocks")}
+    if (user.automation.IncrementE.bought > 0) {showClass("autoIncrementEUnlocks")} else {hideClass("autoIncrementEUnlocks")}
+    if (user.automation.IncrementT.bought > 0) {showClass("autoIncrementTUnlocks")} else {hideClass("autoIncrementTUnlocks")}
+  }
+  else {
+    showId("autoIPState");
+    for (let i=0; i<names.length; i++) {showClass("autoIncrement"+names[i]+"Unlocks")}
+    showClass("autoIncrementTUnlocks");
+  }
   if (user.automation.SacrificeIP.bought > 0) {showId("autoSacrificeIPState")} else {hideId("autoSacrificeIPState")}
   if (user.automation.Prestige.bought > 0) {showId("autoPrestigeState")} else {hideId("autoPrestigeState")}
   
@@ -430,7 +449,7 @@ function runGameTime(active, time) {
   
   //Run passive gain
   if (user.automation.IP.enabled) {
-    let bulk = getAutomationRate("IP").divide(updateRate).times(ticks);
+    let bulk = getAutomationRate("IP").divide(ticksPerSecond).times(ticks);
     let multi = nd(1);
     /*if (user.pp.pt.cells.includes("pt5-2")) {
       multi = multi.times(getClickMulti());
@@ -445,11 +464,11 @@ function runGameTime(active, time) {
   //Increments P, M, and E
   for (let name in increment) {
     for (let i=4; i>=0; i--) {
-      if (user.automation["Increment"+name].enabled[i] && di("incrementP"+i).style.display != "none") {
+      if (user.automation["Increment"+name].enabled[i] && di("increment"+name+i).style.display != "none") {
         if (increment[name].auto) {
           let ratio = getIncrementRatio(name, i);
           let canBuy = Decimal.affordGeometricSeries(user.ip.current, increment[name].baseCost, ratio, user.ip.increment[name].bought[i]);
-          let bulk = getAutomationRate("Increment"+name).divide(updateRate).times(ticks);
+          let bulk = getAutomationRate("Increment"+name).divide(ticksPerSecond).times(ticks);
           if (name == "E") {bulk = bulk.floor()}
           let buy;
           if (canBuy.gte(bulk)) {buy = bulk}
@@ -468,9 +487,11 @@ function runGameTime(active, time) {
           }
         }
         else {
-          /*let bulk = getAutomationRate("Increment"+name).divide(updateRate).times(ticks);
-          for (let k=0; k<bulk; k++) {buyIncrement(name, i)}*/
-          while (user.ip.current.gte(getIncrementCost(name, i))) {buyIncrement(name, i)}
+          let bulk = getAutomationRate("Increment"+name).divide(ticksPerSecond).times(ticks);
+          for (let k=0; k<bulk; k++) {
+            if (!buyIncrement(name, i)) {break}
+          }
+          /*while (user.ip.current.gte(getIncrementCost(name, i))) {buyIncrement(name, i)}*/
         }
       }
     }
@@ -478,7 +499,7 @@ function runGameTime(active, time) {
   
   //Sacrifice
   if (user.automation.SacrificeIP.enabled) {
-    let bulk = getAutomationRate("SacrificeIP").divide(updateRate).times(ticks);
+    let bulk = getAutomationRate("SacrificeIP").divide(ticksPerSecond).times(ticks);
     if (bulk < 1) {
       sacrificeIPTime += bulk.toNumber();
       if (sacrificeIPTime >= 1) {
@@ -503,7 +524,7 @@ function runGameTime(active, time) {
   
   //Prestige
   /*if (user.automation.Prestige.enabled) {
-    let bulk = getAutomationRate("Prestige").divide(updateRate).times(ticks);
+    let bulk = getAutomationRate("Prestige").divide(ticksPerSecond).times(ticks);
     if (bulk < 1) {
       prestigeTime += bulk.toNumber();
       if (prestigeTime >= 1) {
@@ -538,7 +559,7 @@ function runGameTime(active, time) {
     }
   }*/
   if (user.automation.Prestige.enabled) {
-    let bulk = getAutomationRate("Prestige").divide(updateRate).times(ticks);
+    let bulk = getAutomationRate("Prestige").divide(ticksPerSecond).times(ticks);
     if (bulk < 1) {
       prestigeTime += bulk.toNumber();
       let gain = getPPGain();
@@ -574,9 +595,13 @@ function runGameTime(active, time) {
 }
 
 function intervals() {
-  gameTimeInterval = setInterval(() => {runGameTime(true, 1000/updateRate)}, (1000/updateRate));
+  /*gameTimeInterval = setInterval(() => {runGameTime(true)}, (1000/updateRate));*/
   setInterval(() => {if (random(1, 1e6, true) == 1) {giveEgg("egg1-4", true)}}, 1000);
   setInterval(() => {save(true)}, 60000);
+}
+function refreshGameInterval() {
+  clearInterval(gameTimeInterval);
+  gameTimeInterval = setInterval(() => {runGameTime(true)}, (1000/updateRate));
 }
 
 
@@ -585,11 +610,12 @@ document.addEventListener("unload", () => {save()});
 di("loading").addEventListener("click", (event) => {event.stopPropagation()});
 loadGame();
 intervals();
+refreshGameInterval();
 di("version").textContent = user.version + " (Beta)";
 
 //Temp
 /*progress();*/
-const hideIds = ["autoIncrementT", "tabAscensionb", "autoSacrificePPState", "apInfo", "apChallengeInfo"];
-const hideClasses = ["incrementT1Unlocks", "incrementT2Unlocks", "incrementT3Unlocks", "incrementT4Unlocks"];
+const hideIds = ["tabAscensionb", "autoSacrificePPState", "apInfo", "apChallengeInfo"];
+const hideClasses = ["incrementT2Unlocks", "incrementT3Unlocks", "incrementT4Unlocks", "coefficientT"];
 for (let i=0; i<hideIds.length; i++) {hideId(hideIds[i])}
 for (let i=0; i<hideClasses.length; i++) {hideClass(hideClasses[i])}
