@@ -26,9 +26,9 @@ function loadGame() {
 }
 function loadData(data) {
   let versionStart = data.version;
+  let updated = false;
   resetAll(false);
   user = JSON.parse(JSON.stringify(data));
-  let updateMessage = "";
   if (user.version == "0.0.0") {
     user.active.displaypause = false;
     user.confirm = {creset: true, csacrifice: true}
@@ -239,8 +239,22 @@ function loadData(data) {
     user.options.smartAutoPrestige = false;
     user.atEnd = false;
     if (user.eggs.includes("egg1-2")) {user.eggs.splice(user.eggs.indexOf("egg1-2"), 1)}
-    updateMessage = "<br>0.5.0<br>- Sacrifice PP<br>- Tetration<br>- More milestones, tree upgrades and challenge levels<br>- Fixed 6+ bugs"+updateMessage;
     user.version = "0.5.0";
+  }
+  if (user.version == "0.5.0") {
+    user.options.variableAutomation = false;
+    if (user.pp.pt.cells.includes("pt5-1") || user.pp.pt.cells.includes("pt5-3")) {
+      if (user.pp.pt.cells.includes("pt5-1") && user.pp.pt.cells.includes("pt5-3")) {
+        user.pp.current = Number(user.pp.current)+300000;
+        user.pp.pt.refundAmount = Number(user.pp.pt.refundAmount)-300000;
+      }
+      else {
+        user.pp.current = Number(user.pp.current)+100000;
+        user.pp.pt.refundAmount = Number(user.pp.pt.refundAmount)-100000;
+      }
+    }
+    user.version = "0.5.1";
+    updated = true;
   }
   for (let i=0; i<user.eggs.length; i++) {showId(user.eggs[i])}
   fixnd(user);
@@ -255,6 +269,9 @@ function loadData(data) {
   if (user.version == versionStart) {alertify.message("Loaded Version " + user.version)}
   else {alertify.message("Loaded Version " + versionStart + " > " + user.version)}
   setTimeout(() => {
-    if (updateMessage !== "") {alertify.confirm("What's New:"+updateMessage)}
+    if (updated) {whatsNew()}
   }, (1000/updateRate)+1);
 }
+
+//Other
+function whatsNew() {alertify.confirm("What's New:"+updateMessage)}

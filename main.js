@@ -11,6 +11,7 @@ function setUser() {
       logpb: false,
       uiRate: 20,
       smartAutoPrestige: false,
+      variableAutomation: false,
     },
     achievements: [],
     eggs: [],
@@ -69,7 +70,7 @@ function setUser() {
       lastPrestige: 0,
       bestPrestige: 31536000000
     },
-    version: "0.5.0",
+    version: "0.5.1",
     atEnd: false,
     beta: false
   }
@@ -82,6 +83,13 @@ var gameTimeInterval;
 var resetFrom = "Nothing"; //For achievements or special conditions
 var reset = "Nothing"; //For actual resetting
 var updateRate = 20;
+
+const updateMessages = {
+  "0.5.1": "- Text",
+  "0.5.0": "- Sacrifice PP<br>- Tetration<br>- More milestones, tree upgrades and challenge levels<br>- Fixed 6+ bugs",
+}
+var updateMessage = "";
+for (let version in updateMessages) {updateMessage += "<br>"+version+"<br>"+updateMessages[version]}
 
 const showInfinite = true;
 const layers = {
@@ -237,8 +245,9 @@ document.addEventListener("keydown", (event) => {
 });
 document.addEventListener("keyup", (event) => {keys[event.key] = false});
 
-function simulateTime(time, active) {
-  showId("offlineBox");
+function simulateTime(time, active, showBox) {
+  if (typeof showBox == "undefined") {showBox = true}
+  if (showBox) {showId("offlineBox")}
   di("offlineTime").textContent = showTime(nd(time));
   runGameTime(true, 1);
   let ticksPerSecond = 20;
@@ -253,8 +262,8 @@ function simulateTime(time, active) {
     let ticksDone = 0;
     for (ticksDone=0; ticksDone<ticks; ticksDone++) {runGameTime(false, 1000/ticksPerSecond)}
     
-    if (user.ip.current.gt(userStart.ip.current)) {showId("offlineIP"); di("offlineIPx").textContent = e("d", user.ip.current.minus(userStart.ip.current), 2, 0)}
-    if (user.pp.current.gt(userStart.pp.current)) {showId("offlinePP"); di("offlinePPx").textContent = e("d", user.pp.current.minus(userStart.pp.current), 2, 0)}
+    if (user.ip.sac.gt(userStart.ip.current)) {showId("offlineIP"); di("offlineIPx").textContent = e("d", user.ip.sac.minus(userStart.ip.sac), 2, 0)}
+    if (user.pp.sac.gt(userStart.pp.current)) {showId("offlinePP"); di("offlinePPx").textContent = e("d", user.pp.sac.minus(userStart.pp.sac), 2, 0)}
     
     if (user.pp.count > userStart.pp.count) {showId("offlinePPCount"); di("offlinePPCountx").textContent = e("d", nd(user.pp.count-userStart.pp.count), 2, 0)}
     hideId("offlineLoading");
@@ -328,13 +337,14 @@ function runGameTime(active, time) {
     //ach3-2 checked in resetPrestige()
     if (user.pp.challenge[1].count >= 1) {giveAchievement("ach3-3", true)}
     if (user.pp.pt.cells.includes("pt2-3")) {giveAchievement("ach3-4", true)}
-    if (user.pp.milestones >= 2 && user.pp.pt.cells.includes("pt3-1") && user.pp.pt.cells.includes("pt3-4") && user.automation.Prestige.enabled) {giveAchievement("ach3-5")} //Doesn't check if you have any automation ENABLED except for auto prestige
+    if (user.pp.milestones >= 2 && user.pp.pt.cells.includes("pt3-1") && user.pp.pt.cells.includes("pt3-4") && user.automation.Prestige.enabled) {giveAchievement("ach3-5", true)} //Doesn't check if you have any automation ENABLED except for auto prestige
     if (user.sacrifice.PP > 0) {giveAchievement("ach3-6", true)}
     for (let i=0; i<5; i++) {if (user.ip.increment.T.bought[i] > 0) {condition = true}}
     if (condition) {giveAchievement("ach4-1", true)}
     condition = false;
+    //ach4-2 checked in importy()
     if (user.pp.pt.cells.includes("pt5-1")) {giveAchievement("ach4-3", true)}
-    //Ach4-4 checked in resetPrestige()
+    //ach4-4 checked in resetPrestige()
   }
   
   
@@ -353,7 +363,7 @@ function runGameTime(active, time) {
   if (user.ip.sac.gte(layers.IP.goals[18]) && user.sacrifice.IP >= layers.IP.goalsSac[18] || user.pp.count > 0 || user.pp.total.gt(0)) {showId("ppInfo")} else {hideId("ppInfo")}
   if ((user.ip.sac.gte(layers.IP.goals[18]) && user.sacrifice.IP >= layers.IP.goalsSac[18]) || user.pp.count > 0 || user.pp.total.gt(0)) {showId("confirmationPrestige")} else {hideId("confirmationPrestige")}
   if (user.pp.count > 0 || user.pp.total.gt(0)) {showClass("statPPUnlocks"); showIdTab("subTabPrestigeMilestonesb"); showIdTab("subTabPrestigeTreeb")} else {hideClass("statPPUnlocks"); hideId("subTabPrestigeMilestonesb"); hideId("subTabPrestigeTreeb")}
-  if (user.pp.sac.gte(layers.PP.goals[0])) {showId("refundPT")} else {hideId("refundPT")}
+  if (user.pp.sac.gte(layers.PP.goals[0]) || user.sacrifice.PP > 0) {showId("refundPT")} else {hideId("refundPT")}
   if (user.pp.sac.gte(layers.PP.goals[1])) {showClass("ppChallenges")} else {hideClass("ppChallenges")}
   
   //Unlock Tabs
@@ -492,7 +502,6 @@ function runGameTime(active, time) {
           for (let k=0; k<bulk; k++) {
             if (!buyIncrement(name, i)) {break}
           }
-          /*while (user.ip.current.gte(getIncrementCost(name, i))) {buyIncrement(name, i)}*/
         }
       }
     }
@@ -513,6 +522,7 @@ function runGameTime(active, time) {
       }
     }
     else {
+      if (bulk.gt(10)) {bulk = 10}
       for (let i=0; i<bulk; i++) {
         let cost = getSacrificeCost("IP");
         if (user.ip.sac.gte(cost) && cost.lt(user.ip.infinite)) {
@@ -524,41 +534,6 @@ function runGameTime(active, time) {
   }
   
   //Prestige
-  /*if (user.automation.Prestige.enabled) {
-    let bulk = getAutomationRate("Prestige").divide(ticksPerSecond).times(ticks);
-    if (bulk < 1) {
-      prestigeTime += bulk.toNumber();
-      if (prestigeTime >= 1) {
-        prestigeTime -= 1;
-        let gain = getPPGain();
-        if (gain.gte(user.automation.Prestige.at)) {
-          giveMoney("PP", gain);
-          user.pp.lastGain = gain;
-          user.pp.count++;
-          if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
-          user.time.lastPrestige = user.time.thisPrestige;
-          user.time.thisPrestige = 0;
-          if (user.pp.pt.refund) {refundPT()}
-          resetPrestige();
-        }
-      }
-    }
-    else {
-      for (let i=0; i<bulk; i++) {
-        let gain = getPPGain();
-        if (gain.gte(user.automation.Prestige.at)) {
-          giveMoney("PP", gain);
-          user.pp.lastGain = gain;
-          user.pp.count++;
-          if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
-          user.time.lastPrestige = user.time.thisPrestige;
-          user.time.thisPrestige= 0;
-          if (user.pp.pt.refund) {refundPT()}
-          resetPrestige();
-        }
-      }
-    }
-  }*/
   if (user.automation.Prestige.enabled) {
     let bulk = getAutomationRate("Prestige").divide(ticksPerSecond).times(ticks);
     if (bulk < 1) {
@@ -620,5 +595,3 @@ const hideIds = ["tabAscensionb", "autoSacrificePPState", "apInfo", "apChallenge
 const hideClasses = ["incrementT2Unlocks", "incrementT3Unlocks", "incrementT4Unlocks", "coefficientT"];
 for (let i=0; i<hideIds.length; i++) {hideId(hideIds[i])}
 for (let i=0; i<hideClasses.length; i++) {hideClass(hideClasses[i])}
-
-if (user.tab.Achievements == "Eggs") {user.tab.Achievements = "Normal"}

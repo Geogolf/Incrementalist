@@ -9,14 +9,14 @@ const pt = {
   "pt2-3": {from: ["pt1-2"], sac: 0, cost: {type: "static", cost: 50}},
   "pt2-4": {from: ["pt1-3"], sac: 0, cost: {type: "rowIncrease", effect: ["pt2-5"], baseCost: 7, scaleCost: 1.6}},
   "pt2-5": {from: ["pt1-3"], sac: 0, cost: {type: "rowIncrease", effect: ["pt2-4"], baseCost: 7, scaleCost: 1.6}},
-  "pt3-1": {from: ["pt2-1", "pt2-2"], sac: 0, cost: {type: "rowIncrease", effect: ["pt3-4"], baseCost: 150, scaleCost: 3}},
+  "pt3-1": {from: ["pt2-2"], sac: 0, cost: {type: "rowIncrease", effect: ["pt3-4"], baseCost: 150, scaleCost: 3}},
   "pt3-2": {from: ["pt2-3"], sac: 0, cost: {type: "static", cost: 500}},
   "pt3-3": {from: ["pt2-3"], sac: 0, cost: {type: "static", cost: 500}},
-  "pt3-4": {from: ["pt2-4", "pt2-5"], sac: 0, cost: {type: "rowIncrease", effect: ["pt3-1"], baseCost: 150, scaleCost: 3}},
+  "pt3-4": {from: ["pt2-4"], sac: 0, cost: {type: "rowIncrease", effect: ["pt3-1"], baseCost: 150, scaleCost: 3}},
   "pt4-1": {from: ["pt3-1", "pt3-2", "pt3-3", "pt3-4"], sac: 0, cost: {type: "static", cost: 50000}},
-  "pt5-1": {from: ["pt5-2"], sac: 1, cost: {type: "rowIncrease", effect: ["pt5-3"], baseCost: 500000, scaleCost: 2}},
+  "pt5-1": {from: ["pt5-2"], sac: 1, cost: {type: "rowIncrease", effect: ["pt5-3"], baseCost: 400000, scaleCost: 2}},
   "pt5-2": {from: ["pt4-1"], sac: 1, cost: {type: "static", cost: 100000}},
-  "pt5-3": {from: ["pt4-1"], sac: 1, cost: {type: "rowIncrease", effect: ["pt5-1"], baseCost: 500000, scaleCost: 2}},
+  "pt5-3": {from: ["pt4-1"], sac: 1, cost: {type: "rowIncrease", effect: ["pt5-1"], baseCost: 400000, scaleCost: 2}},
   "pt5-4": {from: ["pt4-1"], sac: 1, cost: {type: "static", cost: 1e8}},
   /*"pt5-5": {from: ["pt5-4"], cost: {type: "static", cost: 2.5e9}},*/
   "pt6-1": {from: ["pt5-2", "pt5-3"], sac: 1, cost: {type: "static", cost: 1.5e6}}

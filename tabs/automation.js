@@ -94,13 +94,46 @@ function toggleMaxBuyAutomation(name) {
   updateMaxAutoState(name);
 }
 function toggleAutomation(name, num) {
-  if (Array.isArray(user.automation[name].enabled)) {
-    user.automation[name].enabled[num] = !user.automation[name].enabled[num];
-    updateAutomationState(name, num);
+  if (user.options.variableAutomation && automation[name].currency == "ip" && !keys["Shift"]) {
+    let setTo;
+    if (automation[name].array) {setTo = !user.automation[name].enabled[num]}
+    else {setTo = !user.automation[name].enabled}
+    for (let nam in automation) {
+      if (automation[nam].currency == "ip") {
+        if (automation[nam].array) {
+          for (let i=0; i<5; i++) {
+            if (automation[name].array && di("auto"+nam+i+"State").parentNode.style.display != "none") {
+              user.automation[nam].enabled[i] = setTo;
+              updateAutomationState(nam, i);
+            }
+            else if (di("auto"+nam+i+"State").parentNode.style.display != "none") {
+              user.automation[nam].enabled[i] = setTo;
+              updateAutomationState(nam, i);
+            }
+          }
+        }
+        else {
+          if (automation[name].array && di("auto"+nam+"State").parentNode.style.display != "none") {
+            user.automation[nam].enabled = setTo;
+            updateAutomationState(nam);
+          }
+          else if (di("auto"+nam+"State").parentNode.style.display != "none") {
+            user.automation[nam].enabled = setTo;
+            updateAutomationState(nam);
+          }
+        }
+      }
+    }
   }
   else {
-    user.automation[name].enabled = !user.automation[name].enabled;
-    updateAutomationState(name);
+    if (automation[name].array) {
+      user.automation[name].enabled[num] = !user.automation[name].enabled[num];
+      updateAutomationState(name, num);
+    }
+    else {
+      user.automation[name].enabled = !user.automation[name].enabled;
+      updateAutomationState(name);
+    }
   }
 }
 
