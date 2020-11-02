@@ -621,4 +621,4 @@ const hideClasses = ["incrementT2Unlocks", "incrementT3Unlocks", "incrementT4Unl
 for (let i=0; i<hideIds.length; i++) {hideId(hideIds[i])}
 for (let i=0; i<hideClasses.length; i++) {hideClass(hideClasses[i])}
 
-if (user.tab.Achievements == "Eggs") {user.tab.Achievements = "Normal"}
+if (user.tab.Achievements == "Eggs") {showSubTab("Achievements", "Normal"); showTab(user.tab.main)}
