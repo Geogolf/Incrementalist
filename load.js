@@ -20,7 +20,7 @@ function fixnd(obj) {
 function loadGame() {
   let data = JSON.parse(localStorage.getItem("user"));
   if (data != null) {loadData(data)}
-  else {loadData(setUser())}
+  else {loadData(setUser()); hideId("offlineBox")}
   di("loadingScreen").style.opacity = 0;
   setTimeout(() => {hideId("loadingScreen")}, 500);
 }
@@ -28,6 +28,7 @@ function loadData(data) {
   let versionStart = data.version;
   resetAll(false);
   user = JSON.parse(JSON.stringify(data));
+  let updateMessage = "";
   if (user.version == "0.0.0") {
     user.active.displaypause = false;
     user.confirm = {creset: true, csacrifice: true}
@@ -234,6 +235,13 @@ function loadData(data) {
     user.time.bestPrestige = 31536000000;
     user.version = "0.4.1";
   }
+  if (user.version == "0.4.1") {
+    user.options.smartAutoPrestige = false;
+    user.atEnd = false;
+    if (user.eggs.includes("egg1-2")) {user.eggs.splice(user.eggs.indexOf("egg1-2"), 1)}
+    updateMessage = "<br>0.5.0<br>- Sacrifice PP<br>- Tetration<br>- More milestones, tree upgrades and challenge levels<br>- Fixed 6+ bugs"+updateMessage;
+    user.version = "0.5.0";
+  }
   for (let i=0; i<user.eggs.length; i++) {showId(user.eggs[i])}
   fixnd(user);
   showTab(user.tab.main);
@@ -246,4 +254,7 @@ function loadData(data) {
   save();
   if (user.version == versionStart) {alertify.message("Loaded Version " + user.version)}
   else {alertify.message("Loaded Version " + versionStart + " > " + user.version)}
+  setTimeout(() => {
+    if (updateMessage !== "") {alertify.confirm("What's New:"+updateMessage)}
+  }, (1000/updateRate)+1);
 }

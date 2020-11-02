@@ -1,33 +1,29 @@
 //Data
 const achievements = {
-  "ach1-1": {title: "Simple enough", desc: "Buy your first P variable", hasReward: false},
-  "ach1-2": {title: "Automation", desc: "Begin automation", hasReward: false},
-  "ach1-3": {title: "Was it worth it?", desc: "Sacrifice for the first time", hasReward: false},
-  "ach1-4": {title: "Multiplication", desc: "Buy your first M variable", hasReward: false},
-  "ach1-5": {title: "I think it was worth it", desc: "Sacrifice two times", hasReward: true},
-  "ach1-6": {title: "Click a few times", desc: "Click the equation 2,500 times", hasReward: true},
-  "ach2-1": {title: "It's not better", desc: "Get more P than P1 after 1,000", hasReward: true},
-  "ach2-2": {title: "Exponentiation", desc: "Buy your first E variable", hasReward: false},
-  "ach2-3": {title: "Is this too worth it?", desc: "Sacrifice seven times", hasReward: true},
-  "ach2-4": {title: "Exponential age", desc: "Buy your first scaling E upgrade", hasReward: true},
-  "ach2-5": {title: "Easy sacrifice", desc: "Sacrifice without buying any variables", hasReward: false},
-  "ach2-6": {title: "Can you even call this a sacrifice anymore?", desc: "Sacrifice without losing anything", hasReward: false},
-  "ach3-1": {title: "Prestigious", desc: "Prestige for the first time", hasReward: true},
-  "ach3-2": {title: "Is it easy already?", desc: "Prestige while sacrificing at most 10 times", hasReward: true},
-  "ach3-3": {title: "Haha it's harder now", desc: "Complete prestige challenge 1 for the first time", hasReward: true},
-  "ach3-4": {title: "Stonks", desc: "Buy prestige upgrade 2-3", hasReward: false},
-  "ach3-5": {title: "Full automation", desc: "Fully automate prestiges", hasReward: false},
-  /*"ach3-6": {title: "Sacrifice your PP", desc: "Sacrifice PP for the first time", hasReward: false},*/
-  "ach3-6": {title: "[WIP]", desc: "[WIP]", hasReward: false},
-  /*"ach4-1": {title: "Tetration", desc: "Buy your first T variable", hasReward: false},
+  "ach1-1": {title: "Addition", desc: "Buy your first P variable"},
+  "ach1-2": {title: "Automation", desc: "Begin automation"},
+  "ach1-3": {title: "Was it worth it?", desc: "Sacrifice for the first time"},
+  "ach1-4": {title: "Multiplication", desc: "Buy your first M variable"},
+  "ach1-5": {title: "I think it was worth it", desc: "Sacrifice two times"},
+  "ach1-6": {title: "Click a few times", desc: "Click the equation 2,500 times"},
+  "ach2-1": {title: "It's not better", desc: "Get more P than P1 after 1,000"},
+  "ach2-2": {title: "Exponential", desc: "Buy your first E variable"},
+  "ach2-3": {title: "Is this too worth it?", desc: "Sacrifice seven times"},
+  "ach2-4": {title: "Exponential age", desc: "Buy your first scaling E upgrade"},
+  "ach2-5": {title: "Easy sacrifice", desc: "Sacrifice without buying any variables"},
+  "ach2-6": {title: "Can you even call this a sacrifice anymore?", desc: "Sacrifice without losing anything"},
+  "ach3-1": {title: "Prestigious", desc: "Prestige for the first time"},
+  "ach3-2": {title: "Is it easy already?", desc: "Prestige while sacrificing at most 10 times"},
+  "ach3-3": {title: "Haha it's harder now", desc: "Complete prestige challenge 1 for the first time"},
+  "ach3-4": {title: "Stonks", desc: "Buy prestige upgrade 2-3"},
+  "ach3-5": {title: "Full automation", desc: "Fully automate prestiges"},
+  "ach3-6": {title: "Sacrifice your PP", desc: "Sacrifice PP for the first time"},
+  "ach4-1": {title: "Tetration", desc: "Buy your first T variable"},
   "ach4-2": {title: "The answer", desc: "42"},
-  "ach4-3": {title: "Stonks 2.0", desc: "Buy prestige upgrade 5-1", hasReward: false},*/
-  "ach4-1": {title: "[WIP]", desc: "[WIP]", hasReward: false},
-  "ach4-2": {title: "[WIP]", desc: "[WIP]", hasReward: false},
-  "ach4-3": {title: "[WIP]", desc: "[WIP]", hasReward: false},
-  "ach4-4": {title: "[WIP]", desc: "[WIP]", hasReward: false},
-  "ach4-5": {title: "[WIP]", desc: "[WIP]", hasReward: false},
-  "ach4-6": {title: "[WIP]", desc: "[WIP]", hasReward: false},
+  "ach4-3": {title: "Stonks 2.0", desc: "Buy prestige upgrade 5-1"},
+  "ach4-4": {title: "This is too easy", desc: "Prestige without sacrificing"},
+  "ach4-5": {title: "[WIP]", desc: "[WIP]"},
+  "ach4-6": {title: "[WIP]", desc: "[WIP]"},
 }
 for (let id in achievements) {
   let data = achievements[id];
@@ -59,7 +55,6 @@ function giveEgg(id, notify) {
   if (!user.eggs.includes(id)) {
     user.eggs.push(id);
     if (notify) {alertify.warning(eggs[id].title)}
-    showId(id);
   }
   showId(id);
   if (user.eggs.length != 1) {showId("eggS")}
@@ -68,7 +63,9 @@ function giveEgg(id, notify) {
 
 //Get Data
 function getAchievementBoost() {
-  return nd(1.1).pow(user.achievements.length);
+  let exp = nd(1);
+  /*if (user.pp.pt.cells.includes("pt5-5")) {exp = exp.times(getPTReward("pt5-5"))}*/
+  return nd(1.1).pow(user.achievements.length).pow(exp);
 }
 function getAchievementReward(id) {
   let multi = nd(1);
@@ -82,13 +79,18 @@ function getAchievementReward(id) {
     return nd(6).times(multi);
   }
   if (id == "ach3-1") {return nd(1001).pow(getPPChallengeReward(3)).times(multi)}
-  if (id == "ach3-2") {return nd(user.sacrifice.IP/3+4).sqrt().minus(1).times(multi)}
+  if (id == "ach3-2") {
+    let x = nd(user.sacrifice.IP/3+4).sqrt().minus(1).times(multi);
+    if (user.pp.pt.cells.includes("pt6-1")) {x = Decimal.tetrate(x, 3)}
+    return x;
+  }
   if (id == "ach3-3") {
     let completions = 0;
     for (let i=1; i<user.pp.challenge.length; i++) {completions += user.pp.challenge[i].count}
     if (completions < 12) {return nd(1.25).pow(completions).times(multi)}
     else {return nd(Math.log10(completions-10)).divide(Math.log10(1.25)).plus(11.197243)}
   }
+  if (id == "ach4-4") {return user.ip.sac.plus(1).pow(0.1)}
 }
 
 //Update Data
@@ -96,7 +98,7 @@ function updateAchievements() {
   di("totalAchievements").textContent = e("d", nd(user.achievements.length), 2, 0);
   di("achievementBoost").textContent = e("d", getAchievementBoost(), 2, 2);
   for (let id in achievements) {
-    if (achievements[id].hasReward) {di(id+"Reward").textContent = e("d", getAchievementReward(id), 2, 2)}
+    if (di(id+"Reward") != null) {di(id+"Reward").textContent = e("d", getAchievementReward(id), 2, 2)}
     if (user.achievements.includes(id)) {di(id).style.backgroundColor = "rgb(25, 85, 25)"}
     else {di(id).style.backgroundColor = "rgb(25, 25, 25)"}
   }
@@ -105,10 +107,12 @@ function updateAchievements() {
     let data = eggs[id];
     di(id+"Title").textContent = data.title;
     if (user.eggs.includes(id)) {
+      showId(id);
       di(id+"Description").textContent = data.desc;
       di(id).style.backgroundColor = "rgb(85, 85, 25)";
     }
     else {
+      hideId(id);
       di(id+"Description").textContent = "Locked";
       di(id).style.backgroundColor = "rgb(25, 25, 25)";
     }

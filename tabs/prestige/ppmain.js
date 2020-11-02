@@ -17,6 +17,7 @@ function runPrestige(achCheck, warn) {
     user.time.lastPrestige = user.time.thisPrestige;
     user.time.thisPrestige = 0;
     if (user.pp.pt.refund) {refundPT()}
+    if (user.options.smartAutoPrestige) {setPrestigeAt(gain)}
     reset = "Prestige";
   }
   else if (warn) {
@@ -61,7 +62,7 @@ function getPPGainMulti() {
   let multi = nd(1);
   if (user.achievements.includes("ach3-2")) {multi = multi.times(getAchievementReward("ach3-2"))}
   if (user.achievements.includes("ach3-3")) {multi = multi.times(getAchievementReward("ach3-3"))}
-  /*if (user.pp.pt.cells.includes("pt5-4")) {multi = multi.times(getPTReward("pt5-4"))}*/
+  if (user.pp.pt.cells.includes("pt5-4")) {multi = multi.times(getPTReward("pt5-4"))}
   return multi;
 }
 function getPPGain() {
@@ -78,7 +79,7 @@ function getPPNext() {
 }
 function getPPBoost() {
   let exp = nd(1);
-  /*if (user.pp.pt.cells.includes("pt5-1")) {exp = exp.times(getPTReward("pt5-1"))}*/
+  if (user.pp.pt.cells.includes("pt5-1")) {exp = exp.times(getPTReward("pt5-1"))}
   return nd(user.pp.current.plus(1).log10().plus(1)).pow(exp);
 }
 
@@ -99,16 +100,19 @@ function updatePrestige() {
 //Reset Data
 function resetPrestige() {
   if (user.sacrifice.IP <= 10 && resetFrom == "Prestige") {giveAchievement("ach3-2", true)}
-  if (user.pp.milestones < 2 || !user.pp.pt.cells.includes("pt3-1")) {
+  if (user.sacrifice.IP == 0 && resetFrom == "Prestige") {giveAchievement("ach4-4", true)}
+  if (user.pp.milestones < 2 || !user.pp.pt.cells.includes("pt3-1") || !user.pp.pt.cells.includes("pt3-4")) {
     for (let name in automation) {
       if (automation[name].currency == "ip") {
-        if (Array.isArray(user.automation[name].enabled)) {
-          for (let i=0; i<user.automation[name].enabled.length; i++) {
-            if (user.automation[name].enabled[i]) {toggleAutomation(name, i)}
+        if (user.pp.milestones < 2 || !user.pp.pt.cells.includes("pt3-1")) {
+          if (Array.isArray(user.automation[name].enabled)) {
+            for (let i=0; i<user.automation[name].enabled.length; i++) {
+              if (user.automation[name].enabled[i]) {toggleAutomation(name, i)}
+            }
           }
-        }
-        else {
-          if (user.automation[name].enabled) {toggleAutomation(name)}
+          else {
+            if (user.automation[name].enabled) {toggleAutomation(name)}
+          }
         }
         if (user.pp.milestones < 1 || !user.pp.pt.cells.includes("pt3-4")) {
           user.automation[name].bought = 0;

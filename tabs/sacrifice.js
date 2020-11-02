@@ -1,8 +1,8 @@
 //Data
 const sacrifice = {
   IP: {
-    costs: ["1e7", "1e12", "9e17", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832"/*, "1e2050"*/],
-    unlocks: ["Variable M, P Multiplier", "Nothing", "M Multiplier", "Nothing", "Variable E", "Nothing", "E Multiplier", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing"/*, "Nothing"*/],
+    costs: ["1e7", "1e12", "9e17", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832", "1e2098"],
+    unlocks: ["Variable M, P Multiplier", "Nothing", "M Multiplier", "Nothing", "Variable E", "Nothing", "E Multiplier", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing"],
     boosts: {
       P: {dec: 0},
       M: {dec: 0},
@@ -10,8 +10,8 @@ const sacrifice = {
     }
   },
   PP: {
-    costs: ["1e281"/*, "1e1775"*/],
-    unlocks: ["Variable T"/*, "Prestige Power"*/],
+    costs: ["1e281", "1e2475"],
+    unlocks: ["Variable T", "Variable T<sub>1</sub>"],
     boosts: {
       C2: {dec: 2}
     }
@@ -27,6 +27,7 @@ function confirmRunSacrifice(layer) {
   else {runSacrifice(layer)}
 }
 function runSacrifice(layer, dontConfirm) {
+  if (layer == "PP" && user.sacrifice.PP == 1) {return}
   let cost = getSacrificeCost(layer);
   if (user[layer.toLowerCase()].sac.gte(cost) && cost.lt(user[layer.toLowerCase()].infinite)) {
     resetFrom = "Sacrifice";
@@ -98,7 +99,7 @@ function updateSacrifice(layer) {
   for (let name in sacrifice[layer].boosts) {
     di("sacrifice"+layer+name).textContent = e("d", getSacrificeBoost(layer, name), 2, sacrifice[layer].boosts[name].dec);
   }
-  (typeof sacrifice[layer].unlocks[user.sacrifice[layer]] != "undefined") ? di("sacrifice"+layer+"Unlock").textContent = sacrifice[layer].unlocks[user.sacrifice[layer]] : di("sacrifice"+layer+"Unlock").innerHTML = "Nothing";
+  (typeof sacrifice[layer].unlocks[user.sacrifice[layer]] != "undefined") ? di("sacrifice"+layer+"Unlock").innerHTML = sacrifice[layer].unlocks[user.sacrifice[layer]] : di("sacrifice"+layer+"Unlock").innerHTML = "Nothing";
   let cost = getSacrificeCost(layer);
   if (cost.gte(user[layer.toLowerCase()].infinite) && showInfinite) {
     di("sacrifice"+layer+"Cost").textContent = e("d", "Infinite", 2, 0);
