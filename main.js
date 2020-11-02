@@ -407,6 +407,7 @@ function runGameTime(active, time) {
   else {
     showId("autoIP");
     for (let i=0; i<names.length; i++) {showId("autoIncrement"+names[i])}
+    if (user.sacrifice.PP < 1) {hideId("autoIncrementT")}
   }
   if (user.pp.pt.cells.includes("pt2-2")) {showClass("maxAutoUnlocks")} else {hideClass("maxAutoUnlocks")}
   if (user.pp.sac.gte(layers.PP.goals[2])) {showId("autoSacrificeIP")} else {hideId("autoSacrificeIP")}
@@ -619,3 +620,5 @@ const hideIds = ["tabAscensionb", "autoSacrificePPState", "apInfo", "apChallenge
 const hideClasses = ["incrementT2Unlocks", "incrementT3Unlocks", "incrementT4Unlocks", "coefficientT"];
 for (let i=0; i<hideIds.length; i++) {hideId(hideIds[i])}
 for (let i=0; i<hideClasses.length; i++) {hideClass(hideClasses[i])}
+
+if (user.tab.Achievements == "Eggs") {user.tab.Achievements = "Normal"}
