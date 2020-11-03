@@ -48,8 +48,8 @@ function e(note, obj, exp, dec, noCommas) {
     }
   }
   if (note == "Infinity") {
-    /*obj = obj.log10().divide(Math.log10(Number.MAX_VALUE));*/ //Broken??
-    return e("Scientific", obj, exp, dec)/*+"∞"*/;
+    let result = obj.plus(1).log10().divide(Math.log10(Number.MAX_VALUE));
+    return e("Scientific", result, 2, 4)+"∞";
   }
   if (note == "Blind") {
     return " ";

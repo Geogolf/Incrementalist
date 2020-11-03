@@ -1,9 +1,10 @@
 //Data
 const options = {
-  Notation: {type: "Dropdown", onclick: (note) => {setNotation(note)}, items: ["Scientific"/*, "Engineering"*/, "Logarithm"/*, "Letters"*//*, "Infinity"*/, "Blind"]},
+  Notation: {type: "Dropdown", onclick: (note) => {setNotation(note)}, items: ["Scientific"/*, "Engineering"*/, "Logarithm"/*, "Letters"*/, "Infinity", "Blind"]},
   Confirmation: {type: "Dropdown", onclick: (con) => {toggleConfirmation(con)}, items: ["Reset", "Sacrifice", "Prestige", "Challenge"]},
   Logpb: {type: "None", onclick: () => {toggleLogpb()}},
   SmartAutoPrestige: {type: "None", onclick: () => {toggleSmartAutoPrestige()}},
+  VariableAutomation: {type: "None", onclick: () => {toggleVariableAutomation()}},
   /*UIRate: {type: "Input", onclick: () => {setUIRate()}},*/
   Save: {type: "None", onclick: () => {save(true)}},
   Export: {type: "None", onclick: () => {exporty()}},
@@ -31,6 +32,7 @@ for (let name in options) {
 //Functions
 function setNotation(note) {
   user.options.notation = note;
+  setPrestigeAt(user.automation.Prestige.at);
   updateNotation(note);
 }
 function toggleConfirmation(con) {
@@ -47,6 +49,7 @@ function toggleLogpb() {user.options.logpb = !user.options.logpb}
   refreshGameInterval();
 }*/
 function toggleSmartAutoPrestige() {user.options.smartAutoPrestige = !user.options.smartAutoPrestige}
+function toggleVariableAutomation() {user.options.variableAutomation = !user.options.variableAutomation}
 
 function save(notify) {
   localStorage.setItem("user", JSON.stringify(user));
@@ -55,8 +58,11 @@ function save(notify) {
 function exporty() {copyToClipboard(btoa(JSON.stringify(user)))}
 function importy() {
   alertify.prompt("Paste your save code here", "", (event, value) => {
-    let data = JSON.parse(atob(value));
-    if (data != null && data != "") {loadData(data)}
+    if (value === "42") {giveAchievement("ach4-2", true)}
+    else {
+      let data = JSON.parse(atob(value));
+      if (data != null && data != "") {loadData(data)}
+    }
   });
 }
 function confirmResetAll() {
@@ -80,6 +86,7 @@ function updateOptions() {
   updateLogpb();
   /*updateUIRate();*/
   updateSmartAutoPrestige();
+  updateVariableAutomation();
 }
 
 function updateNotation(note) {
@@ -100,4 +107,8 @@ function updateLogpb() {
 function updateSmartAutoPrestige() {
   if (user.options.smartAutoPrestige) {di("SmartAutoPrestige").style.backgroundColor = "rgb(25, 85, 25)"}
   else {di("SmartAutoPrestige").style.backgroundColor = "rgb(0, 0, 0)"}
+}
+function updateVariableAutomation() {
+  if (user.options.variableAutomation) {di("VariableAutomation").style.backgroundColor = "rgb(25, 85, 25)"}
+  else {di("VariableAutomation").style.backgroundColor = "rgb(0, 0, 0)"}
 }

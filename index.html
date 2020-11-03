@@ -54,7 +54,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <div class="ch2" id="offlineBox" style="display: none">
       <span>You were away for </span><br>
       <span class="goldText" id="offlineTime">Error</span><br>
-      <span id="offlineLoading">Loading... Can take up to a minute</span><br>
+      <span id="offlineLoading" style="font-weight: bold">Loading... Can take up to a minute</span><br>
       <span id="offlineIP" style="width: 100%">You gained <span class="ba purpleText" id="offlineIPx">Error</span> Increment Points</span><br>
       <span id="offlinePP" style="width: 100%">You gained <span class="ba blueText" id="offlinePPx">Error</span> Prestige Points</span><br>
       <span id="offlinePPCount" style="width: 100%">You prestiged <span class="ba blueText" id="offlinePPCountx">Error</span> times</span>
@@ -126,6 +126,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
               <div class="dropdown-content ch ch2">
                 <div class="dropdown-item" id="notationScientific"><span>Scientific</span></div>
                 <div class="dropdown-item" id="notationLogarithm"><span>Logarithm</span></div>
+                <div class="dropdown-item" id="notationInfinity"><span>Infinity</span></div>
                 <div class="dropdown-item" id="notationBlind"><span>Blind</span></div>
               </div>
             </div>
@@ -150,8 +151,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <span class="ba" id="UIRatex">Error</span><span>/sec</span>
               </div>
             </div>-->
-            <div class="option" id="SmartAutoPrestige" style="transition: background-color .2s">
+          </div>
+          <div style="height: 44px; width: 100%; display: table; table-layout: fixed">
+            <div class="option tooltip-element" id="SmartAutoPrestige" style="transition: background-color .2s">
               <span class="cv ch2" style="width: 100%">Toggle smart auto prestige</span>
+              <span class="ch2 tooltip-content" style="width: 500px; margin-left: -255px">When you prestige, auto prestige will be set to prestige at the same PP you just prestiged at</span>
+            </div>
+            <div class="option tooltip-element" id="VariableAutomation" style="transition: background-color .2s">
+              <span class="cv ch2" style="width: 100%">Toggle all automation at once (Variables only)</span>
+              <span class="ch2 tooltip-content" style="width: 500px; margin-left: -255px">Toggling automation for any variable or IP gain will toggle all other automations for variables and IP gain so they are all either enabled or disabled. Ignore using shift.</span>
             </div>
           </div>
           <br>
@@ -551,7 +559,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                   </div>
                 </div>
                 <div class="tableRow" id="ptr1" style="justify-content: center">
-                  <div class="ppCell ch2" id="pt1-1">
+                  <div class="ppCell ch2 tooltip-element" id="pt1-1">
+                    <span class="ch2 tooltip-content" id="pt1-1Tooltip" style="width: 150px; margin-left: -80px">Only affects 1st layer's automation</span>
                     <span class="ptDisplayId">1-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">Automation speed is faster based on total PP</span><br>
@@ -577,7 +586,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                   </div>
                 </div>
                 <div class="tableRow" id="ptr2" style="justify-content: center">
-                  <div class="ppCell ch2" id="pt2-1">
+                  <div class="ppCell ch2 tooltip-element" id="pt2-1">
+                    <span class="ch2 tooltip-content" id="pt2-1Tooltip" style="width: 150px; margin-left: -80px">Only affects 1st layer's automation</span>
                     <span class="ptDisplayId">2-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">Prestige tree upgrades boost automation speed</span><br>
@@ -668,7 +678,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                   <div class="ppCell ch2" id="pt5-2">
                     <span class="ptDisplayId">5-2</span>
                     <div class="cv" style="position: relative; z-index: 1">
-                      <span style="font-size: 13px">Automation boosts apply to all automation</span><br>
+                      <span style="font-size: 13px">Automation boosts apply to auto sacrifice and prestige</span><br>
                       <span>Cost: <span class="ba blueText" id="pt5-2Cost">Error</span> IP</span>
                     </div>
                   </div>
@@ -779,8 +789,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           
         </div>
       </div>
-      <div class="ch" style="position: fixed; bottom: 2px"><span style="font-weight: bold"><span class="infoText">Version <span id="version" style="color: rgb(100, 100, 255)">Error</span></span><span> | </span><span class="infoText" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</span><span> | </span><span class="infoText" onmouseup="window.open('https://geogolf.github.io/Incrementalist-Changelog')">Changelog</span></span></div>
+      <div class="ch" style="position: fixed; bottom: 2px"><span style="font-weight: bold"><span class="infoText">Version <span id="version" style="color: rgb(100, 100, 255)">Error</span></span><span> | </span><span class="infoText" onmouseup="window.open('https://discord.gg/DKMmAap')">Discord</span><span> | </span><span class="infoText" onmouseup="window.open('https://geogolf.github.io/Incrementalist-Changelog')">Changelog</span><span> | </span><span class="infoText" onmouseup="whatsNew()">What's New?</span></span></div>
       <canvas id="canvasPT"></canvas>
     </div>
   </body>
 </html>
+<!--0.5.1-->
