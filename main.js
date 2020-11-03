@@ -85,7 +85,7 @@ var reset = "Nothing"; //For actual resetting
 var updateRate = 20;
 
 const updateMessages = {
-  "0.5.1": "- Text",
+  "0.5.1": "- Added lots of cool things<br>- Fixed some broken stuff<br>- Fixed 3+ bugs",
   "0.5.0": "- Sacrifice PP<br>- Tetration<br>- More milestones, tree upgrades and challenge levels<br>- Fixed 6+ bugs",
 }
 var updateMessage = "";
