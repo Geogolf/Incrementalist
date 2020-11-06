@@ -24,7 +24,7 @@ const increment = {
   "T": {
     highestNum: -1,
     result: nd(0),
-    baseCost: "1e800",
+    baseCost: ["1e800", "e1e10, e1e10, e1e10, e1e10"],
     auto: false,
     dec: 5
   }
@@ -137,7 +137,8 @@ function getIncrementx(name, num) {
   if (name == "T") {return nd(user.ip.increment[name].bought[num]+1).pow(nd(0.0001443+num/30000)).minus(1)}
 }
 function getIncrementCost(name, num) {
-  if (name == "T") {return nd(increment[name].baseCost).pow(nd(num+2).pow(user.ip.increment[name].bought[num])).floor()}
+  /*if (name == "T") {return nd(increment[name].baseCost).pow(nd(Math.pow(num+1, 2)+1).pow(user.ip.increment[name].bought[num])).floor()}*/
+  if (name == "T") {return nd(increment[name].baseCost[num]).pow(nd(num+2).tetrate(user.ip.increment[name].bought[num]))}
   else {return nd(increment[name].baseCost).times(getIncrementRatio(name, num).pow(user.ip.increment[name].bought[num])).floor()}
 }
 function getIncrementRatio(name, num) {

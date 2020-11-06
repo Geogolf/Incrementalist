@@ -1,7 +1,7 @@
 //Data
 const options = {
   Notation: {type: "Dropdown", onclick: (note) => {setNotation(note)}, items: ["Scientific"/*, "Engineering"*/, "Logarithm"/*, "Letters"*/, "Infinity", "Blind"]},
-  Confirmation: {type: "Dropdown", onclick: (con) => {toggleConfirmation(con)}, items: ["Reset", "Sacrifice", "Prestige", "Challenge"]},
+  Confirmation: {type: "Dropdown", onclick: (con) => {toggleConfirmation(con)}, items: [/*"Reset", */"Sacrifice", "Prestige", "Challenge"]},
   Logpb: {type: "None", onclick: () => {toggleLogpb()}},
   SmartAutoPrestige: {type: "None", onclick: () => {toggleSmartAutoPrestige()}},
   VariableAutomation: {type: "None", onclick: () => {toggleVariableAutomation()}},
@@ -66,10 +66,7 @@ function importy() {
   });
 }
 function confirmResetAll() {
-  if (user.options.confirmations.includes("Reset")) {
-    alertify.confirm("Are you sure you want to reset? You will lose all of your progress", () => {resetAll(true)});
-  }
-  else {resetALl(true)}
+  alertify.confirm("Are you sure you want to reset? You will lose all of your progress", () => {resetAll(true)});
 }
 function resetAll(notify) {
   user = setUser();

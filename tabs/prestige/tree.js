@@ -53,6 +53,7 @@ function buyPT(id) {
 //Get Data
 function getPTCap(id) {
   if (id == "pt1-3") {return nd(2).plus(getPPChallengeReward(4))}
+  if (id == "pt4-1") {return nd(10)}
 }
 function getPTReward(id) {
   let multi = nd(1);
@@ -69,7 +70,12 @@ function getPTReward(id) {
   if (id == "pt2-3") {return user.ip.sac.pow(0.1).plus(1).times(multi)}
   if (id == "pt2-5") {return nd(5)}
   if (id == "pt3-2") {return nd(10).times(multi)}
-  if (id == "pt4-1") {return user.ip.sac.plus(1).log10().plus(1).log10().plus(1).times(multi)}
+  if (id == "pt4-1") {
+    let x = user.ip.sac.plus(1).log10().plus(1).log10().plus(1).times(multi);
+    let cap = getPTCap("pt4-1");
+    if (x.gt(cap)) {x = cap}
+    return x;
+  }
   if (id == "pt5-1") {return user.ip.sac.plus(1).log10().divide(8).plus(1)}
   if (id == "pt5-3") {return user.pp.sac.divide(11).plus(1).log10().times(100).ln().times(multi)}
   if (id == "pt5-4") {
@@ -99,11 +105,11 @@ function updatePrestigeTree() {
       else if (user.pp.current.lt(cost) || cost.gte(user.pp.infinite)) {removeClass("canBuy", id); removeClass("ppComplete", id); addClass("cantBuy", id)}
       else {removeClass("ppComplete", id); removeClass("cantBuy", id); addClass("canBuy", id)}
       if (di(id+"x") != null) {di(id+"x").textContent = e("d", getPTReward(id), 2, 2)}
+      if (di(id+"Cap") != null) {di(id+"Cap").textContent = e("d", getPTCap(id), 2, 2)}
       if (cost.gte(user.pp.infinite)) {cost = "Infinite"}
       if (di(id+"Cost") != null) {di(id+"Cost").textContent = e("d", cost, 2, 0)}
     }
   }
-  di("pt1-3Cap").textContent = e("d", getPTCap("pt1-3"), 2, 2);
 }
 function updateRefundPT() {
   if (!user.pp.pt.refund) {replaceClass("cantBuy", "canBuy", "refundPT")}

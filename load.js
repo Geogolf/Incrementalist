@@ -254,6 +254,11 @@ function loadData(data) {
       }
     }
     user.version = "0.5.1";
+  }
+  if (user.version == "0.5.1") {
+    user.atEnd = false;
+    if (user.options.confirmations.includes("Reset")) {user.options.confirmations.splice(user.options.confirmations.indexOf("Reset"), 1)}
+    user.version = "0.5.2";
     updated = true;
   }
   for (let i=0; i<user.eggs.length; i++) {showId(user.eggs[i])}
@@ -262,6 +267,7 @@ function loadData(data) {
   updateOptions();
   updateAutomationStates();
   setPrestigeAt(user.automation.Prestige.at);
+  di("version").textContent = user.version + " (Beta)";
   console.log("Offline for "+showTime(nd(Date.now()-user.time.lastUpdate)));
   simulateTime(Date.now()-user.time.lastUpdate);
   /*setUIRate();*/
