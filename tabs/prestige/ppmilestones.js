@@ -5,17 +5,21 @@ const pm = [
   {req: 15, desc: "Automation stays enabled on sacrifice"},
   {req: 25, desc: "Sacrifice no longer resets your IP"},
   {req: 50, desc: "Sacrifice no longer resets your variables"},
-  {req: 25000, desc: "Keep the previous layer unlocked on prestige"}
+  {req: 25000, desc: "Keep the previous layer unlocked on prestige"}/*,
+  {req: 50000, desc: "You can now bulk complete challenges"},
+  {req: 100000, desc: "Prestige no longer resets your sacrifices"}*/
 ];
 for (let i=1; i<pm.length; i++) {
-  di("pm"+i+"Desc").textContent = pm[i].desc;
+  let array = dc("prestigeMilestone");
+  array[i-1].childNodes[0].childNodes[3].textContent = pm[i].desc;
 }
 
 //Update Data
 function updatePrestigeMilestones() {
   for (let i=1; i<pm.length; i++) {
-    di("pm"+i+"Req").textContent = e("d", nd(pm[i].req), 2, 0);
-    if (user.pp.count < pm[i].req) {di("pm"+i).style.backgroundColor = "rgb(0, 0, 0)"}
-    else {di("pm"+i).style.backgroundColor = "rgb(25, 25, 85)"}
+    let array = dc("prestigeMilestone");
+    array[i-1].childNodes[0].childNodes[0].textContent = e("d", nd(pm[i].req), 2, 0);
+    if (user.pp.count < pm[i].req) {array[i-1].style.backgroundColor = "rgb(0, 0, 0)"}
+    else {array[i-1].style.backgroundColor = "rgb(25, 25, 85)"}
   }
 }

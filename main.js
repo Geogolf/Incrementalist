@@ -7,7 +7,7 @@ function setUser() {
     },
     options: {
       notation: "Scientific",
-      confirmations: ["Reset", "Sacrifice", "Prestige", "Challenge"],
+      confirmations: ["Sacrifice", "Prestige", "Challenge"],
       logpb: false,
       uiRate: 20,
       smartAutoPrestige: false,
@@ -70,7 +70,7 @@ function setUser() {
       lastPrestige: 0,
       bestPrestige: 31536000000
     },
-    version: "0.5.1",
+    version: "0.5.2",
     atEnd: false,
     beta: false
   }
@@ -85,8 +85,9 @@ var reset = "Nothing"; //For actual resetting
 var updateRate = 20;
 
 const updateMessages = {
+  "0.5.2": "- Implemented a bunch of suggestions<br>- Fixed 3+ bugs",
   "0.5.1": "- Added lots of cool things<br>- Fixed some broken stuff<br>- Fixed 3+ bugs",
-  "0.5.0": "- Sacrifice PP<br>- Tetration<br>- More milestones, tree upgrades and challenge levels<br>- Fixed 6+ bugs",
+  "0.5.0": "- Sacrifice PP<br>- Tetration<br>- More milestones, tree upgrades and challenge levels<br>- Fixed 6+ bugs"
 }
 var updateMessage = "";
 for (let version in updateMessages) {updateMessage += "<br>"+version+"<br>"+updateMessages[version]}
@@ -94,9 +95,9 @@ for (let version in updateMessages) {updateMessage += "<br>"+version+"<br>"+upda
 const showInfinite = true;
 const layers = {
   "IP": {
-    goals: [nd(1000), nd(2500), nd(10000), nd(50000), nd(250000), nd(1e6), nd(5e9), nd(1e13), nd(5e15), nd(1e21), nd(2.1e21), nd(7.5e21), nd(5e32), nd(3.7e37), nd(1e44), nd(2.25e45), nd(4e57), nd(8.5e85), nd(1e100)],
-    goalsSac: [0, 0, 0, 0, 0, 0, 1, 2, 2, 3, 3, 3, 5, 6, 7, 7, 8, 10, 11],
-    unlocks: ["Variable P<sub>1</sub>", "Automate IP", "Variable P<sub>2</sub>", "Variable P<sub>3</sub>", "Automate P", "Variable P<sub>4</sub>", "Variable M<sub>1</sub>", "Variable M<sub>2</sub>", "Variable M<sub>3</sub>", "Automate M", "Scaling P", "Variable M<sub>4</sub>", "Variable E<sub>1</sub>", "Variable E<sub>2</sub>", "Scaling M", "Variable E<sub>3</sub>", "Variable E<sub>4</sub>", "Automate E and Scaling E", "Prestige"],
+    goals: [nd(1000), nd(2500), nd(10000), nd(50000), nd(250000), nd(1e6), nd(5e9), nd(1e13), nd(5e15), nd(1e21), nd(2.1e21), nd(7.5e21), nd(5e32), nd(3.7e37), nd(1e44), nd(2.25e45), nd(4e57), nd(8.5e85), nd(1e100), nd("1e1560")],
+    goalsSac: [0, 0, 0, 0, 0, 0, 1, 2, 2, 3, 3, 3, 5, 6, 7, 7, 8, 10, 11, 15],
+    unlocks: ["Variable P<sub>1</sub>", "Automate IP", "Variable P<sub>2</sub>", "Variable P<sub>3</sub>", "Automate P", "Variable P<sub>4</sub>", "Variable M<sub>1</sub>", "Variable M<sub>2</sub>", "Variable M<sub>3</sub>", "Automate M", "Scaling P", "Variable M<sub>4</sub>", "Variable E<sub>1</sub>", "Variable E<sub>2</sub>", "Scaling M", "Variable E<sub>3</sub>", "Variable E<sub>4</sub>", "Automate E and Scaling E", "Prestige", "Automate T"],
   },
   "PP": {
     goals: [nd(1), nd(10), nd(50), nd(500)],
@@ -262,8 +263,8 @@ function simulateTime(time, active, showBox) {
     let ticksDone = 0;
     for (ticksDone=0; ticksDone<ticks; ticksDone++) {runGameTime(false, 1000/ticksPerSecond)}
     
-    if (user.ip.sac.gt(userStart.ip.current)) {showId("offlineIP"); di("offlineIPx").textContent = e("d", user.ip.sac.minus(userStart.ip.sac), 2, 0)}
-    if (user.pp.sac.gt(userStart.pp.current)) {showId("offlinePP"); di("offlinePPx").textContent = e("d", user.pp.sac.minus(userStart.pp.sac), 2, 0)}
+    if (user.ip.sac.gt(userStart.ip.sac)) {showId("offlineIP"); di("offlineIPx").textContent = e("d", user.ip.sac.minus(userStart.ip.sac), 2, 0)}
+    if (user.pp.sac.gt(userStart.pp.sac)) {showId("offlinePP"); di("offlinePPx").textContent = e("d", user.pp.sac.minus(userStart.pp.sac), 2, 0)}
     
     if (user.pp.count > userStart.pp.count) {showId("offlinePPCount"); di("offlinePPCountx").textContent = e("d", nd(user.pp.count-userStart.pp.count), 2, 0)}
     hideId("offlineLoading");
@@ -280,7 +281,7 @@ function runGameTime(active, time) {
   if (typeof time == "undefined") {time = Math.min(thisUpdate-user.time.lastUpdate, 43200000)}
   let ticksPerSecond = 20;
   /*let ticks = Math.floor(time*ticksPerSecond/1000);*/
-  let ticks = (time*ticksPerSecond/1000);
+  let ticks = time*ticksPerSecond/1000;
   
   
   
@@ -413,12 +414,12 @@ function runGameTime(active, time) {
     if (user.ip.sac.gte(layers.IP.goals[4])) {showId("autoIncrementP")} else {hideId("autoIncrementP")}
     if (user.ip.sac.gte(layers.IP.goals[9]) && user.sacrifice.IP >= layers.IP.goalsSac[9]) {showId("autoIncrementM")} else {hideId("autoIncrementM")}
     if (user.ip.sac.gte(layers.IP.goals[17]) && user.sacrifice.IP >= layers.IP.goalsSac[17]) {showId("autoIncrementE"); showId("scalingE")} else {hideId("autoIncrementE"); hideId("scalingE")}
-    hideId("autoIncrementT");
+    if (user.ip.sac.gte(layers.IP.goals[19]) && user.sacrifice.IP >= layers.IP.goalsSac[19]) {showId("autoIncrementT")} else {hideId("autoIncrementT")}
   }
   else {
     showId("autoIP");
     for (let i=0; i<names.length; i++) {showId("autoIncrement"+names[i])}
-    if (user.sacrifice.PP < 1) {hideId("autoIncrementT")}
+    if (user.ip.total.gte(layers.IP.goals[19]) && user.sacrifice.IP >= layers.IP.goalsSac[19]) {showId("autoIncrementT")} else {hideId("autoIncrementT")}
   }
   if (user.pp.pt.cells.includes("pt2-2")) {showClass("maxAutoUnlocks")} else {hideClass("maxAutoUnlocks")}
   if (user.pp.sac.gte(layers.PP.goals[2])) {showId("autoSacrificeIP")} else {hideId("autoSacrificeIP")}
@@ -570,6 +571,9 @@ function runGameTime(active, time) {
   resetFrom = "Nothing";
   reset = "Nothing";
 }
+function checkUnlocks() {
+  
+}
 
 function intervals() {
   /*gameTimeInterval = setInterval(() => {runGameTime(true)}, (1000/updateRate));*/
@@ -588,7 +592,6 @@ di("loading").addEventListener("click", (event) => {event.stopPropagation()});
 loadGame();
 intervals();
 refreshGameInterval();
-di("version").textContent = user.version + " (Beta)";
 
 //Temp
 /*progress();*/

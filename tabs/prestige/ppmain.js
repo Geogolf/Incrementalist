@@ -22,13 +22,15 @@ function runPrestige(achCheck, warn) {
   }
   else if (warn) {
     setTimeout(() => {
-      alertify.confirm("You will not earn any PP. Do you want to continue?", () => {
-        if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
-        user.time.lastPrestige = user.time.thisPrestige;
-        user.time.thisPrestige = 0;
-        if (user.pp.pt.refund) {refundPT()}
-        reset = "Prestige";
-      });
+      if (user.options.confirmations.includes("Prestige")) {
+        alertify.confirm("You will not earn any PP. Do you want to continue?", () => {
+          if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
+          user.time.lastPrestige = user.time.thisPrestige;
+          user.time.thisPrestige = 0;
+          if (user.pp.pt.refund) {refundPT()}
+          reset = "Prestige";
+        });
+      }
     }, 1);
   }
 }
@@ -132,5 +134,7 @@ function resetPrestige() {
   }
   user.ip.current = getIPStart();
   user.ip.sac = getIPStart();
-  user.sacrifice.IP = 0;
+  if (user.pp.milestones < 7) {
+    user.sacrifice.IP = 0;
+  }
 }

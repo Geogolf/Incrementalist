@@ -133,7 +133,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="option dropdown">
               <span class="cv ch2" style="width: 100%">Confirmations</span>
               <div class="dropdown-content ch ch2">
-                <div class="dropdown-item" id="confirmationReset"><span>Reset</span></div>
+                <!--<div class="dropdown-item" id="confirmationReset"><span>Reset</span></div>-->
                 <div class="dropdown-item" id="confirmationSacrifice"><span>Sacrifice</span></div>
                 <div class="dropdown-item" id="confirmationPrestige"><span>Prestige</span></div>
                 <div class="dropdown-item" id="confirmationChallenge"><span>Challenge</span></div>
@@ -520,11 +520,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
           </div>
           <div id="subTabPrestigeMilestones">
-            <div class="ch prestigeMilestone" id="pm1"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm1Req">Error</span><span> Prestiges</span><br><span id="pm1Desc">Error</span></div></div>
-            <div class="ch prestigeMilestone" id="pm2"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm2Req">Error</span><span> Prestiges</span><br><span id="pm2Desc">Error</span></div></div>
-            <div class="ch prestigeMilestone" id="pm3"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm3Req">Error</span><span> Prestiges</span><br><span id="pm3Desc">Error</span></div></div>
-            <div class="ch prestigeMilestone" id="pm4"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm4Req">Error</span><span> Prestiges</span><br><span id="pm4Desc">Error</span></div></div>
-            <div class="ch prestigeMilestone" id="pm5"><div class="cv ch2" style="width: 100%"><span class="ba blueText" id="pm5Req">Error</span><span> Prestiges</span><br><span id="pm5Desc">Error</span></div></div>
+            <div class="ch prestigeMilestone"><div class="cv ch2" style="width: 100%"><span class="ba blueText">Error</span><span> Prestiges</span><br><span>Error</span></div></div>
+            <div class="ch prestigeMilestone"><div class="cv ch2" style="width: 100%"><span class="ba blueText">Error</span><span> Prestiges</span><br><span>Error</span></div></div>
+            <div class="ch prestigeMilestone"><div class="cv ch2" style="width: 100%"><span class="ba blueText">Error</span><span> Prestiges</span><br><span>Error</span></div></div>
+            <div class="ch prestigeMilestone"><div class="cv ch2" style="width: 100%"><span class="ba blueText">Error</span><span> Prestiges</span><br><span>Error</span></div></div>
+            <div class="ch prestigeMilestone"><div class="cv ch2" style="width: 100%"><span class="ba blueText">Error</span><span> Prestiges</span><br><span>Error</span></div></div>
+            <!--<div class="ch prestigeMilestone"><div class="cv ch2" style="width: 100%"><span class="ba blueText">Error</span><span> Prestiges</span><br><span>Error</span></div></div>
+            <div class="ch prestigeMilestone"><div class="cv ch2" style="width: 100%"><span class="ba blueText">Error</span><span> Prestiges</span><br><span>Error</span></div></div>-->
           </div>
           <div id="subTabPrestigeTree">
             <div id="canvasTabPT" style="height: 100%; width: 100%">
@@ -662,6 +664,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">Achievement 2-4 is stronger based on IP</span><br>
                       <span>(<span class="ba purpleText" id="pt4-1x">Error</span><span class="purpleText">x</span>)</span><br>
+                      <span style="font-size: 12px"> capped at </span><span class="ba purpleText" id="pt4-1Cap">Error</span><br>
                       <span>Cost: <span class="ba blueText" id="pt4-1Cost">Error</span> PP</span>
                     </div>
                   </div>
@@ -672,14 +675,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">PP boost to IP is<br>boosted based on IP</span><br>
                       <span>(<span class="purpleText">^</span><span class="ba purpleText" id="pt5-1x">Error</span>)</span><br>
-                      <span>Cost: <span class="ba blueText" id="pt5-1Cost">Error</span> IP</span>
+                      <span>Cost: <span class="ba blueText" id="pt5-1Cost">Error</span> PP</span>
                     </div>
                   </div>
                   <div class="ppCell ch2" id="pt5-2">
                     <span class="ptDisplayId">5-2</span>
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">Automation boosts apply to auto sacrifice and prestige</span><br>
-                      <span>Cost: <span class="ba blueText" id="pt5-2Cost">Error</span> IP</span>
+                      <span>Cost: <span class="ba blueText" id="pt5-2Cost">Error</span> PP</span>
                     </div>
                   </div>
                   <div class="ppCell ch2" id="pt5-3">
@@ -687,7 +690,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">Tree upgrade 1-2 affects the E multiplier with reduced effect</span><br>
                       <span>(<span class="ba purpleText" id="pt5-3x">Error</span><span class="purpleText">%</span>)</span><br>
-                      <span>Cost: <span class="ba blueText" id="pt5-3Cost">Error</span> IP</span>
+                      <span>Cost: <span class="ba blueText" id="pt5-3Cost">Error</span> PP</span>
                     </div>
                   </div>
                   <div class="ppCell ch2" id="pt5-4">
@@ -695,7 +698,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">Prestige requirement scales slower based on scaling levels</span><br>
                       <span>(<span class="purpleText">/</span><span class="ba purpleText" id="pt5-4x">Error</span>)</span><br>
-                      <span style="font-size: 14px">Cost: <span class="ba blueText" id="pt5-4Cost" style="font-size: 18px">Error</span> IP</span>
+                      <span style="font-size: 14px">Cost: <span class="ba blueText" id="pt5-4Cost" style="font-size: 18px">Error</span> PP</span>
                     </div>
                   </div>
                   <!--<div class="ppCell ch2" id="pt5-5">
@@ -703,7 +706,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">The boost from achievements is stronger based on total PP</span><br>
                       <span>(<span class="purpleText">^</span><span class="ba purpleText" id="pt5-5x">Error</span>)</span><br>
-                      <span style="font-size: 14px">Cost: <span class="ba blueText" id="pt5-5Cost" style="font-size: 18px">Error</span> IP</span>
+                      <span style="font-size: 14px">Cost: <span class="ba blueText" id="pt5-5Cost" style="font-size: 18px">Error</span> PP</span>
                     </div>
                   </div>-->
                 </div>
@@ -712,7 +715,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <span class="ptDisplayId">6-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
                       <span style="font-size: 13px">Achievement 3-2 is tetrated 3 times</span><br>
-                      <span>Cost: <span class="ba blueText" id="pt6-1Cost">Error</span> IP</span>
+                      <span>Cost: <span class="ba blueText" id="pt6-1Cost">Error</span> PP</span>
                     </div>
                   </div>
                 </div>
@@ -794,4 +797,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </div>
   </body>
 </html>
-<!--0.5.1-->
+<!--0.5.2-->

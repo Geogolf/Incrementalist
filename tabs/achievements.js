@@ -80,7 +80,8 @@ function getAchievementReward(id) {
   }
   if (id == "ach3-1") {return nd(1001).pow(getPPChallengeReward(3)).times(multi)}
   if (id == "ach3-2") {
-    let x = nd(user.sacrifice.IP/3+4).sqrt().minus(1).times(multi);
+    let sacrifices = user.sacrifice.IP;
+    let x = nd(sacrifices/3+4).sqrt().minus(1).times(multi);
     if (user.pp.pt.cells.includes("pt6-1")) {x = Decimal.tetrate(x, 3)}
     return x;
   }

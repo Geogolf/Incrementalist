@@ -10,7 +10,7 @@ const sacrifice = {
     }
   },
   PP: {
-    costs: ["1e281", "1e2475"],
+    costs: ["1e281", "1e2449"],
     unlocks: ["Variable T", "Variable T<sub>1</sub>"],
     boosts: {
       C2: {dec: 2}
@@ -36,9 +36,11 @@ function runSacrifice(layer, dontConfirm) {
   }
   else if (!dontConfirm) {
     setTimeout(() => {
-      alertify.confirm("You will not earn any bonus. Do you want to continue?", () => {
-        reset = "Sacrifice"+layer;
-      });
+      if (user.options.confirmations.includes("Sacrifice")) {
+        alertify.confirm("You will not earn any bonus. Do you want to continue?", () => {
+          reset = "Sacrifice"+layer;
+        });
+      }
     }, 1);
   }
 }
