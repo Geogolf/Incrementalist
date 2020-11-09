@@ -219,7 +219,7 @@ function updatePointDisplay(layer) {
   let u = (typeof layers[layer].unlocks[index] != "undefined") ? layers[layer].unlocks[index] : "End";
   let cost = getSacrificeCost(layer);
   if (cost.lt(1)) {cost = nd(0)}
-  if ((cost.lt(g) || cost.gt(layers[layer].goals[layers[layer].goals.length-1])) && !cost.eq(user[layer.toLowerCase()].infinite)) {
+  if ((cost.lt(g) || (cost.gt(layers[layer].goals[layers[layer].goals.length-1]) && index == layers[layer].goals.length-2)) && !cost.eq(user[layer.toLowerCase()].infinite)) {
     g = cost;
     u = "Sacrifice";
   }
