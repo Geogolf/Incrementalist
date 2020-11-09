@@ -21,6 +21,7 @@ function confirmEnterPPChallenge(c) {
 }
 function enterPPChallenge(c) {
   if (user.pp.challenge[c].count < ppChallenge[c].maxCompletions) {
+    user.automation.Prestige.enabled = false;
     resetFrom = "ppChallenge";
     user.pp.challenge[c].in = true;
     resetPPChallenge(c);
@@ -33,8 +34,8 @@ function confirmExitPPChallenge() {
   else {exitPPChallenge(c)}
 }
 function exitPPChallenge(c) {
+  if (user.ip.sac.gte(getPPChallengeGoal(c)) && user.pp.challenge[c].in) {user.pp.challenge[c].count++}
   user.pp.challenge[c].in = false;
-  if (user.ip.sac.gte(getPPChallengeGoal(c))) {user.pp.challenge[c].count++}
   resetFrom = "ppChallenge";
   resetPPChallenge(c);
 }
@@ -63,9 +64,12 @@ function updatePPChallenges() {
     /*for (let k=0; k<ppChallenge[i].goals.length; k++) {
       di("ppChallenge"+i+"Goal").textContent = e("d", nd(ppChallenge[i].goals[k]), 2, 0);
     }*/
-    di("ppChallenge"+i+"Goal").textContent = e("d", getPPChallengeGoal(i), 2, 0);
-    di("ppChallenge"+i+"Completions").textContent = user.pp.challenge[i].count;
-    di("ppChallenge"+i+"MaxCompletions").textContent = ppChallenge[i].maxCompletions;
+    let goal = getPPChallengeGoal(i);
+    if (goal.lt(1)) {goal = nd(0)}
+    if (user.pp.challenge[i].count == ppChallenge[i].maxCompletions) {di("ppChallenge"+i+"Goal").textContent = e("d", "Infinite")}
+    else {di("ppChallenge"+i+"Goal").textContent = e("d", goal, 2, 0)}
+    di("ppChallenge"+i+"Completions").textContent = e("d", nd(user.pp.challenge[i].count));
+    di("ppChallenge"+i+"MaxCompletions").textContent = e("d", nd(ppChallenge[i].maxCompletions));
     di("ppChallenge"+i+"Reward").textContent = e("d", getPPChallengeReward(i), 2, 2);
   }
 }
@@ -75,6 +79,7 @@ function updatePPChallengeProgress() {
       let goal = getPPChallengeGoal(i);
       di("currentPPChallenge").textContent = i;
       let dif = goal.minus(user.ip.sac);
+      if (dif.lt(1)) {dif = nd(1)}
       if (dif.gt(0)) {di("currentPPChallengeProgress").textContent = e("d", dif, 2, 0)}
       else {di("currentPPChallengeProgress").textContent = e("d", nd(0), 2, 0)}
       if (user.ip.sac.lt(goal)) {di("exitPPChallenge").textContent = "Exit Challenge"}
@@ -85,7 +90,6 @@ function updatePPChallengeProgress() {
 
 //Reset Data
 function resetPPChallenge(c) {
-  if (c == 4) {refundPT()}
   for (let name in automation) {
     if (automation[name].currency == "ip") {
       if (Array.isArray(user.automation[name].enabled)) {
@@ -109,5 +113,5 @@ function resetPPChallenge(c) {
   }
   user.ip.current = getIPStart();
   user.ip.sac = getIPStart();
-  user.sacrifice.IP = 0;
+  user.sacrifice.IP.count = 0;
 }

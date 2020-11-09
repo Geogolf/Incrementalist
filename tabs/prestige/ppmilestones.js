@@ -1,11 +1,11 @@
 //Data
 const pm = [
   "null",
-  {req: 10, desc: "Keep all automation and scaling levels on sacrifice"},
-  {req: 15, desc: "Automation stays enabled on sacrifice"},
+  {req: 3, desc: "Keep all automation and scaling levels on sacrifice"},
+  {req: 10, desc: "Automation stays enabled on sacrifice"},
   {req: 25, desc: "Sacrifice no longer resets your IP"},
   {req: 50, desc: "Sacrifice no longer resets your variables"},
-  {req: 25000, desc: "Keep the previous layer unlocked on prestige"}/*,
+  {req: 25000, desc: "Keep all variables unlocked"}/*,
   {req: 50000, desc: "You can now bulk complete challenges"},
   {req: 100000, desc: "Prestige no longer resets your sacrifices"}*/
 ];

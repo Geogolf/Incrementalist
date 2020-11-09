@@ -191,7 +191,7 @@ input {
   border: 2px solid rgb(50, 50, 250);
   border-radius: 10px;
   margin: 15px;
-  height: 100px;
+  height: 110px;
   width: 150px;
   position: relative;
 }
@@ -354,3 +354,5 @@ input {
   transition: color .2s, background-color .2s;
 }
 .close:hover {color: rgb(0, 0, 0); background-color: rgb(35, 140, 35)}
+
+/* Light Mode */
