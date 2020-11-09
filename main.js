@@ -306,7 +306,7 @@ function runGameTime(active, time) {
   if (document.hasFocus()) {
     if (keys["."] && keys["x"]) {giveEgg("egg1-1", true)}
     if (keys["p"] && !keys["s"]) {confirmPrestige()}
-    if (keys["s"] || true) {
+    if (keys["s"]) {
       if (keys["i"]) {confirmRunSacrifice("IP")}
       if (keys["p"]) {confirmRunSacrifice("PP")}
     }
