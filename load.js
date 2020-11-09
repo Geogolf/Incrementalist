@@ -19,15 +19,15 @@ function fixnd(obj) {
 //Load
 function loadGame() {
   let data = JSON.parse(localStorage.getItem("user"));
-  if (data != null) {loadData(data)}
-  else {loadData(setUser()); hideId("offlineBox")}
+  if (data != null) {loadData(data), true}
+  else {loadData(setUser(), true); hideId("offlineBox")}
   di("loadingScreen").style.opacity = 0;
   setTimeout(() => {hideId("loadingScreen")}, 500);
 }
-function loadData(data) {
+function loadData(data, notify) {
   let versionStart = data.version;
   let updated = false;
-  resetAll(false);
+  /*resetAll(false);*/
   user = JSON.parse(JSON.stringify(data));
   if (user.version == "0.0.0") {
     user.active.displaypause = false;
@@ -259,25 +259,47 @@ function loadData(data) {
     user.atEnd = false;
     if (user.options.confirmations.includes("Reset")) {user.options.confirmations.splice(user.options.confirmations.indexOf("Reset"), 1)}
     user.version = "0.5.2";
+  }
+  if (user.version == "0.5.2") {
+    for (let name in automation) {user.automation[name].unlocked = false}
+    let sacIP = user.sacrifice.IP;
+    let sacPP = user.sacrifice.PP;
+    user.sacrifice.IP = {}
+    user.sacrifice.IP.count = sacIP;
+    user.sacrifice.IP.unlocked = false;
+    user.sacrifice.PP = {}
+    user.sacrifice.PP.count = sacPP;
+    user.sacrifice.PP.unlocked = false;
+    for (let name in scaling) {user.scaling[name].unlocked = false}
+    for (let name in increment) {user.ip.increment[name].unlocked = [false, false, false, false, false]}
+    user.ip.increment.P.unlocked[0] = true;
+    user.pp.challenge[4].count = 0;
+    takeAchievement("ach1-6");
+    user.pp.unlocked = false;
+    delete user.options.variableAutomation;
+    user.version = "0.5.3";
     updated = true;
   }
   for (let i=0; i<user.eggs.length; i++) {showId(user.eggs[i])}
   fixnd(user);
   showTab(user.tab.main);
-  updateOptions();
-  updateAutomationStates();
   setPrestigeAt(user.automation.Prestige.at);
+  updateAutomationStates();
   di("version").textContent = user.version + " (Beta)";
   console.log("Offline for "+showTime(nd(Date.now()-user.time.lastUpdate)));
   simulateTime(Date.now()-user.time.lastUpdate);
   /*setUIRate();*/
   save();
-  if (user.version == versionStart) {alertify.message("Loaded Version " + user.version)}
-  else {alertify.message("Loaded Version " + versionStart + " > " + user.version)}
+  if (user.version == versionStart && notify) {alertify.message("Loaded Version " + user.version)}
+  else if (notify) {alertify.message("Loaded Version " + versionStart + " > " + user.version)}
   setTimeout(() => {
-    if (updated) {whatsNew()}
+    if (updated) {
+      let updateMessage = "";
+      for (let version in updateMessages) {
+        updateMessage += "<br>"+version+"<br>"+updateMessages[version];
+        if (version == versionStart) {break}
+      }
+      alertify.alert("What's New:"+updateMessage);
+    }
   }, (1000/updateRate)+1);
 }
-
-//Other
-function whatsNew() {alertify.confirm("What's New:"+updateMessage)}

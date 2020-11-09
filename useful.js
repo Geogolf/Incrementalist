@@ -18,10 +18,14 @@ function replaceClass(cl1, cl2, id) {document.getElementById(id).classList.remov
 //Very Useful
 function e(note, obj, exp, dec, noCommas) {
   if (typeof obj == "undefined") {return "Error"}
-  if (obj == "Infinite") {return "Infinite"}
   if (note == "d") {note = user.options.notation}
   if (typeof exp == "undefined" || exp == "d") {exp = 2}
   if (typeof dec == "undefined" || dec == "d") {dec = 0}
+  
+  if (note == "Blind") {
+    return " ";
+  }
+  if (obj == "Infinite") {return "Infinite"}
   if (note == "Scientific" || note == "Logarithm") {
     let m = Math.pow(10, obj.mag-Math.floor(obj.mag));
     let e = obj.mag;
@@ -50,9 +54,6 @@ function e(note, obj, exp, dec, noCommas) {
   if (note == "Infinity") {
     let result = obj.plus(1).log10().divide(Math.log10(Number.MAX_VALUE));
     return e("Scientific", result, 2, 4)+"∞";
-  }
-  if (note == "Blind") {
-    return " ";
   }
 }
 function copyToClipboard(str) {

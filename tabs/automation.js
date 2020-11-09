@@ -58,14 +58,14 @@ const automation = {
   }
 }
 for (let name in automation) {
-  di("auto"+name+"b").addEventListener("click", () => {buyAutomation(name)});
-  di("maxAuto"+name+"State").addEventListener("click", () => {toggleMaxBuyAutomation(name)});
+  di("auto"+name+"b").addEventListener("click", () => {buyAutomation(name); lastClicked = "auto"+name+"b"});
+  di("maxAuto"+name+"State").addEventListener("click", () => {toggleMaxBuyAutomation(name)/*; lastClicked = "maxAuto"+name+"State"*/});
   if (!automation[name].array) {
-    di("auto"+name+"State").addEventListener("click", () => {toggleAutomation(name)});
+    di("auto"+name+"State").addEventListener("click", () => {toggleAutomation(name)/*; lastClicked = "auto"+name+"State"*/});
   }
   else {
     for (let i=0; i<5; i++) {
-      di("auto"+name+i+"State").addEventListener("click", () => {toggleAutomation(name, i)});
+      di("auto"+name+i+"State").addEventListener("click", () => {toggleAutomation(name, i)/*; lastClicked = "auto"+name+i+"State"*/});
     }
   }
 }
@@ -94,7 +94,7 @@ function toggleMaxBuyAutomation(name) {
   updateMaxAutoState(name);
 }
 function toggleAutomation(name, num) {
-  if (user.options.variableAutomation && automation[name].currency == "ip" && !keys["Shift"]) {
+  if (/*user.options.variableAutomation && */automation[name].currency == "ip" && keys["Shift"]) {
     let setTo;
     if (automation[name].array) {setTo = !user.automation[name].enabled[num]}
     else {setTo = !user.automation[name].enabled}
@@ -102,22 +102,22 @@ function toggleAutomation(name, num) {
       if (automation[nam].currency == "ip") {
         if (automation[nam].array) {
           for (let i=0; i<5; i++) {
-            if (automation[name].array && di("auto"+nam+i+"State").parentNode.style.display != "none") {
+            if (automation[name].array && di("auto"+nam+i+"State").parentNode.style.display != "none" && user.automation[nam].unlocked) {
               user.automation[nam].enabled[i] = setTo;
               updateAutomationState(nam, i);
             }
-            else if (di("auto"+nam+i+"State").parentNode.style.display != "none") {
+            else if (di("auto"+nam+i+"State").parentNode.style.display != "none" && user.automation[nam].unlocked) {
               user.automation[nam].enabled[i] = setTo;
               updateAutomationState(nam, i);
             }
           }
         }
         else {
-          if (automation[name].array && di("auto"+nam+"State").parentNode.style.display != "none") {
+          if (automation[name].array && di("auto"+nam+"State").parentNode.style.display != "none" && user.automation[nam].unlocked) {
             user.automation[nam].enabled = setTo;
             updateAutomationState(nam);
           }
-          else if (di("auto"+nam+"State").parentNode.style.display != "none") {
+          else if (di("auto"+nam+"State").parentNode.style.display != "none" && user.automation[nam].unlocked) {
             user.automation[nam].enabled = setTo;
             updateAutomationState(nam);
           }

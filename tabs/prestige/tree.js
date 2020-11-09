@@ -19,12 +19,12 @@ const pt = {
   "pt5-3": {from: ["pt4-1"], sac: 1, cost: {type: "rowIncrease", effect: ["pt5-1"], baseCost: 400000, scaleCost: 2}},
   "pt5-4": {from: ["pt4-1"], sac: 1, cost: {type: "static", cost: 1e8}},
   /*"pt5-5": {from: ["pt5-4"], cost: {type: "static", cost: 2.5e9}},*/
-  "pt6-1": {from: ["pt5-2", "pt5-3"], sac: 1, cost: {type: "static", cost: 1.5e6}}
+  "pt6-1": {from: ["pt5-2", "pt5-3"], sac: 1, cost: {type: "static", cost: 1e6}}
 }
 for (let id in pt) {
   di(id).addEventListener("click", () => {buyPT(id)});
 }
-di("refundPT").addEventListener("click", () => {toggleRefundPT()});
+di("refundPT").addEventListener("click", () => {toggleRefundPT(); lastClicked = "refundPT"});
 
 //Buttons
 function toggleRefundPT() {
@@ -106,7 +106,7 @@ function updatePrestigeTree() {
       else {removeClass("ppComplete", id); removeClass("cantBuy", id); addClass("canBuy", id)}
       if (di(id+"x") != null) {di(id+"x").textContent = e("d", getPTReward(id), 2, 2)}
       if (di(id+"Cap") != null) {di(id+"Cap").textContent = e("d", getPTCap(id), 2, 2)}
-      if (cost.gte(user.pp.infinite)) {cost = "Infinite"}
+      if (cost.gte(user.pp.infinite) || user.pp.pt.cells.includes(id)) {cost = "Infinite"}
       if (di(id+"Cost") != null) {di(id+"Cost").textContent = e("d", cost, 2, 0)}
     }
   }

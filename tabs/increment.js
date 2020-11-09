@@ -31,36 +31,43 @@ const increment = {
 }
 for (let name in increment) {
   for (let i=0; i<5; i++) {
-    di("increment"+name+i+"b").addEventListener("click", () => {buyIncrement(name, i)});
+    di("increment"+name+i+"b").addEventListener("click", () => {buyIncrement(name, i); lastClicked = "increment"+name+i+"b"});
   }
 }
-di("equationIPb").addEventListener("click", () => {clickEquation()});
+di("equationIPb").addEventListener("click", () => {clickEquation(); lastClicked = "equationIPb"});
 
 //Buttons
+let clicksThisSecond = 0;
 function clickEquation() {
+  if (clicksThisSecond > 15) {return}
   giveMoney("IP", getEquationIPResult().times(getClickMulti()));
   user.ip.equationClicks = user.ip.equationClicks.plus(1);
+  checkUnlocks();
+  clicksThisSecond++;
 }
 function buyIncrement(name, num) {
-  let cost = getIncrementCost(name, num);
-  if (user.ip.current.gte(cost) && cost.lt(user.ip.infinite)) {
-    user.ip.current = user.ip.current.minus(cost);
-    /*if (name == "E" && num == 4) {
-      let condition = false;
-      for (name in increment) {
-        for (let i=0; i<5; i++) {
-          if (user.ip.increment[name].bought[i] > 0) {condition = true}
+  if (di("increment"+name+num).style.display != "none") {
+    let cost = getIncrementCost(name, num);
+    if (user.ip.current.gte(cost) && cost.lt(user.ip.infinite)) {
+      user.ip.current = user.ip.current.minus(cost);
+      /*if (name == "E" && num == 4) {
+        let condition = false;
+        for (name in increment) {
+          for (let i=0; i<5; i++) {
+            if (user.ip.increment[name].bought[i] > 0) {condition = true}
+          }
+        }
+        if (!condition) {giveEgg("egg1-2", true)}
+      }*/
+      user.ip.increment[name].bought[num]++;
+      if (user.pp.challenge[2].in) {
+        for (let i=0; i<num; i++) {
+          user.ip.increment[name].bought[i] = 0;
         }
       }
-      if (!condition) {giveEgg("egg1-2", true)}
-    }*/
-    user.ip.increment[name].bought[num]++;
-    if (user.pp.challenge[2].in) {
-      for (let i=0; i<num; i++) {
-        user.ip.increment[name].bought[i] = 0;
-      }
+      return true;
     }
-    return true;
+    else {return false}
   }
   else {return false}
 }
@@ -195,7 +202,8 @@ function updateIncrement(name, num) {
     if (user.ip.current.lt(cost) || cost.gte(user.ip.infinite)) {replaceClass("canBuy", "cantBuy", "increment"+name+num+"b")}
     else {replaceClass("cantBuy", "canBuy", "increment"+name+num+"b")}
     if (cost.gte(user.ip.infinite) && showInfinite) {cost = "Infinite"}
-    di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), 2, increment[name].dec);
+    if (name == "E") {di("incrementE"+num+"x").textContent = e("d", getIncrementx("E", num), 2, Math.max(Math.floor(Math.pow(user.ip.increment.E.bought[num]+1, 0.2))+1, 2))}
+    else {di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), 2, increment[name].dec)}
     di("increment"+name+num+"Cost").textContent = e("d", cost, 2, 0);
   }
 }

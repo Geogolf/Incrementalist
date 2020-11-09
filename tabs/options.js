@@ -4,7 +4,6 @@ const options = {
   Confirmation: {type: "Dropdown", onclick: (con) => {toggleConfirmation(con)}, items: [/*"Reset", */"Sacrifice", "Prestige", "Challenge"]},
   Logpb: {type: "None", onclick: () => {toggleLogpb()}},
   SmartAutoPrestige: {type: "None", onclick: () => {toggleSmartAutoPrestige()}},
-  VariableAutomation: {type: "None", onclick: () => {toggleVariableAutomation()}},
   /*UIRate: {type: "Input", onclick: () => {setUIRate()}},*/
   Save: {type: "None", onclick: () => {save(true)}},
   Export: {type: "None", onclick: () => {exporty()}},
@@ -19,14 +18,10 @@ for (let name in options) {
   if (data.type == "Dropdown") {
     for (k=0; k<data.items.length; k++) {
       let item = data.items[k];
-      di(name.toLowerCase()+item).addEventListener("click", () => {data.onclick(item)});
+      di(name.toLowerCase()+item).addEventListener("click", () => {data.onclick(item); lastClicked = name.toLowerCase()+item});
     }
-    di(name.toLowerCase()+data.items[0]).style.borderTopLeftRadius = "10px";
-    di(name.toLowerCase()+data.items[0]).style.borderTopRightRadius = "10px";
-    di(name.toLowerCase()+data.items[data.items.length-1]).style.borderBottomLeftRadius = "10px";
-    di(name.toLowerCase()+data.items[data.items.length-1]).style.borderBottomRightRadius = "10px";
   }
-  if (data.type == "None") {di(name).addEventListener("click", () => {data.onclick()})}
+  if (data.type == "None") {di(name).addEventListener("click", () => {data.onclick(); lastClicked = name})}
 }
 
 //Functions
@@ -55,13 +50,18 @@ function save(notify) {
   localStorage.setItem("user", JSON.stringify(user));
   if (notify) {alertify.success("Game Saved")}
 }
-function exporty() {copyToClipboard(btoa(JSON.stringify(user)))}
+function exporty() {/*copyToClipboard(btoa(JSON.stringify(user)))*/copyToClipboard(encode(user))}
 function importy() {
   alertify.prompt("Paste your save code here", "", (event, value) => {
     if (value === "42") {giveAchievement("ach4-2", true)}
     else {
-      let data = JSON.parse(atob(value));
-      if (data != null && data != "") {loadData(data)}
+      /*let data = JSON.parse(atob(value));*/
+      /*let data = JSON.parse(decode(value));*/
+      
+      let data;
+      try {data = JSON.parse(decode(value))}
+      catch {data = JSON.parse(atob(value))}
+      if (data != null && data != "") {loadData(data, true)}
     }
   });
 }
@@ -69,8 +69,7 @@ function confirmResetAll() {
   alertify.confirm("Are you sure you want to reset? You will lose all of your progress", () => {resetAll(true)});
 }
 function resetAll(notify) {
-  user = setUser();
-  save(false);
+  loadData(setUser());
   if (notify) {alertify.error("Game Reset")}
 }
 
@@ -83,7 +82,26 @@ function updateOptions() {
   updateLogpb();
   /*updateUIRate();*/
   updateSmartAutoPrestige();
-  updateVariableAutomation();
+  di("notation"+options.Notation.items[0]).style.borderTopLeftRadius = "10px";
+  di("notation"+options.Notation.items[0]).style.borderTopRightRadius = "10px";
+  di("notation"+options.Notation.items[options.Notation.items.length-1]).style.borderBottomLeftRadius = "10px";
+  di("notation"+options.Notation.items[options.Notation.items.length-1]).style.borderBottomRightRadius = "10px";
+  let array = dc("confirmation");
+  array[0].style.borderTopLeftRadius = "10px";
+  array[0].style.borderTopRightRadius = "10px";
+  array[0].style.borderBottomLeftRadius = "0px";
+  array[0].style.borderBottomRightRadius = "0px";
+  for (let i=array.length-1; i>0; i--) {
+    array[i].style.borderTopLeftRadius = "0px";
+    array[i].style.borderTopRightRadius = "0px";
+    array[i].style.borderBottomLeftRadius = "0px";
+    array[i].style.borderBottomRightRadius = "0px";
+    if (array[i].style.display != "none") {
+      array[i].style.borderBottomLeftRadius = "10px";
+      array[i].style.borderBottomRightRadius = "10px";
+      break;
+    }
+  }
 }
 
 function updateNotation(note) {
@@ -104,8 +122,4 @@ function updateLogpb() {
 function updateSmartAutoPrestige() {
   if (user.options.smartAutoPrestige) {di("SmartAutoPrestige").style.backgroundColor = "rgb(25, 85, 25)"}
   else {di("SmartAutoPrestige").style.backgroundColor = "rgb(0, 0, 0)"}
-}
-function updateVariableAutomation() {
-  if (user.options.variableAutomation) {di("VariableAutomation").style.backgroundColor = "rgb(25, 85, 25)"}
-  else {di("VariableAutomation").style.backgroundColor = "rgb(0, 0, 0)"}
 }

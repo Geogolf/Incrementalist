@@ -1,5 +1,5 @@
 //Data
-di("prestige").addEventListener("click", () => {confirmPrestige()});
+di("prestige").addEventListener("click", () => {confirmPrestige(); lastClicked = "prestige"});
 
 //Buttons
 function confirmPrestige() {
@@ -30,6 +30,13 @@ function runPrestige(achCheck, warn) {
           if (user.pp.pt.refund) {refundPT()}
           reset = "Prestige";
         });
+      }
+      else {
+        if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
+        user.time.lastPrestige = user.time.thisPrestige;
+        user.time.thisPrestige = 0;
+        if (user.pp.pt.refund) {refundPT()}
+        reset = "Prestige";
       }
     }, 1);
   }
@@ -64,6 +71,7 @@ function getPPGainMulti() {
   let multi = nd(1);
   if (user.achievements.includes("ach3-2")) {multi = multi.times(getAchievementReward("ach3-2"))}
   if (user.achievements.includes("ach3-3")) {multi = multi.times(getAchievementReward("ach3-3"))}
+  if (user.achievements.includes("ach3-6")) {multi = multi.times(getAchievementReward("ach3-6").divide(100).plus(1))}
   if (user.pp.pt.cells.includes("pt5-4")) {multi = multi.times(getPTReward("pt5-4"))}
   return multi;
 }
@@ -101,8 +109,8 @@ function updatePrestige() {
 
 //Reset Data
 function resetPrestige() {
-  if (user.sacrifice.IP <= 10 && resetFrom == "Prestige") {giveAchievement("ach3-2", true)}
-  if (user.sacrifice.IP == 0 && resetFrom == "Prestige") {giveAchievement("ach4-4", true)}
+  if (user.sacrifice.IP.count <= 10 && resetFrom == "Prestige") {giveAchievement("ach3-2", true)}
+  if (user.sacrifice.IP.count == 0 && resetFrom == "Prestige") {giveAchievement("ach4-4", true)}
   if (user.pp.milestones < 2 || !user.pp.pt.cells.includes("pt3-1") || !user.pp.pt.cells.includes("pt3-4")) {
     for (let name in automation) {
       if (automation[name].currency == "ip") {
@@ -135,6 +143,6 @@ function resetPrestige() {
   user.ip.current = getIPStart();
   user.ip.sac = getIPStart();
   if (user.pp.milestones < 7) {
-    user.sacrifice.IP = 0;
+    user.sacrifice.IP.count = 0;
   }
 }

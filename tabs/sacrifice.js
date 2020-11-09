@@ -1,7 +1,7 @@
 //Data
 const sacrifice = {
   IP: {
-    costs: ["1e7", "1e12", "9e17", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832", "1e2098"],
+    costs: ["1e7", "1e12", "1e19", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832", "1e2098"],
     unlocks: ["Variable M, P Multiplier", "Nothing", "M Multiplier", "Nothing", "Variable E", "Nothing", "E Multiplier", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing"],
     boosts: {
       P: {dec: 0},
@@ -10,7 +10,7 @@ const sacrifice = {
     }
   },
   PP: {
-    costs: ["1e281", "1e2449"],
+    costs: ["1e281", "1e2450"],
     unlocks: ["Variable T", "Variable T<sub>1</sub>"],
     boosts: {
       C2: {dec: 2}
@@ -18,7 +18,7 @@ const sacrifice = {
   }
 }
 for (let layer in sacrifice) {
-  di("sacrifice"+layer+"b").addEventListener("click", () => {confirmRunSacrifice(layer)});
+  di("sacrifice"+layer+"b").addEventListener("click", () => {confirmRunSacrifice(layer); lastClicked = "sacrifice"+layer+"b"});
 }
 
 //Buttons
@@ -27,19 +27,22 @@ function confirmRunSacrifice(layer) {
   else {runSacrifice(layer)}
 }
 function runSacrifice(layer, dontConfirm) {
-  if (layer == "PP" && user.sacrifice.PP == 1) {return}
   let cost = getSacrificeCost(layer);
+  if (layer == "PP" && user.sacrifice.PP.count == 1 && user.pp.sac.gte(cost)) {alertify.alert("This feature is disabled... for now"); return}
   if (user[layer.toLowerCase()].sac.gte(cost) && cost.lt(user[layer.toLowerCase()].infinite)) {
     resetFrom = "Sacrifice";
-    user.sacrifice[layer]++;
+    user.sacrifice[layer].count++;
     reset = "Sacrifice"+layer;
   }
   else if (!dontConfirm) {
     setTimeout(() => {
-      if (user.options.confirmations.includes("Sacrifice")) {
+      if (user.options.confirmations.includes("Sacrifice") || layer == "PP") {
         alertify.confirm("You will not earn any bonus. Do you want to continue?", () => {
           reset = "Sacrifice"+layer;
         });
+      }
+      else {
+        reset = "Sacrifice"+layer;
       }
     }, 1);
   }
@@ -47,7 +50,7 @@ function runSacrifice(layer, dontConfirm) {
 
 //Get Data
 function getSacrificeCost(layer, count) {
-  if (typeof count == "undefined") {count = user.sacrifice[layer]}
+  if (typeof count == "undefined") {count = user.sacrifice[layer].count}
   if (typeof sacrifice[layer].costs[count] == "undefined") {return user[layer.toLowerCase()].infinite}
   let cost = nd(sacrifice[layer].costs[count]).divide(getPPChallengeReward(2));
   return cost;
@@ -59,7 +62,7 @@ function getSacrificeBoost(layer, boost) {
       let strength = nd(1);
       if (user.pp.pt.cells.includes("pt1-2")) {multi = multi.times(getPTReward("pt1-2").divide(100).plus(1))}
       if (user.pp.challenge[2].in) {strength = strength.divide(5)}
-      if (user.sacrifice.IP > 0) {return nd(100).times(nd(user.sacrifice.IP*strength/25+1).log10()).plus(1).times(multi).floor()}
+      if (user.sacrifice.IP.count > 0) {return nd(100).times(nd(user.sacrifice.IP.count*strength/25+1).log10()).plus(1).times(multi).floor()}
       else {return nd(1)}
     }
     if (boost == "M") {
@@ -67,7 +70,7 @@ function getSacrificeBoost(layer, boost) {
       let strength = nd(1);
       if (user.pp.pt.cells.includes("pt1-2")) {multi = multi.times(getPTReward("pt1-2").divide(100).plus(1))}
       if (user.pp.challenge[2].in) {strength = strength.divide(5)}
-      if (user.sacrifice.IP > 2) {return nd(100).times(nd((Math.max(2, user.sacrifice.IP*strength)-2)/30+1).log10()).plus(1).times(multi).floor()}
+      if (user.sacrifice.IP.count > 2) {return nd(100).times(nd((Math.max(2, user.sacrifice.IP.count*strength)-2)/30+1).log10()).plus(1).times(multi).floor()}
       else {return nd(1)}
     }
     if (boost == "E") {
@@ -76,7 +79,7 @@ function getSacrificeBoost(layer, boost) {
       if (user.achievements.includes("ach2-4")) {multi = multi.times(getAchievementReward("ach2-4").divide(100).plus(1))}
       if (user.pp.pt.cells.includes("pt1-2") && user.pp.pt.cells.includes("pt5-3")) {multi = multi.times(getPTReward("pt5-3").divide(100).plus(1))}
       if (user.pp.challenge[2].in) {strength = strength.divide(5)}
-      if (user.sacrifice.IP > 6) {return nd((Math.max(6, user.sacrifice.IP*strength)-6)/4.2+1).log10().times(multi).plus(1)}
+      if (user.sacrifice.IP.count > 6) {return nd((Math.max(6, user.sacrifice.IP.count*strength)-6)/4.2+1).log10().times(multi).plus(1)}
       else {return nd(1)}
     }
     if (boost == "T") {
@@ -85,7 +88,7 @@ function getSacrificeBoost(layer, boost) {
   }
   if (layer == "PP") {
     if (boost == "C2") {
-      return nd(1.1).pow(user.sacrifice.PP);
+      return nd(1.1).pow(user.sacrifice.PP.count);
     }
   }
 }
@@ -101,7 +104,7 @@ function updateSacrifice(layer) {
   for (let name in sacrifice[layer].boosts) {
     di("sacrifice"+layer+name).textContent = e("d", getSacrificeBoost(layer, name), 2, sacrifice[layer].boosts[name].dec);
   }
-  (typeof sacrifice[layer].unlocks[user.sacrifice[layer]] != "undefined") ? di("sacrifice"+layer+"Unlock").innerHTML = sacrifice[layer].unlocks[user.sacrifice[layer]] : di("sacrifice"+layer+"Unlock").innerHTML = "Nothing";
+  (typeof sacrifice[layer].unlocks[user.sacrifice[layer].count] != "undefined") ? di("sacrifice"+layer+"Unlock").innerHTML = sacrifice[layer].unlocks[user.sacrifice[layer].count] : di("sacrifice"+layer+"Unlock").innerHTML = "Nothing";
   let cost = getSacrificeCost(layer);
   if (cost.gte(user[layer.toLowerCase()].infinite) && showInfinite) {
     di("sacrifice"+layer+"Cost").textContent = e("d", "Infinite", 2, 0);
@@ -180,7 +183,7 @@ function resetSacrificePP() {
     user.scaling[name].bought = 0;
   }
   
-  user.sacrifice.IP = 0;
+  user.sacrifice.IP.count = 0;
   refundPT();
   user.pp.pt.cells = [];
   for (let i=1; i<user.pp.challenge.length; i++) {
