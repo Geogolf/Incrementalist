@@ -296,7 +296,7 @@ function loadData(data, notify) {
     if (updated) {
       let updateMessage = "";
       for (let version in updateMessages) {
-        updateMessage += "<br>"+version+"<br>"+updateMessages[version];
+        updateMessage += "<br>"+version+"<br>"+updateMessages[version]+"<br>;
         if (version == versionStart) {break}
       }
       alertify.alert("What's New:"+updateMessage);
