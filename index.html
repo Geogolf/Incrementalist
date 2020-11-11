@@ -23,6 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <script src="useful.js" defer="defer"></script>
     <script src="canvas.js" defer="defer"></script>
     <script src="devTools.js" defer="defer"></script>
+    <script src="encode.js" defer="defer"></script>
     
     <script src="tabs/options.js" defer="defer"></script>
     <script src="tabs/achievements.js" defer="defer"></script>
@@ -50,7 +51,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </script>
   </head>
   <body>
-    <div id="loadingScreen"><img id="loading" src="images/loading.png"></div>
+    <div id="loadingScreen">
+      <img id="loading" src="images/loading.png">
+      <div class="ch" style="height: 44px; width: 75%; display: table; table-layout: fixed; bottom: 2px; z-index: 9999">
+        <div class="option" id="brokenExport"><span class="cv ch2" style="width: 100%">Export</span></div>
+        <div class="option" id="brokenImport"><span class="cv ch2" style="width: 100%">Import</span></div>
+        <div class="option" id="brokenReset"><span class="cv ch2" style="width: 100%">Reset</span></div>
+        <div class="option" id="brokenDiscord"><span class="cv ch2" style="width: 100%">Discord</span></div>
+      </div>
+    </div>
     <div class="ch2" id="offlineBox" style="display: none">
       <span>You were away for </span><br>
       <span class="goldText" id="offlineTime">Error</span><br>
@@ -61,7 +70,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       <div class="ch close" id="closeOfflineBox" style="bottom: 10px">Close</div>
     </div>
     <div id="gameScreen">
-      <div class="ch grayBorder" style="width: 90%; min-width: 150px; max-width: 1000px">
+      <div class="ch grayBorder" style="width: 90%; min-width: 150px; max-width: 1000px; top: 10px">
         <div style="position: absolute; top: 0px; left: 0px; height: 1px; width: 1px" onmouseup="giveEgg('egg1-5', true)"></div>
         <div>
           <div style="width: 100%; display: table; table-layout: fixed">
@@ -134,32 +143,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
               <span class="cv ch2" style="width: 100%">Confirmations</span>
               <div class="dropdown-content ch ch2">
                 <!--<div class="dropdown-item" id="confirmationReset"><span>Reset</span></div>-->
-                <div class="dropdown-item" id="confirmationSacrifice"><span>Sacrifice</span></div>
-                <div class="dropdown-item" id="confirmationPrestige"><span>Prestige</span></div>
-                <div class="dropdown-item" id="confirmationChallenge"><span>Challenge</span></div>
+                <div class="dropdown-item confirmation" id="confirmationSacrifice"><span>Sacrifice</span></div>
+                <div class="dropdown-item confirmation" id="confirmationPrestige"><span>Prestige</span></div>
+                <div class="dropdown-item confirmation" id="confirmationChallenge"><span>Challenge</span></div>
               </div>
             </div>
             <div class="option" id="Logpb" style="transition: background-color .2s">
               <span class="cv ch2" style="width: 100%">Show logarithmic progress bars</span>
             </div>
-          <!--</div>
-          <div style="height: 44px; width: 100%; display: table; table-layout: fixed">
-            <div class="option" id="UIRate">
-              <div class="cv ch2" style="width: 100%">
-                <span>UI Update Rate</span><br>
-                <input type="range" min="1" max="60" value="20" id="UIRateInput" style="width: 75%; outline: none; cursor: pointer"><br>
-                <span class="ba" id="UIRatex">Error</span><span>/sec</span>
-              </div>
-            </div>-->
-          </div>
-          <div style="height: 44px; width: 100%; display: table; table-layout: fixed">
             <div class="option tooltip-element" id="SmartAutoPrestige" style="transition: background-color .2s">
               <span class="cv ch2" style="width: 100%">Toggle smart auto prestige</span>
-              <span class="ch2 tooltip-content" style="width: 500px; margin-left: -255px">When you prestige, auto prestige will be set to prestige at the same PP you just prestiged at</span>
-            </div>
-            <div class="option tooltip-element" id="VariableAutomation" style="transition: background-color .2s">
-              <span class="cv ch2" style="width: 100%">Toggle all automation at once (Variables only)</span>
-              <span class="ch2 tooltip-content" style="width: 500px; margin-left: -255px">Toggling automation for any variable or IP gain will toggle all other automations for variables and IP gain so they are all either enabled or disabled. Ignore using shift.</span>
+              <span class="ch2 tooltip-content" style="width: 250px; margin-left: -130px">When you prestige, auto prestige will be set to prestige at the same PP you just prestiged at</span>
             </div>
           </div>
           <br>
@@ -174,8 +168,31 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="option" id="Import"><span class="cv ch2" style="width: 100%">Import</span></div>
             <div class="option" id="Reset"><span class="cv ch2" style="width: 100%">Reset</span></div>
           </div>
+          <!--<br>
+          <div style="height: 44px; width: 100%">
+            <div class="grayBorder2" style="height: 40px; overflow: hidden; position: relative; background-color: rgb(25, 25, 25); border: 0px; border-radius: 50px">
+              <span class="chv goldText">Display</span>
+            </div>
+          </div>
+          <div style="height: 44px; width: 100%; display: table; table-layout: fixed">
+            <div class="option" id="UIRate">
+              <div class="cv ch2" style="width: 100%">
+                <span>UI Update Rate [WIP]</span><br>
+                <input type="range" min="1" max="60" value="20" id="UIRateInput" style="width: 75%; outline: none; cursor: pointer"><br>
+                <span class="ba" id="UIRatex">20</span><span>/sec</span>
+              </div>
+            </div>
+            <div class="option" id="LightTheme" style="transition: background-color .2s">
+              <span class="cv ch2" style="width: 100%">Light Theme</span>
+            </div>
+          </div>-->
           <div class="ch2">
-            <span class="hotkeySIUnlocks" style="font-size: 20px; font-weight: bold">Hotkeys:</span><br>
+            <span>You can hold enter after clicking a button to auto click it 10x per second</span><br>
+            <span>Shift click an automation for variables to toggle all variable automations</span>
+          </div>
+          <br class="hotkeySIUnlocks">
+          <div class="ch2">
+            <span class="hotkeySIUnlocks" style="font-size: 20px; font-weight: bold">Hotkeys:</span><br class="hotkeySIUnlocks">
             <span class="hotkeySIUnlocks">S+I: Sacrifice IP</span><br class="hotkeySPUnlocks">
             <span class="hotkeySPUnlocks">S+P: Sacrifice PP</span><br class="hotkeyPUnlocks">
             <span class="hotkeyPUnlocks">P: Prestige</span>
@@ -217,7 +234,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="ch2 achievement tooltip-element" id="ach3-3"><span class="achDisplayId">3-3</span><span class="top" id="ach3-3Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach3-3Description" style="width: 200px; margin-left: -105px">Error</span><span class="bottom" style="font-size: 14px">Reward: Challenge completions boost PP gain [<span class="purpleText">x</span><span class="ba purpleText" id="ach3-3Reward" style="font-weight: bold">Error</span>]</span></div>
                 <div class="ch2 achievement tooltip-element" id="ach3-4"><span class="achDisplayId">3-4</span><span class="top" id="ach3-4Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach3-4Description" style="width: 200px; margin-left: -105px">Error</span></div>
                 <div class="ch2 achievement tooltip-element" id="ach3-5"><span class="achDisplayId">3-5</span><span class="top" id="ach3-5Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach3-5Description" style="width: 200px; margin-left: -105px">Error</span></div>
-                <div class="ch2 achievement tooltip-element" id="ach3-6"><span class="achDisplayId">3-6</span><span class="top" id="ach3-6Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach3-6Description" style="width: 200px; margin-left: -105px">Error</span></div>
+                <div class="ch2 achievement tooltip-element" id="ach3-6"><span class="achDisplayId">3-6</span><span class="top" id="ach3-6Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach3-6Description" style="width: 200px; margin-left: -105px">Error</span><span class="bottom" style="font-size: 14px">Reward: You gain <span class="ba purpleText" id="ach3-6Reward" style="font-weight: bold">Error</span><span class="purpleText">%</span> more PP</span></div>
               </div>
               <div class="tableRow">
                 <div class="ch2 achievement tooltip-element" id="ach4-1"><span class="achDisplayId">4-1</span><span class="top" id="ach4-1Title" style="font-size: 19px; font-weight: bold">Error</span><span class="tooltip-content" id="ach4-1Description" style="width: 200px; margin-left: -105px">Error</span></div>
@@ -556,7 +573,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                   <div class="ppCell ch2" id="pt0-1">
                     <span class="ptDisplayId">0-1</span>
                     <div class="cv" style="position: relative; z-index: 1">
-                      <span style="font-size: 20px">Unlock the prestige tree</span>
+                      <span id="pt0-1Text" style="font-size: 20px">Error</span>
                     </div>
                   </div>
                 </div>
@@ -797,4 +814,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </div>
   </body>
 </html>
-<!--0.5.2-->
+<!--0.5.4-->

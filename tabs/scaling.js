@@ -24,8 +24,8 @@ const scaling = {
   }
 }
 for (let name in scaling) {
-  di("scaling"+name+"b").addEventListener("click", () => {buyScaling(name)});
-  di("maxScaling"+name+"State").addEventListener("click", () => {toggleMaxBuyScaling(name)});
+  di("scaling"+name+"b").addEventListener("click", () => {buyScaling(name); "scaling"+name+"b"; lastClicked = "scaling"+name+"b"});
+  di("maxScaling"+name+"State").addEventListener("click", () => {toggleMaxBuyScaling(name); lastClicked = "maxScaling"+name+"State"; lastClicked = "maxScaling"+name+"State"});
 }
 
 //Buttons

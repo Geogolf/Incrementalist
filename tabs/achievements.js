@@ -5,8 +5,8 @@ const achievements = {
   "ach1-3": {title: "Was it worth it?", desc: "Sacrifice for the first time"},
   "ach1-4": {title: "Multiplication", desc: "Buy your first M variable"},
   "ach1-5": {title: "I think it was worth it", desc: "Sacrifice two times"},
-  "ach1-6": {title: "Click a few times", desc: "Click the equation 2,500 times"},
-  "ach2-1": {title: "It's not better", desc: "Get more P than P1 after 1,000"},
+  "ach1-6": {title: "Click a few times", desc: "Click the equation 3,333 times"},
+  "ach2-1": {title: "It's not better", desc: "Get 1,000 P without any P1"},
   "ach2-2": {title: "Exponential", desc: "Buy your first E variable"},
   "ach2-3": {title: "Is this too worth it?", desc: "Sacrifice seven times"},
   "ach2-4": {title: "Exponential age", desc: "Buy your first scaling E upgrade"},
@@ -19,7 +19,7 @@ const achievements = {
   "ach3-5": {title: "Full automation", desc: "Fully automate prestiges"},
   "ach3-6": {title: "Sacrifice your PP", desc: "Sacrifice PP for the first time"},
   "ach4-1": {title: "Tetration", desc: "Buy your first T variable"},
-  "ach4-2": {title: "The answer", desc: "42"},
+  "ach4-2": {title: "The answer", desc: "Import 42"},
   "ach4-3": {title: "Stonks 2.0", desc: "Buy prestige upgrade 5-1"},
   "ach4-4": {title: "This is too easy", desc: "Prestige without sacrificing"},
   "ach4-5": {title: "[WIP]", desc: "[WIP]"},
@@ -38,9 +38,7 @@ const eggs = {
   "egg1-5": {title: "Yep, it's there", desc: "Perform a pixel perfect click"},
   "egg1-6": {title: "Free money", desc: "Try to give yourself money"}
 }
-for (let id in eggs) {
-  hideId(id);
-}
+for (let id in eggs) {hideId(id)}
 
 //Functions
 function giveAchievement(id, notify) {
@@ -48,8 +46,13 @@ function giveAchievement(id, notify) {
     user.achievements.push(id);
     if (notify) {alertify.message(achievements[id].title)}
   }
-  if (user.achievements.length != 1) {showId("achievementS")}
-  else {hideId("achievementS")}
+  (user.achievements.length != 1) ? showId("achievementS") : hideId("achievementS");
+}
+function takeAchievement(id) {
+  if (user.achievements.includes(id)) {
+    user.achievements.splice(user.achievements.indexOf(id), 1);
+  }
+  (user.achievements.length != 1) ? showId("achievementS") : hideId("achievementS");
 }
 function giveEgg(id, notify) {
   if (!user.eggs.includes(id)) {
@@ -57,8 +60,7 @@ function giveEgg(id, notify) {
     if (notify) {alertify.warning(eggs[id].title)}
   }
   showId(id);
-  if (user.eggs.length != 1) {showId("eggS")}
-  else {hideId("eggS")}
+  (user.eggs.length != 1) ? showId("eggS") : hideId("eggS");
 }
 
 //Get Data
@@ -71,7 +73,7 @@ function getAchievementReward(id) {
   let multi = nd(1);
   if (user.pp.pt.cells.includes("pt3-2")) {multi = multi.times(getPTReward("pt3-2").divide(100).plus(1))}
   if (id == "ach1-5") {return nd(2).times(multi)}
-  if (id == "ach1-6") {return nd(2.5).pow(user.ip.equationClicks.times(2).pow(1.35).plus(1).log10()).times(multi)}
+  if (id == "ach1-6") {return nd(2.5).pow(user.ip.equationClicks.pow(1.35).plus(1).log10()).times(multi)}
   if (id == "ach2-1") {return nd(5).times(multi)}
   if (id == "ach2-3") {return nd(10).times(multi)}
   if (id == "ach2-4") {
@@ -80,7 +82,7 @@ function getAchievementReward(id) {
   }
   if (id == "ach3-1") {return nd(1001).pow(getPPChallengeReward(3)).times(multi)}
   if (id == "ach3-2") {
-    let sacrifices = user.sacrifice.IP;
+    let sacrifices = user.sacrifice.IP.count;
     let x = nd(sacrifices/3+4).sqrt().minus(1).times(multi);
     if (user.pp.pt.cells.includes("pt6-1")) {x = Decimal.tetrate(x, 3)}
     return x;
@@ -91,6 +93,7 @@ function getAchievementReward(id) {
     if (completions < 12) {return nd(1.25).pow(completions).times(multi)}
     else {return nd(Math.log10(completions-10)).divide(Math.log10(1.25)).plus(11.197243)}
   }
+  if (id == "ach3-6") {return nd(10).times(multi)}
   if (id == "ach4-4") {return user.ip.sac.plus(1).pow(0.1)}
 }
 

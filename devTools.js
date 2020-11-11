@@ -16,9 +16,9 @@ function giveMoney(layer, amount, set) {
   }
 }
 function takeMoney(layer, amount) {
-  user[layer.toLowerCase()].current = user[layer.toLowerCase()].current.minus(amount);
-  user[layer.toLowerCase()].sac = user[layer.toLowerCase()].sac.minus(amount);
-  user[layer.toLowerCase()].total = user[layer.toLowerCase()].total.minus(amount);
+  if (user[layer.toLowerCase()].current.gte(amount)) {user[layer.toLowerCase()].current = user[layer.toLowerCase()].current.minus(amount)}
+  if (user[layer.toLowerCase()].sac.gte(amount)) {user[layer.toLowerCase()].sac = user[layer.toLowerCase()].sac.minus(amount)}
+  if (user[layer.toLowerCase()].total.gte(amount)) {user[layer.toLowerCase()].total = user[layer.toLowerCase()].total.minus(amount)}
 }
 
 //Progress
