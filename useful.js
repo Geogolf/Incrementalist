@@ -1,19 +1,57 @@
 //Faster Writing
-function di(x) {return document.getElementById(x)}
+function di(x) {
+  let element = document.getElementById(x)
+  return element
+}
 function dc(x) {return document.getElementsByClassName(x)}
 function nd(x) {return new Decimal(x)}
 function del(event, func) {document.addEventListener(event, func)}
 function wel(event, func) {window.addEventListener(event, func)}
 
 //Manipulate HTML/CSS
-function showId(x) {document.getElementById(x).style.display = ""}
-function showIdTab(x) {document.getElementById(x).style.display = "table-cell"}
-function showClass(x) {let y = document.getElementsByClassName(x); for (i=0; i<y.length; i++) {y[i].style.display = ""}}
-function hideId(x) {document.getElementById(x).style.display = "none"}
-function hideClass(x) {let y = document.getElementsByClassName(x); for (i=0; i<y.length; i++) {y[i].style.display = "none"}}
-function addClass(cl, id) {document.getElementById(id).classList.add(cl)}
-function removeClass(cl, id) {document.getElementById(id).classList.remove(cl)}
-function replaceClass(cl1, cl2, id) {document.getElementById(id).classList.remove(cl1); document.getElementById(id).classList.add(cl2)}
+let showS = Symbol("Shown"), showT = Symbol("Shown Tab"), hidden = Symbol("Hidden")
+let idShownCache = new Map(), classShownCache = new Map();
+function showId(x) {
+  if(idShownCache.get(x) !== showS){
+    document.getElementById(x).style.display = ""
+    idShownCache.set(x,showS)
+  }
+}
+function showIdTab(x) {
+  if(idShownCache.get(x) !== showT){
+    document.getElementById(x).style.display = "table-cell"
+    idShownCache.set(x, showT)
+  }
+}
+function showClass(x) {
+  if(!classShownCache.get(x)){
+    let y = document.getElementsByClassName(x);
+    for (element of y) {element.style.display = ""}
+    classShownCache.set(x, true)
+  }
+}
+function hideId(x) {
+ if(idShownCache.get(x) !== hidden){
+    document.getElementById(x).style.display = "none"
+    idShownCache.set(x,hidden)
+  }
+}
+function hideClass(x) {
+  if(classShownCache.get(x) ?? true){
+    let y = document.getElementsByClassName(x);
+    for (element of y) {element.style.display = "none"}
+    classShownCache.set(x,false)
+  }
+}
+function addClass(cl, id) {
+  document.getElementById(id).classList.add(cl)
+  classShownCache.set(cl, false)
+}
+function removeClass(cl, id) {
+  document.getElementById(id).classList.remove(cl)
+  classShownCache.set(cl, false)
+}
+function replaceClass(cl1, cl2, id) {removeClass(cl1, id); addClass(cl2, id)}
 
 //Very Useful
 function e(note, obj, exp, dec, noCommas) {

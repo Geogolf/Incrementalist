@@ -12,7 +12,12 @@ const canvasData = {
 
 wel("resize", () => {resizeCanvases()});
 function resizeCanvases() {
-  resizeCanvas("pt");
+  if(user.tab.main == "Prestige" && user.tab.Prestige == "Tree"){
+    showId('canvasPT')
+    resizeCanvas("pt");
+  }else{
+    hideId('canvasPT')
+  }
 }
 
 function retrieveCanvasData(kind) {
@@ -27,18 +32,24 @@ function retrieveCanvasData(kind) {
   }
 }
 
+
 function resizeCanvas(kind) {
   if (!retrieveCanvasData(kind)) {return}
-  canvas.width = 0;
-  canvas.height = 0;
-  canvas.width = document.documentElement.scrollWidth;
-  canvas.height = document.documentElement.scrollHeight;
+  let bounds = canvas.getBoundingClientRect()
+  if(bounds.width != canvas.width){
+    canvas.width = bounds.width;
+  }
+  if(bounds.height != canvas.height){
+    canvas.height = bounds.height;
+  }
+  ctx.resetTransform()
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(-bounds.left, -bounds.top)
   drawTree(kind);
 }
 
 function drawTree(kind) {
-  if (!retrieveCanvasData(kind)) {return}
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //if (!retrieveCanvasData(kind)) {return}
   if (kind == "pt") {
     for (let id in pt) {
       let data = pt[id].from;
@@ -54,10 +65,10 @@ function drawTreeBranch(from, to, color, width) {
   if (di(to).style.display == "none") {return}
   let start = di(from).getBoundingClientRect();
   let end = di(to).getBoundingClientRect();
-  let x1 = start.left+(start.width/2)+(document.documentElement.scrollLeft || document.body.scrollLeft);
-  let y1 = start.top+(start.height/2)+(document.documentElement.scrollTop || document.body.scrollTop);
-  let x2 = end.left+(end.width/2)+(document.documentElement.scrollLeft || document.body.scrollLeft);
-  let y2 = end.top+(end.height/2)+(document.documentElement.scrollTop || document.body.scrollTop);
+  let x1 = start.left+(start.width/2);
+  let y1 = start.top+(start.height/2);
+  let x2 = end.left+(end.width/2);
+  let y2 = end.top+(end.height/2);
   
   ctx.lineWidth = width;
   ctx.beginPath();
@@ -65,4 +76,5 @@ function drawTreeBranch(from, to, color, width) {
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
   ctx.stroke();
+
 }
