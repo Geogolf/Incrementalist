@@ -172,7 +172,7 @@ function updatePointDisplays() {
     updatePointDisplay(layer);
   }
 }
-let pu = ''
+let pu = {IP: '', PP: ''}
 function updatePointDisplay(layer) {
   let index = 0;
   if (layer == "IP") {
@@ -230,9 +230,9 @@ function updatePointDisplay(layer) {
   
   di("pb"+layer.toLowerCase()+"Sac").textContent = e("d", user[layer.toLowerCase()].sac, 2, 0);
   di("pb"+layer.toLowerCase()+"Goal").textContent = e("d", g, 2, 0);
-  if(u != pu){
+  if(u != pu[layer]){
     di("pb"+layer.toLowerCase()+"Unlock").innerHTML = u;
-    pu = u;
+    pu[layer] = u;
   }
   if (g.gt(1e100) || user.options.logpb) {di("pb"+layer.toLowerCase()).style.width = nd(user[layer.toLowerCase()].sac).log10().divide(g.log10()).times(100)+"%"}
   else {di("pb"+layer.toLowerCase()).style.width = user[layer.toLowerCase()].sac.divide(g).times(100)+"%"}
