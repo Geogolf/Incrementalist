@@ -1,17 +1,17 @@
 //Data
 const sacrifice = {
   IP: {
-    costs: ["1e7", "1e12", "1e19", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832", "1e2098"],
-    unlocks: ["Variable M, P Multiplier", "Nothing", "M Multiplier", "Nothing", "Variable E", "Nothing", "E Multiplier", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing"],
+    costs: ["1e7", "1e12", "1e19", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832", "1e2098"/*, "e5e12"*/],
+    unlocks: ["Variable M, P Multiplier", "Nothing", "M Multiplier", "Nothing", "Variable E", "Nothing", "E Multiplier", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing"/*, "Nothing"*/],
     boosts: {
       P: {dec: 0},
       M: {dec: 0},
-      E: {dec: 2}
+      E: {dec: 3}
     }
   },
   PP: {
-    costs: ["1e281", "1e2450"],
-    unlocks: ["Variable T", "Variable T<sub>1</sub>"],
+    costs: ["1e281", "1e1906"],
+    unlocks: ["Variable T, <span class=\"ba blueText\">1</span> PP Milestone", "Variable T<sub>1</sub>"],
     boosts: {
       C2: {dec: 2}
     }
@@ -27,10 +27,10 @@ function confirmRunSacrifice(layer) {
   else {runSacrifice(layer)}
 }
 function runSacrifice(layer, dontConfirm) {
+  if (user.pp.challenge[5].in) {return}
+  if (layer == "PP" && user.sacrifice.PP.count > 0) {alertify.alert("This feature is disabled... for now"); return}
   let cost = getSacrificeCost(layer);
-  if (layer == "PP" && user.sacrifice.PP.count == 1 && user.pp.sac.gte(cost)) {alertify.alert("This feature is disabled... for now"); return}
   if (user[layer.toLowerCase()].sac.gte(cost) && cost.lt(user[layer.toLowerCase()].infinite)) {
-    resetFrom = "Sacrifice";
     user.sacrifice[layer].count++;
     reset = "Sacrifice"+layer;
   }
@@ -106,11 +106,11 @@ function updateSacrifice(layer) {
   }
   (typeof sacrifice[layer].unlocks[user.sacrifice[layer].count] != "undefined") ? di("sacrifice"+layer+"Unlock").innerHTML = sacrifice[layer].unlocks[user.sacrifice[layer].count] : di("sacrifice"+layer+"Unlock").innerHTML = "Nothing";
   let cost = getSacrificeCost(layer);
-  if (cost.gte(user[layer.toLowerCase()].infinite) && showInfinite) {
+  /*if (cost.gte(user[layer.toLowerCase()].infinite) && showInfinite) {
     di("sacrifice"+layer+"Cost").textContent = e("d", "Infinite", 2, 0);
     replaceClass("canBuy", "cantBuy", "sacrifice"+layer+"b");
   }
-  else if (user[layer.toLowerCase()].sac.lt(cost)) {
+  else */if (user[layer.toLowerCase()].sac.lt(cost)) {
     di("sacrifice"+layer+"Cost").textContent = e("d", cost.minus(user[layer.toLowerCase()].sac), 2, 0);
     replaceClass("canBuy", "cantBuy", "sacrifice"+layer+"b");
   }
@@ -128,49 +128,44 @@ function resetSacrificeIP() {
       if (user.ip.increment[name].bought[i] > 0) {condition = true}
     }
   }
-  if (!condition) {giveAchievement("ach2-5", true)}
-  if (user.pp.milestones >= 4) {giveAchievement("ach2-6", true)}
-  if (user.pp.milestones < 2) {
+  if (!condition && user.ip.sac.gte(getSacrificeCost("IP", 0))) {giveAchievement("ach2-5", true)}
+  if (user.pp.milestones.count >= 4 && user.ip.sac.gte(getSacrificeCost("IP", 0))) {giveAchievement("ach2-6", true)}
+  if (user.pp.milestones.count < 2) {
     for (let name in automation) {
       if (automation[name].currency == "ip") {
-        if (Array.isArray(user.automation[name].enabled)) {
-          for (let i=0; i<user.automation[name].enabled.length; i++) {
-            if (user.automation[name].enabled[i]) {toggleAutomation(name, i)}
-          }
+        for (let key in user.automation[name].enabled) {
+          if (user.automation[name].enabled[key]) {toggleAutomation(name, key)}
         }
-        else if (user.automation[name].enabled) {toggleAutomation(name)}
-        if (user.pp.milestones < 1) {
+        if (user.pp.milestones.count < 1) {
           user.automation[name].bought = 0;
         }
       }
     }
   }
-  if (user.pp.milestones < 4) {
+  if (user.pp.milestones.count < 4) {
     for (let name in increment) {
       for (let i=0; i<5; i++) {
         user.ip.increment[name].bought[i] = 0;
       }
     }
   }
-  if (user.pp.milestones < 1) {
+  if (user.pp.milestones.count < 1) {
     for (let name in scaling) {
       user.scaling[name].bought = 0;
     }
   }
-  if (user.pp.milestones < 3) {
-    user.ip.current = getIPStart();
-    user.ip.sac = getIPStart();
+  let ipStart = getIPStart();
+  if (user.pp.milestones.count < 3 || ipStart.gt(user.ip.current)) {
+    user.ip.current = ipStart;
+    user.ip.sac = ipStart;
   }
 }
 function resetSacrificePP() {
   for (let name in automation) {
     if (automation[name].currency == "ip" || automation[name].currency == "pp") {
-      if (Array.isArray(user.automation[name].enabled)) {
-        for (let i=0; i<user.automation[name].enabled.length; i++) {
-          if (user.automation[name].enabled[i]) {toggleAutomation(name, i)}
-        }
+      for (let key in user.automation[name].enabled) {
+        if (user.automation[name].enabled[key]) {toggleAutomation(name, key)}
       }
-      else if (user.automation[name].enabled) {toggleAutomation(name)}
       user.automation[name].bought = 0;
     }
   }
@@ -188,8 +183,9 @@ function resetSacrificePP() {
   user.pp.pt.cells = [];
   for (let i=1; i<user.pp.challenge.length; i++) {
     user.pp.challenge[i].in = false;
-    user.pp.challenge[i].count = 0;
+    if (user.pp.milestones.count < 6) {user.pp.challenge[i].count = 0}
   }
+  user.pp.bestPPs = nd(0);
   
   user.ip.current = getIPStart();
   user.ip.sac = getIPStart();

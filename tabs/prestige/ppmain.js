@@ -7,6 +7,7 @@ function confirmPrestige() {
   else {runPrestige(true, true)}
 }
 function runPrestige(achCheck, warn) {
+  if (reset == "Prestige") {return}
   if (user.ip.sac.gte(1e100)) {
     if (achCheck) {resetFrom = "Prestige"}
     let gain = getPPGain();
@@ -24,7 +25,7 @@ function runPrestige(achCheck, warn) {
     setTimeout(() => {
       if (user.options.confirmations.includes("Prestige")) {
         alertify.confirm("You will not earn any PP. Do you want to continue?", () => {
-          if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
+          user.pp.lastGain = nd(0);
           user.time.lastPrestige = user.time.thisPrestige;
           user.time.thisPrestige = 0;
           if (user.pp.pt.refund) {refundPT()}
@@ -32,7 +33,7 @@ function runPrestige(achCheck, warn) {
         });
       }
       else {
-        if (user.time.thisPrestige < user.time.bestPrestige) {user.time.bestPrestige = user.time.thisPrestige}
+        user.pp.lastGain = nd(0);
         user.time.lastPrestige = user.time.thisPrestige;
         user.time.thisPrestige = 0;
         if (user.pp.pt.refund) {refundPT()}
@@ -78,9 +79,9 @@ function getPPGainMulti() {
 function getPPGain() {
   let ppGainScaling = nd(1).divide(Math.log10(1.05));
   let multi = getPPGainMulti();
-  let gain = ppGainScaling.times(user.ip.sac.log10().log10().divide(2).log10()).plus(1).times(multi).floor();
-  if (isNaN(gain) || gain.lt(multi.floor())) {gain = nd(0)}
-  return gain;
+  let gain = ppGainScaling.times(user.ip.sac.log10().log10().divide(2).log10()).plus(1).times(multi);
+  if (isNaN(gain) || gain.lt(multi)) {gain = nd(0)}
+  return gain.floor();
 }
 function getPPNext() {
   let next = nd(10).pow(nd(100).pow(nd(1.05).pow(getPPGain().plus(1).divide(getPPGainMulti()).minus(1))));
@@ -109,22 +110,24 @@ function updatePrestige() {
 
 //Reset Data
 function resetPrestige() {
-  if (user.sacrifice.IP.count <= 10 && resetFrom == "Prestige") {giveAchievement("ach3-2", true)}
-  if (user.sacrifice.IP.count == 0 && resetFrom == "Prestige") {giveAchievement("ach4-4", true)}
-  if (user.pp.milestones < 2 || !user.pp.pt.cells.includes("pt3-1") || !user.pp.pt.cells.includes("pt3-4")) {
+  if (user.sacrifice.IP.count <= 10 && resetFrom == "Prestige" && user.ip.sac.gte(1e100)) {giveAchievement("ach3-2", true)}
+  if (user.sacrifice.IP.count == 0 && resetFrom == "Prestige" && user.ip.sac.gte(1e100)) {giveAchievement("ach4-4", true)}
+  let condition = false;
+  for (let name in increment) {
+    for (let i=0; i<5; i++) {
+      if (user.ip.increment[name].bought[i] > 0) {condition = true}
+    }
+  }
+  if (!condition && user.ip.sac.gte(1e100)) {giveAchievement("ach5-1", true)}
+  if (user.pp.milestones.count < 2 || !user.pp.pt.cells.includes("pt3-1") || !user.pp.pt.cells.includes("pt3-4") || user.pp.challenge[4].in) {
     for (let name in automation) {
       if (automation[name].currency == "ip") {
-        if (user.pp.milestones < 2 || !user.pp.pt.cells.includes("pt3-1")) {
-          if (Array.isArray(user.automation[name].enabled)) {
-            for (let i=0; i<user.automation[name].enabled.length; i++) {
-              if (user.automation[name].enabled[i]) {toggleAutomation(name, i)}
-            }
-          }
-          else {
-            if (user.automation[name].enabled) {toggleAutomation(name)}
+        if (user.pp.milestones.count < 2 || !user.pp.pt.cells.includes("pt3-1")) {
+          for (let key in user.automation[name].enabled) {
+            if (user.automation[name].enabled[key]) {toggleAutomation(name, key)}
           }
         }
-        if (user.pp.milestones < 1 || !user.pp.pt.cells.includes("pt3-4")) {
+        if (user.pp.milestones.count < 1 || !user.pp.pt.cells.includes("pt3-4") || user.pp.challenge[4].in) {
           user.automation[name].bought = 0;
         }
       }
@@ -135,14 +138,14 @@ function resetPrestige() {
       user.ip.increment[name].bought[i] = 0;
     }
   }
-  if (user.pp.milestones < 1 || !user.pp.pt.cells.includes("pt3-4")) {
+  if (user.pp.milestones.count < 1 || !user.pp.pt.cells.includes("pt3-4") || user.pp.challenge[4].in) {
     for (let name in scaling) {
       user.scaling[name].bought = 0;
     }
   }
   user.ip.current = getIPStart();
   user.ip.sac = getIPStart();
-  if (user.pp.milestones < 7) {
+  if (user.pp.milestones.count < 700) {
     user.sacrifice.IP.count = 0;
   }
 }
