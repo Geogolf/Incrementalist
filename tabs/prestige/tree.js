@@ -1,4 +1,5 @@
 //Data
+const lastPTRow = 7;
 const pt = {
   "pt0-1": {from: [], sac: 0, cost: {type: "static", cost: 0}},
   "pt1-1": {from: ["pt0-1"], sac: 0, cost: {type: "rowIncrease", effect: ["pt1-2", "pt1-3"], baseCost: 1, scaleCost: 2}, default: 1},
@@ -10,16 +11,20 @@ const pt = {
   "pt2-4": {from: ["pt1-3"], sac: 0, cost: {type: "rowIncrease", effect: ["pt2-5"], baseCost: 7, scaleCost: 1.6}},
   "pt2-5": {from: ["pt1-3"], sac: 0, cost: {type: "rowIncrease", effect: ["pt2-4"], baseCost: 7, scaleCost: 1.6}, default: 5},
   "pt3-1": {from: ["pt2-2"], sac: 0, cost: {type: "rowIncrease", effect: ["pt3-4"], baseCost: 150, scaleCost: 3}},
-  "pt3-2": {from: ["pt2-3"], sac: 0, cost: {type: "static", cost: 500}, default: 0},
-  "pt3-3": {from: ["pt2-3"], sac: 0, cost: {type: "static", cost: 500}},
+  "pt3-2": {from: ["pt2-3"], sac: 0, cost: {type: "rowIncrease", effect: ["pt3-3"], baseCost: 500, scaleCost: 1.25}, default: 0},
+  "pt3-3": {from: ["pt2-3"], rowac: 0, cost: {type: "rowIncrease", effect: ["pt3-2"], baseCost: 500, scaleCost: 1.25}},
   "pt3-4": {from: ["pt2-4"], sac: 0, cost: {type: "rowIncrease", effect: ["pt3-1"], baseCost: 150, scaleCost: 3}},
-  "pt4-1": {from: ["pt3-1", "pt3-2", "pt3-3", "pt3-4"], sac: 0, cost: {type: "static", cost: 50000}, default: 1},
+  "pt4-1": {from: ["pt3-1", "pt3-2", "pt3-3", "pt3-4"], sac: 0, cost: {type: "static", cost: 40000}, default: 1},
   "pt5-1": {from: ["pt5-2"], sac: 1, cost: {type: "rowIncrease", effect: ["pt5-3"], baseCost: 400000, scaleCost: 2}, default: 1},
   "pt5-2": {from: ["pt4-1"], sac: 1, cost: {type: "static", cost: 100000}},
   "pt5-3": {from: ["pt4-1"], sac: 1, cost: {type: "rowIncrease", effect: ["pt5-1"], baseCost: 400000, scaleCost: 2}, default: 0},
-  "pt5-4": {from: ["pt4-1"], sac: 1, cost: {type: "static", cost: 1e8}, default: 1},
-  /*"pt5-5": {from: ["pt5-4"], cost: {type: "static", cost: 2.5e9}},*/
-  "pt6-1": {from: ["pt5-2", "pt5-3"], sac: 1, cost: {type: "static", cost: 1e6}}
+  "pt5-4": {from: ["pt4-1"], sac: 1, cost: {type: "static", cost: 8.5e7}, default: 1},
+  "pt5-5": {from: ["pt5-4"], sac: 2, cost: {type: "static", cost: 2.5e10}},
+  "pt6-1": {from: ["pt5-2", "pt5-3"], sac: 1, cost: {type: "static", cost: 1e6}},
+  "pt6-2": {from: ["pt5-3", "pt5-4"], sac: 2, cost: {type: "static", cost: 1e23}},
+  "pt7-1": {from: ["pt5-1", "pt7-2"], sac: 2, cost: {type: "static", cost: 1e100}},
+  "pt7-2": {from: ["pt6-1", "pt6-2"], sac: 2, cost: {type: "static", cost: 1e44}},
+  "pt7-3": {from: ["pt5-5", "pt7-2"], sac: 2, cost: {type: "static", cost: 1e100}}
 }
 for (let id in pt) {
   di(id).addEventListener("click", () => {buyPT(id)});
@@ -36,7 +41,7 @@ function refundPT() {
   else {user.pp.pt.cells = []}
   user.pp.pt.refund = false;
   user.pp.pt.refundAmount = nd(0);
-  for (name in user.automation) {user.automation[name].buyMax = false; updateMaxAutoState(name)}
+  /*for (name in user.automation) {user.automation[name].buyMax = false; updateMaxAutoState(name)}*/
   for (name in user.scaling) {user.scaling[name].buyMax = false}
 }
 function buyPT(id) {
@@ -59,7 +64,11 @@ function getPTReward(id) {
   if (user.pp.challenge[4].in) {return nd(pt[id].default)}
   let multi = nd(1);
   if (user.pp.pt.cells.includes("pt3-3")) {multi = multi.times(1.25)}
-  if (id == "pt1-1") {return user.pp.sac.plus(1).ln().divide(1.125).plus(1).times(multi)}
+  if (id == "pt1-1") {
+    let thisExp = nd(1);
+    if (user.pp.pt.cells.includes("pt7-2")) {thisExp = getPTReward("pt7-2")}
+    return user.pp.sac.plus(1).ln().divide(1.125).plus(1).pow(thisExp).times(multi);
+  }
   if (id == "pt1-2") {return user.pp.sac.divide(11).plus(1).log10().times(100).times(multi)}
   if (id == "pt1-3") {
     let x = user.pp.sac.plus(1.55).sqrt().log10().plus(1).times(multi);
@@ -67,7 +76,10 @@ function getPTReward(id) {
     if (x.gt(cap)) {x = cap}
     return x;
   }
-  if (id == "pt2-1") {return nd(Math.sqrt(user.pp.pt.cells.length+1)).times(multi)}
+  if (id == "pt2-1") {
+    if (user.pp.pt.cells.includes("pt6-2")) {return Decimal.tetrate(user.pp.pt.cells.length+1, 1.25).times(multi)}
+    return nd(Math.sqrt(user.pp.pt.cells.length+1)).times(multi);
+  }
   if (id == "pt2-3") {return user.ip.sac.pow(0.1).plus(1).times(multi)}
   if (id == "pt2-5") {return nd(5)}
   if (id == "pt3-2") {return nd(10).times(multi)}
@@ -82,9 +94,10 @@ function getPTReward(id) {
   if (id == "pt5-4") {
     let bought = 0;
     for (let name in scaling) {bought += user.scaling[name].bought}
-    return nd(1+bought/1250).pow(bought);
+    /*return nd(1+bought/1250).pow(bought);*/
+    return nd(bought+1).ln().plus(1).pow(Math.log10(bought+1));
   }
-  /*if (id == "pt5-5") {return user.pp.sac.plus(1).ln()}*/
+  if (id == "pt7-2") {return user.pp.sac.plus(1).log10().plus(1).log10().plus(1).sqrt().times(multi)}
 }
 function getPTCost(id) {
   let data = pt[id].cost;

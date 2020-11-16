@@ -22,8 +22,10 @@ const achievements = {
   "ach4-2": {title: "The answer", desc: "Import 42"},
   "ach4-3": {title: "Stonks 2.0", desc: "Buy prestige upgrade 5-1"},
   "ach4-4": {title: "This is too easy", desc: "Prestige without sacrificing"},
-  "ach4-5": {title: "[WIP]", desc: "[WIP]"},
-  "ach4-6": {title: "[WIP]", desc: "[WIP]"},
+  /*"ach4-5": {title: "This was worth it", desc: "Sacrifice PP two times"},
+  "ach4-6": {title: "IP go brrrrr", desc: "Buy the second T variable"},
+  "ach5-1": {title: "Easy prestige", desc: "Prestige without buying any variables"},
+  "ach5-2": {title: "This is not a challenge", desc: "Complete a challenge without buying any variables"},*/
 }
 for (let id in achievements) {
   let data = achievements[id];
@@ -93,8 +95,13 @@ function getAchievementReward(id) {
     if (completions < 12) {return nd(1.25).pow(completions).times(multi)}
     else {return nd(Math.log10(completions-10)).divide(Math.log10(1.25)).plus(11.197243)}
   }
-  if (id == "ach3-6") {return nd(10).times(multi)}
-  if (id == "ach4-4") {return user.ip.sac.plus(1).pow(0.1)}
+  if (id == "ach3-6") {
+    if (user.achievements.includes("ach4-5")) {multi = multi.times(getAchievementReward("ach4-5"))}
+    return nd(10).times(multi);
+  }
+  if (id == "ach4-4") {return user.ip.sac.plus(1).pow(0.1).times(multi)}
+  if (id == "ach4-5") {return nd(1).plus(user.ip.equationClicks.log10().divide(nd(1.75).log10())).times(multi)}
+  if (id == "ach5-1") {return nd(user.pp.pt.cells.length+1).pow(0.094492).times(multi)}
 }
 
 //Update Data

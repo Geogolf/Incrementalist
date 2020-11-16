@@ -25,25 +25,30 @@ const scaling = {
 }
 for (let name in scaling) {
   di("scaling"+name+"b").addEventListener("click", () => {buyScaling(name); "scaling"+name+"b"; lastClicked = "scaling"+name+"b"});
-  di("maxScaling"+name+"State").addEventListener("click", () => {toggleMaxBuyScaling(name); lastClicked = "maxScaling"+name+"State"; lastClicked = "maxScaling"+name+"State"});
+  /*di("maxScaling"+name+"State").addEventListener("click", () => {toggleMaxBuyScaling(name); lastClicked = "maxScaling"+name+"State"; lastClicked = "maxScaling"+name+"State"});*/
 }
 
 //Buttons
 function buyScaling(name) {
+  if (user.pp.challenge[5].in) {return false}
   let cost = getScalingCost(name);
-  if (user.scaling[name].buyMax) {
+  let returnValue = false;
+  if (/*user.scaling[name].buyMax*/user.pp.pt.cells.includes("pt2-4")) {
     while (user[scaling[name].currency].current.gte(cost) && cost.lt(user[scaling[name].currency].infinite)) {
       user[scaling[name].currency].current = user[scaling[name].currency].current.minus(cost);
       user.scaling[name].bought++;
       cost = getScalingCost(name);
+      returnValue = true;
     }
   }
   else {
     if (user[scaling[name].currency].current.gte(cost) && cost.lt(user[scaling[name].currency].infinite)) {
       user[scaling[name].currency].current = user[scaling[name].currency].current.minus(cost);
       user.scaling[name].bought++;
+      returnValue = true;
     }
   }
+  return returnValue;
 }
 function toggleMaxBuyScaling(name) {
   user.scaling[name].buyMax = !user.scaling[name].buyMax;
@@ -52,22 +57,18 @@ function toggleMaxBuyScaling(name) {
 
 //Get Data
 function getScalingEffect(name) {
+  let multi = getPPChallengeReward(5);
+  if (user.pp.pt.cells.includes("pt1-3")) {multi = multi.times(getPTReward("pt1-3"))}
   if (name == "P") {
-    let multi = nd(1);
-    if (user.pp.pt.cells.includes("pt1-3")) {multi = multi.times(getPTReward("pt1-3"))}
     if (user.scaling[name].bought >= 1) {return nd(0.75).pow(nd(Math.pow(user.scaling[name].bought, 4.2)+1).log10().times(-1)).times(multi)}
     else {return nd(1)}
   }
   if (name == "M") {
-    let multi = nd(1);
-    if (user.pp.pt.cells.includes("pt1-3")) {multi = multi.times(getPTReward("pt1-3"))}
     if (user.scaling[name].bought >= 1) {return nd(0.5).pow(nd(Math.pow(user.scaling[name].bought, 1.25)+1).log10().times(-1)).times(multi)}
     else {return nd(1)}
   }
   if (name == "E") {
-    let multi = nd(1);
-    if (user.pp.pt.cells.includes("pt1-3")) {multi = multi.times(getPTReward("pt1-3"))}
-    if (user.scaling[name].bought >= 1) {return nd(user.scaling[name].bought / 4.3 + 1).log10().plus(1).times(multi)}
+    if (user.scaling[name].bought >= 1) {return nd(user.scaling[name].bought/4.3+1).log10().plus(1).times(multi)}
     else {return nd(1)}
   }
 }
@@ -84,7 +85,7 @@ function getScalingCost(name) {
 function updateScalings() {
   for (let name in scaling) {
     updateScaling(name);
-    updateMaxScalingState(name);
+    /*updateMaxScalingState(name);*/
   }
 }
 function updateMaxScalingState(name) {

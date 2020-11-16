@@ -19,12 +19,16 @@ function fixnd(obj) {
 //Load
 function loadGame() {
   let data = JSON.parse(localStorage.getItem("user"));
-  if (data != null) {loadData(data), true}
-  else {loadData(setUser(), true); hideId("offlineBox")}
+  if (data != null) {
+    loadData(data);
+    brokenUser = JSON.parse(JSON.stringify(data));
+    fixnd(brokenUser);
+  }
+  else {loadData(setUser()); hideId("offlineBox")}
   di("loadingScreen").style.opacity = 0;
   setTimeout(() => {hideId("loadingScreen")}, 500);
 }
-function loadData(data, notify) {
+function loadData(data) {
   let versionStart = data.version;
   let updated = false;
   /*resetAll(false);*/
@@ -261,7 +265,7 @@ function loadData(data, notify) {
     user.version = "0.5.2";
   }
   if (user.version == "0.5.2") {
-    for (let name in automation) {user.automation[name].unlocked = false}
+    for (let name in automation) {if (typeof user.automation[name] != "undefined") {user.automation[name].unlocked = false}}
     let sacIP = user.sacrifice.IP;
     let sacPP = user.sacrifice.PP;
     user.sacrifice.IP = {}
@@ -283,18 +287,50 @@ function loadData(data, notify) {
     user.version = "0.5.4";
     updated = true;
   }
+  if (user.version == "0.5.4") {
+    user.pp.pt.unlocked = false;
+    user.pp.challenge[0] = {unlocked: false};
+    user.automation.Automation = {buyMax: false, bought: false, enabled: {IP: false, IncrementP: false, IncrementM: false, IncrementE: false, IncrementT: false, SacrificeIP: false, Prestige: false, Automation: false, Scaling: false}, unlocked: false}
+    user.automation.Scaling = {buyMax: false, bought: false, enabled: {P: false, M: false, E: false}, unlocked: false}
+    for (let name in automation) {
+      if (name == "Automation" || name == "Scaling") {continue}
+      let tempEnabled = user.automation[name].enabled;
+      user.automation[name].enabled = {}
+      if (Array.isArray(tempEnabled)) {
+        for (let i=0; i<tempEnabled.length; i++) {user.automation[name].enabled[i] = tempEnabled[i]}
+      }
+      else {user.automation[name].enabled["0"] = tempEnabled}
+    }
+    if (user.time.bestPrestige < 1) {user.time.bestPrestige = 1}
+    user.pp.current = nd(user.pp.current);
+    if (user.pp.pt.cells.includes("pt3-2") && user.pp.pt.cells.includes("pt3-3")) {
+      if (user.pp.current.gte(125)) {user.pp.current = user.pp.current.minus(125)}
+      else {refundPT()}
+    }
+    user.pp.challenge.push({in: false, count: 0});
+    (user.automation.Prestige.bought > 0) ? user.automation.Prestige.bought = true : user.automation.Prestige.bought = false;
+    user.pp.milestones = {count: 0, unlocked: 0}
+    if (user.automation.Automation.bought > 0) {user.automation.Automation.bought = true} else {user.automation.Automation.bought = false}
+    (user.automation.Scaling.bought > 0) ? user.automation.Scaling.bought = true : user.automation.Scaling.bought = false;
+    if (typeof user.pp.bestPPs != "undefined") {delete user.pp.bestPPs}
+    user.atEnd = false;
+    user.version = "0.5.5";
+    updated = true;
+  }
+  if (user.version == "0.5.5") {
+    
+  }
   for (let i=0; i<user.eggs.length; i++) {showId(user.eggs[i])}
   fixnd(user);
   showTab(user.tab.main);
   setPrestigeAt(user.automation.Prestige.at);
   updateAutomationStates();
+  resizeCanvases();
   di("version").textContent = user.version + " (Beta)";
   console.log("Offline for "+showTime(nd(Date.now()-user.time.lastUpdate)));
   simulateTime(Date.now()-user.time.lastUpdate);
   /*setUIRate();*/
   save();
-  if (user.version == versionStart && notify) {alertify.message("Loaded Version " + user.version)}
-  else if (notify) {alertify.message("Loaded Version " + versionStart + " > " + user.version)}
   setTimeout(() => {
     if (updated) {
       let updateMessage = "";
@@ -303,6 +339,8 @@ function loadData(data, notify) {
         if (version == versionStart) {break}
       }
       alertify.alert("What's New:"+updateMessage);
+      alertify.message("Loaded Version " + versionStart + " > " + user.version)
     }
-  }, (1000/updateRate)+1);
+    else {alertify.message("Loaded Version " + user.version)}
+  }, 101);
 }

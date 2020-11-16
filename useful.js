@@ -25,7 +25,7 @@ function e(note, obj, exp, dec, noCommas) {
   if (note == "Blind") {
     return " ";
   }
-  if (obj == "Infinite") {return "Infinite"}
+  if (typeof obj == "string") {return obj}
   if (note == "Scientific" || note == "Logarithm") {
     let m = Math.pow(10, obj.mag-Math.floor(obj.mag));
     let e = obj.mag;
@@ -35,7 +35,7 @@ function e(note, obj, exp, dec, noCommas) {
     if (!noCommas) {upperMag += e.toLocaleString()}
     else {upperMag += e}
     if (note == "Logarithm") {
-      if (!noCommas) {upperMag = "e"+Number(e.toFixed(exp)).toLocaleString()}
+      if (!noCommas) {upperMag = "e"+Number(e.toFixed(exp)).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
       else {upperMag = "e"+e.toFixed(exp)}
     }
     if (obj.layer == 0) {

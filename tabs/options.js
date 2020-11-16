@@ -59,9 +59,12 @@ function importy() {
       /*let data = JSON.parse(decode(value));*/
       
       let data;
-      try {data = JSON.parse(decode(value))}
-      catch {data = JSON.parse(atob(value))}
-      if (data != null && data != "") {loadData(data, true)}
+      try {data = /*JSON.parse(*/decode(value)/*)*/}
+      catch {
+        try {data = JSON.parse(atob(value))}
+        catch {data = JSON.parse(JSON.stringify(user))}
+      }
+      if (data != null && data != "" && typeof data.version != "undefined") {loadData(data)}
     }
   });
 }
@@ -125,7 +128,7 @@ function updateSmartAutoPrestige() {
 }
 
 //Broken Data
-di("brokenExport").addEventListener("click", () => {exporty()});
+di("brokenExport").addEventListener("click", () => {copyToClipboard(encode(brokenUser))});
 di("brokenImport").addEventListener("click", () => {importy()});
 di("brokenReset").addEventListener("click", () => {resetAll()});
 di("brokenDiscord").addEventListener("click", () => {window.open('https://discord.gg/DKMmAap')});

@@ -1,11 +1,11 @@
-/*var obj = {
+var obj = {
   a: null,
   b: "1",
   c: [null, "2", [null, "3", [null, "4", 5, true], {d: null, e: "6", f: 7, g: false}, 8, true], {h: null, i: "9", j: [null, "10", 11, false], k: {l: null, m: "12", n: 13, o: true}, p: 14, q: false}],
   r: {s: null, t: "15", u: [null, "16", [null, "17", 18, true], {v: null, w: "19", x: 20, y: false}, 21, true], z: {aa: null, bb: "22", cc: [null, "23", 24, false], dd: {ee: null, ff: "25", gg: 26, hh: true}, ii: 27, jj: false}, kk: 28, ll: true},
   mm: 29,
   nn: false
-}*/
+}
 
 function checkType(value) {
   if (value === null) {return "nul"}
@@ -90,5 +90,5 @@ function decode(str) {
   result += "}";
   result = result.replace(/,}/g, "}");
   result = result.replace(/,]/g, "]");
-  return result;
+  return JSON.parse(result);
 }

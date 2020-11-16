@@ -19,14 +19,14 @@ const increment = {
     result: nd(0),
     baseCost: 1e30,
     auto: true,
-    dec: 2
+    dec: 3
   },
   "T": {
     highestNum: -1,
     result: nd(0),
-    baseCost: ["1e800", "e1e10, e1e10, e1e10, e1e10"],
+    baseCost: ["1e800", "1e6900", "ee1e10", "ee1e10", "ee1e10"],
     auto: false,
-    dec: 5
+    dec: 6
   }
 }
 for (let name in increment) {
@@ -144,9 +144,12 @@ function getIncrementx(name, num) {
   if (name == "T") {return nd(user.ip.increment[name].bought[num]+1).pow(nd(0.0001443+num/30000)).minus(1)}
 }
 function getIncrementCost(name, num) {
-  /*if (name == "T") {return nd(increment[name].baseCost).pow(nd(Math.pow(num+1, 2)+1).pow(user.ip.increment[name].bought[num])).floor()}*/
-  if (name == "T") {return nd(increment[name].baseCost[num]).pow(nd(num+2).tetrate(user.ip.increment[name].bought[num]))}
-  else {return nd(increment[name].baseCost).times(getIncrementRatio(name, num).pow(user.ip.increment[name].bought[num])).floor()}
+  /*if (name == "T") {return nd(increment[name].baseCost[num]).pow(nd(num+2).tetrate(user.ip.increment[name].bought[num]))}*/
+  if (name == "T") {
+    if (user.ip.increment[name].bought[num] > 1) {return nd(increment[name].baseCost[num]).pow(nd(Math.pow(user.ip.increment[name].bought[num], 2)).tetrate(num+2))}
+    else {return nd(increment[name].baseCost[num]).pow(nd(num+2).tetrate(user.ip.increment[name].bought[num]))}
+  }
+  return nd(increment[name].baseCost).times(getIncrementRatio(name, num).pow(user.ip.increment[name].bought[num])).floor();
 }
 function getIncrementRatio(name, num) {
   if (name == "P") {
@@ -159,7 +162,7 @@ function getIncrementRatio(name, num) {
     }
     let scale = nd(0.125);
     if (user.pp.challenge[3].in) {scale = nd(25)}
-    return nd(1).plus(scale.times(Math.pow(2, num)).divide(getScalingEffect("P").times(multi)))
+    return nd(1).plus(scale.times(Math.pow(2, num)).divide(getScalingEffect("P").times(multi)));
   }
   if (name == "M") {
     let scale = nd(1.3579);
@@ -202,8 +205,7 @@ function updateIncrement(name, num) {
     if (user.ip.current.lt(cost) || cost.gte(user.ip.infinite)) {replaceClass("canBuy", "cantBuy", "increment"+name+num+"b")}
     else {replaceClass("cantBuy", "canBuy", "increment"+name+num+"b")}
     if (cost.gte(user.ip.infinite) && showInfinite) {cost = "Infinite"}
-    if (name == "E") {di("incrementE"+num+"x").textContent = e("d", getIncrementx("E", num), 2, Math.max(Math.floor(Math.pow(user.ip.increment.E.bought[num]+1, 0.2))+1, 2))}
-    else {di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), 2, increment[name].dec)}
+    di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), 2, increment[name].dec);
     di("increment"+name+num+"Cost").textContent = e("d", cost, 2, 0);
   }
 }
