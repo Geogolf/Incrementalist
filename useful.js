@@ -1,115 +1,75 @@
-//main
-/*function e(num, exp, dec) {
-  let x = "";
-  if (typeof num == "undefined") {x = "Error 1"}
-  else if (typeof num == "string") {x = num}
-  else if (num >= 1e6) {x = num.toExponential(exp)}
-  else {
-    let a = Math.floor(num / 1000);
-    let b = (num % 1000).toFixed(dec);
-    if (b == 1000) {a++; b = 0}
-    if (a == 0) {x = b}
-    else if (b < 10) {x = a + ",00" + b}
-    else if (b < 100) {x = a + ",0" + b}
-    else {x = a + "," + b}
+//Faster Writing
+function di(x) {return document.getElementById(x)}
+function dc(x) {return document.getElementsByClassName(x)}
+function nd(x) {return new Decimal(x)}
+function del(event, func) {document.addEventListener(event, func)}
+function wel(event, func) {window.addEventListener(event, func)}
+
+//Manipulate HTML/CSS
+function showId(x) {document.getElementById(x).style.display = ""}
+function showIdTab(x) {document.getElementById(x).style.display = "table-cell"}
+function showClass(x) {let y = document.getElementsByClassName(x); for (i=0; i<y.length; i++) {y[i].style.display = ""}}
+function hideId(x) {document.getElementById(x).style.display = "none"}
+function hideClass(x) {let y = document.getElementsByClassName(x); for (i=0; i<y.length; i++) {y[i].style.display = "none"}}
+function addClass(cl, id) {document.getElementById(id).classList.add(cl)}
+function removeClass(cl, id) {document.getElementById(id).classList.remove(cl)}
+function replaceClass(cl1, cl2, id) {document.getElementById(id).classList.remove(cl1); document.getElementById(id).classList.add(cl2)}
+
+//Very Useful
+function e(note, obj, exp, dec, noCommas) {
+  if (typeof obj == "undefined") {return "Error"}
+  if (note == "d") {note = user.options.notation}
+  if (typeof exp == "undefined" || exp == "d") {exp = 2}
+  if (typeof dec == "undefined" || dec == "d") {dec = 0}
+  
+  if (note == "Blind") {
+    return " ";
   }
-  return x.replace("+", "");
-}*/
-function e(obj, exp, dec) {
-  if (typeof obj == "undefined") {return "Error=e1"}
-  if (typeof obj == "number") {return "Error=e2"}
   if (typeof obj == "string") {return obj}
-  if (typeof exp == "undefined") {exp = 2}
-  if (typeof dec == "undefined") {dec = 0}
-  if (dec > 10) {dec = 10}
-  /*if (obj.e >= 1e6) {
-    return obj.m.toFixed(exp) + "e" + obj.e.toExponential(exp).replace("e+", "e");
-  }*/
-  if (obj.e >= 6) {
-    if (obj.m.toFixed(exp) >= 10) {obj.m /= 10; obj.e++}
-    return obj.m.toFixed(exp) + "e" + obj.e.toLocaleString();
-  }
-  else {
-    let x = obj.m * (10 ** obj.e);
-    x = Number(x.toFixed(dec)).toLocaleString();
-    if (x.indexOf(".") < 0 && dec > 0) {x += "."}
-    for (let i = 1; i <= dec; i++) {
-      if (x.toString().charAt(x.toString().length - dec - 1) != ".") {
-        x = x.toString() + "0";
-      }
+  if (note == "Scientific" || note == "Logarithm") {
+    let m = Math.pow(10, obj.mag-Math.floor(obj.mag));
+    let e = obj.mag;
+    if (note == "Scientific") {e = Math.floor(e)}
+    if (m.toFixed(exp) >= 10) {m /= 10; e++}
+    let upperMag = m.toFixed(exp)+"e";
+    if (!noCommas) {upperMag += e.toLocaleString()}
+    else {upperMag += e}
+    if (note == "Logarithm") {
+      if (!noCommas) {upperMag = "e"+Number(e.toFixed(exp)).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+      else {upperMag = "e"+e.toFixed(exp)}
     }
-    return x;
+    if (obj.layer == 0) {
+      if (obj.lt(1000)) {return obj.mag.toFixed(dec)}
+      else if (!noCommas) {return Math.floor(obj.mag).toLocaleString()}
+      else {return Math.floor(obj.mag)}
+    }
+    if (obj.layer > 0) {
+      let eString = "";
+      if (obj.layer < 6) {for (let i=1; i<obj.layer; i++) {eString += "e"}}
+      else {eString = obj.layer-1+"E"}
+      if (obj.layer <= 1000) {return eString + upperMag}
+      else {return eString}
+    }
+  }
+  if (note == "Infinity") {
+    let result = obj.plus(1).log10().divide(Math.log10(Number.MAX_VALUE));
+    return e("Scientific", result, 2, 4)+"∞";
   }
 }
-function nd(value) {return new Decimal(value)}
-function d(x) {return document.getElementById(x)}
-function h(x) {document.getElementById(x).style.display = "none"}
-function s(x) {document.getElementById(x).style.display = "inline"}
-function sb(x) {document.getElementById(x).style.display = ""}
-function sf(x) {document.getElementById(x).style.display = "flex"}
-/*function show(id) {
-  if (user.show.ip <= unlocks.ip.indexOf(id)) {user.show.ip++}
-  s(id);
-}*/
-function del(a, b) {document.addEventListener(a, b)}
-function wel(a, b) {window.addEventListener(a, b)}
-/*function time(time) {
-  let x = time / 1000;
-  if (x == Infinity || time == null) {return "Infinite Time"}
-  let y = e(Math.floor(x / 31536000), 2);
-  let yy = (y == 1) ? " Year " : " Years ";
-  let d = Math.floor((x % 31536000) / 86400);
-  let dd = (d == 1) ? " Day " : " Days ";
-  let h = Math.floor((x % 86400) / 3600);
-  let hh = (h == 1) ? " Hour " : " Hours ";
-  let m = Math.floor((x % 3600) / 60);
-  let mm = (m == 1) ? " Minute " : " Minutes ";
-  let s = Math.floor(x % 60);
-  let ss = (s == 1) ? " Second" : " Seconds";
-  if (y == 0) {y = ""; yy = ""}
-  if (d == 0) {d = ""; dd = ""}
-  if (h == 0 || y > 0) {h = ""; hh = ""}
-  if (m == 0 || d > 0 || y > 0) {m = ""; mm = ""}
-  if (s == 0 || h > 0 || d > 0 || y > 0) {s = ""; ss = ""}
-  return y + yy + d + dd + h + hh + m + mm + s + ss;
-}*/
-function time(obj) {
-  let x = obj.divide(1000);
-  if (x == "Infinity" || typeof x == "null" || typeof obj == "undefined") {return "Infinite Time"}
-  let y = e(x.divide(31536000).floor());
-  let yy = (y == 1) ? " Year " : " Years ";
-  let d = x.divide(31536000).minus(x.divide(31536000).floor()).times(31536000).floor().divide(86400).floor();
-  let dd = (d == 1) ? " Day " : " Days ";
-  let h = x.divide(86400).minus(x.divide(86400).floor()).times(86400).floor().divide(3600).floor();
-  let hh = (h == 1) ? " Hour " : " Hours ";
-  let m = x.divide(3600).minus(x.divide(3600).floor()).times(3600).floor().divide(60).floor();
-  let mm = (m == 1) ? " Minute " : " Minutes ";
-  let s = x.divide(60).minus(x.divide(60).floor()).times(60).toFixed(3)/*.floor()*/;
-  let ss = (s == 1) ? " Second " : " Seconds ";
-  /*let ms = x.minus(x.floor()).times(1000).floor();
-  let msms = (ms == 1) ? " Millisecond" : " Milliseconds";*/
-  if (y == 0) {y = ""; yy = ""}
-  if (d == 0 || Number(y) > 1000) {d = ""; dd = ""}
-  if (h == 0 || Number(y.replace(",", "")) > 0) {h = ""; hh = ""}
-  if (m == 0 || d > 0 || Number(y.replace(",", "")) > 0) {m = ""; mm = ""}
-  if (h > 0 || d > 0 || Number(y.replace(",", "")) > 0) {s = ""; ss = ""}
-  /*if (m > 0 || h > 0 || d > 0 || y > 0) {ms = ""; msms = ""}*/
-  return y + yy + d + dd + h + hh + m + mm + s + ss/* + ms + msms*/;
-}
-function cb(str) {
+function copyToClipboard(str) {
   var el = document.createElement("textarea");
   el.value = str;
   el.setAttribute("readonly", "");
   el.style = {
     position: "absolute",
     left: "-9999px"
-  };
+  }
   document.body.appendChild(el);
-  cb2(el);
+  copyToClipboard2(el);
   document.body.removeChild(el);
   alert("Copied to clipboard");
 }
-function cb2(el) {
+function copyToClipboard2(el) {
   el = (typeof el === "string") ? document.querySelector(el) : el;
   if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
     var editable = el.contentEditable;
@@ -128,12 +88,39 @@ function cb2(el) {
   else {el.select()}
   document.execCommand("copy");
 }
-function ndn(m, e) {return nd(m).times(nd(10).pow(e))}
-
-//other
-function tab(t) {
-  for (let i = 0; i < tabs.length; i++) {h("tab" + tabs[i])}
-  s("tab" + t);
-  user.tab = t;
-  updatetab(t);
+function showTime(ms) {
+  if (user.options.notation == "Blind") {return ""}
+  if (typeof ms == "undefined" || ms >= Number.MAX_VALUE) {return "Infinite Time"}
+  if (ms == 0) {return "0.000 Seconds"}
+  let time = Math.floor(ms)/1000;
+  let y = e("d", nd(Math.floor(time/31536000)));
+  let yy = (y == 1) ? " Year" : " Years";
+  let d = Math.floor(time%31536000/86400);
+  let dd = (d == 1) ? " Day" : " Days";
+  let h = Math.floor(time%86400/3600);
+  let hh = (h == 1) ? " Hour" : " Hours";
+  let m = Math.floor(time%3600/60);
+  let mm = (m == 1) ? " Minute" : " Minutes";
+  let s;
+  if (time%60 >= 10 || m > 0) {s = Math.floor(time%60)}
+  else {s = (time%60).toFixed(3)}
+  let ss = (s == 1) ? " Second" : " Seconds";
+  
+  if (y == 0) {y = ""; yy = ""}
+  else if (time%31536000 > 0) {yy += ", "}
+  if (d == 0) {d = ""; dd = ""}
+  else if (time%86400 > 0) {dd += ", "}
+  if (h == 0) {h = ""; hh = ""}
+  else if (time%3600 > 0) {hh += ", "}
+  if (m == 0) {m = ""; mm = ""}
+  else if (time%60 > 0) {mm += ", "}
+  if (s == 0) {s = ""; ss = ""}
+  
+  return y+yy+d+dd+h+hh+m+mm+s+ss;
+}
+function random(min, max, floor) {
+  if (typeof min == "undefined") {min = 0}
+  if (typeof max == "undefined") {max = 1}
+  if (floor) {return Math.floor(Math.random()*(max-min)+min)}
+  else {return Math.random()*(max-min)+min}
 }
