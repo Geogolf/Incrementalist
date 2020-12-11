@@ -285,7 +285,7 @@ function simulateTime(time, active, showBox) {
     
     
     user.time.played += Math.floor(extraTime);
-    user.automation.IP.bought += Math.floor((user.automation.IP.bought-userStart.automation.IP.bought)*extraTimeInHours);
+    /*user.automation.IP.bought += Math.floor((user.automation.IP.bought-userStart.automation.IP.bought)*extraTimeInHours);
     user.automation.IncrementP.bought += Math.floor((user.automation.IncrementP.bought-userStart.automation.IncrementP.bought)*extraTimeInHours);
     user.automation.IncrementM.bought += Math.floor((user.automation.IncrementM.bought-userStart.automation.IncrementM.bought)*extraTimeInHours);
     user.automation.IncrementE.bought += Math.floor((user.automation.IncrementE.bought-userStart.automation.IncrementE.bought)*extraTimeInHours);
@@ -294,7 +294,7 @@ function simulateTime(time, active, showBox) {
     user.scaling.P.bought += Math.floor((user.scaling.P.bought-userStart.scaling.P.bought)*extraTimeInHours);
     user.scaling.M.bought += Math.floor((user.scaling.M.bought-userStart.scaling.M.bought)*extraTimeInHours);
     user.scaling.E.bought += Math.floor((user.scaling.E.bought-userStart.scaling.E.bought)*extraTimeInHours);
-    /*for (let i=0; i<5; i++) {
+    for (let i=0; i<5; i++) {
       user.ip.increment.P.bought[i] += Math.floor((user.ip.increment.P.bought[i]-userStart.ip.increment.P.bought[i])*extraTimeInHours);
       user.ip.increment.M.bought[i] += Math.floor((user.ip.increment.M.bought[i]-userStart.ip.increment.M.bought[i])*extraTimeInHours);
       user.ip.increment.E.bought[i] += Math.floor((user.ip.increment.E.bought[i]-userStart.ip.increment.E.bought[i])*extraTimeInHours);
