@@ -242,8 +242,8 @@ function updateAutomation(name) {
   if (user[automation[name].currency].current.lt(cost) || cost.gte(user[automation[name].currency].infinite) || (automation[name].type == "max" && user.automation[name].bought)) {replaceClass("canBuy", "cantBuy", "auto"+name+"b")}
   else {replaceClass("cantBuy", "canBuy", "auto"+name+"b")}
   if (cost.gte(user[automation[name].currency].infinite || (automation[name].type == "max" && user.automation[name].bought)) && showInfinite) {cost = "Infinite"}
-  di("auto"+name+"Rate").textContent = e("d", getAutomationRate(name), 2, 0);
-  di("auto"+name+"Cost").textContent = e("d", cost, 2, 0);
+  di("auto"+name+"Rate").textContent = e("d", getAutomationRate(name), "d", 0);
+  di("auto"+name+"Cost").textContent = e("d", cost, "d", 0);
 }
 function updateAutomationState(name, key) {
   if (automation[name].hasKey) {

@@ -19,7 +19,7 @@ function replaceClass(cl1, cl2, id) {document.getElementById(id).classList.remov
 function e(note, obj, exp, dec, noCommas) {
   if (typeof obj == "undefined") {return "Error"}
   if (note == "d") {note = user.options.notation}
-  if (typeof exp == "undefined" || exp == "d") {exp = 2}
+  if (typeof exp == "undefined" || exp == "d") {exp = user.options.decimals}
   if (typeof dec == "undefined" || dec == "d") {dec = 0}
   
   if (note == "Blind") {
@@ -35,7 +35,7 @@ function e(note, obj, exp, dec, noCommas) {
     if (!noCommas) {upperMag += e.toLocaleString()}
     else {upperMag += e}
     if (note == "Logarithm") {
-      if (!noCommas) {upperMag = "e"+Number(e.toFixed(exp)).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+      if (!noCommas) {upperMag = "e"+Number(e.toFixed(exp)).toLocaleString('en-US', {minimumFractionDigits: exp, maximumFractionDigits: exp})}
       else {upperMag = "e"+e.toFixed(exp)}
     }
     if (obj.layer == 0) {

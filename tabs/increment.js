@@ -194,18 +194,18 @@ function updateIncrements() {
   }
 }
 function updateEquationIP() {
-  di("equationCx").textContent = e("d", getIPMulti(), 2, 2);
-  di("equationC2x").textContent = e("d", getIPExponent(), 2, 2);
+  di("equationCx").textContent = e("d", getIPMulti(), "d", 2);
+  di("equationC2x").textContent = e("d", getIPExponent(), "d", 2);
   for (let name in increment) {
-    di("equation"+name+"x").textContent = e("d", increment[name].result, 2, increment[name].dec);
+    di("equation"+name+"x").textContent = e("d", increment[name].result, "d", increment[name].dec);
   }
   let result = getEquationIPResult();
-  di("equationIPResult").textContent = e("d", result, 2, 0);
-  di("equationClickResult").textContent = e("d", result.times(getClickMulti()), 2, 0);
+  di("equationIPResult").textContent = e("d", result, "d", 0);
+  di("equationClickResult").textContent = e("d", result.times(getClickMulti()), "d", 0);
 }
 function updateCoefficient(name, num) {
   if (num == 4) {return}
-  di("coefficient"+name+num).textContent = e("d", getSacrificeBoost("IP", name), 2, increment[name].dec);
+  di("coefficient"+name+num).textContent = e("d", getSacrificeBoost("IP", name), "d", increment[name].dec);
 }
 function updateIncrement(name, num) {
   if (di("increment"+name+num).style.display != "none") {
@@ -213,8 +213,8 @@ function updateIncrement(name, num) {
     if (user.ip.current.lt(cost) || cost.gte(user.ip.infinite)) {replaceClass("canBuy", "cantBuy", "increment"+name+num+"b")}
     else {replaceClass("cantBuy", "canBuy", "increment"+name+num+"b")}
     if (cost.gte(user.ip.infinite) && showInfinite) {cost = "Infinite"}
-    di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), 2, increment[name].dec);
-    if (di("exponent"+name+num) != null) {di("exponent"+name+num).textContent = e("d", getIncremente(name, num), 2, 3)}
-    di("increment"+name+num+"Cost").textContent = e("d", cost, 2, 0);
+    di("increment"+name+num+"x").textContent = e("d", getIncrementx(name, num), "d", increment[name].dec);
+    if (di("exponent"+name+num) != null) {di("exponent"+name+num).textContent = e("d", getIncremente(name, num), "d", 3)}
+    di("increment"+name+num+"Cost").textContent = e("d", cost, "d", 0);
   }
 }

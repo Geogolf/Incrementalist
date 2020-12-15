@@ -97,6 +97,6 @@ function updateScaling(name) {
   if (user[scaling[name].currency].current.lt(cost) || cost.gte(user[scaling[name].currency].infinite)) {replaceClass("canBuy", "cantBuy", "scaling"+name+"b")}
   else {replaceClass("cantBuy", "canBuy", "scaling"+name+"b")}
   if (cost.gte(user[scaling[name].currency].infinite) && showInfinite) {cost = "Infinite"}
-  di("scaling"+name+"x").textContent = e("d", getScalingEffect(name), 2, 2);
-  di("scaling"+name+"Cost").textContent = e("d", cost, 2, 0);
+  di("scaling"+name+"x").textContent = e("d", getScalingEffect(name), "d", 2);
+  di("scaling"+name+"Cost").textContent = e("d", cost, "d", 0);
 }

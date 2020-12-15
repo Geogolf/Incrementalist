@@ -70,15 +70,15 @@ function getPPBoost() {
 //Update Data
 function updatePrestige() {
   let gain = getPPGain();
-  di("ppGain").textContent = e("d", gain, 2, 0);
+  di("ppGain").textContent = e("d", gain, "d", 0);
   if (gain.gte(100)) {hideId("ppNextText")}
   else {
     showId("ppNextText");
     let dif = getPPNext().minus(user.ip.sac);
-    if (dif.gt(0)) {di("ppNext").textContent = e("d", dif, 2, 0)}
-    else {di("ppNext").textContent = e("d", nd(0), 2, 0)}
+    if (dif.gt(0)) {di("ppNext").textContent = e("d", dif, "d", 0)}
+    else {di("ppNext").textContent = e("d", nd(0), "d", 0)}
   }
-  di("ppBoost").textContent = e("d", getPPBoost(), 2, 2);
+  di("ppBoost").textContent = e("d", getPPBoost(), "d", 2);
 }
 
 //Reset Data
@@ -92,7 +92,7 @@ function resetPrestige() {
     }
   }
   if (!condition && user.ip.sac.gte(1e100)) {giveAchievement("ach5-1", true)}
-  if (user.pp.milestones.count < 2 || !user.pp.pt.cells.includes("pt3-1") || !user.pp.pt.cells.includes("pt3-4") || user.pp.challenge[4].in) {
+  if (user.pp.milestones.count < 2 || !user.pp.pt.cells.includes("pt3-1")/* || !user.pp.pt.cells.includes("pt3-4")*/ || user.pp.challenge[4].in) {
     for (let name in automation) {
       if (automation[name].currency == "ip") {
         if (user.pp.milestones.count < 2 || !user.pp.pt.cells.includes("pt3-1")) {

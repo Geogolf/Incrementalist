@@ -1,10 +1,10 @@
 const ppChallenge = [
   "null",
-  {goals: ["1e153", "1e250", "1e421", "1e799", "e5700"], maxCompletions: 5},
-  {goals: ["1e42", "1e73", "1e202", "1e490"], maxCompletions: 4},
+  {goals: ["1e153", "1e250", "1e421", "1e799", "e5000"], maxCompletions: 5},
+  {goals: ["1e42", "1e73", "1e202", "1e488"], maxCompletions: 4},
   {goals: ["1e93", "1e385", "e3973"], maxCompletions: 3},
   {goals: ["1e105", "1e150"], maxCompletions: 2},
-  {goals: ["1e183"], maxCompletions: 1},
+  {goals: ["1e181"], maxCompletions: 1},
   {goals: ["1e4547"], maxCompletions: 1}
 ];
 for (let i=1; i<ppChallenge.length; i++){
@@ -22,6 +22,7 @@ function confirmEnterPPChallenge(c) {
 }
 function enterPPChallenge(c) {
   if (user.pp.challenge[c].count < ppChallenge[c].maxCompletions) {
+    if (user.options.changeTabOnChallenge) {showTab("Increment")}
     user.automation.Prestige.enabled["0"] = false;
     user.pp.challenge[c].in = true;
     reset.push("ppChallenge");
@@ -38,7 +39,7 @@ function exitPPChallenge(c) {
   if (user.pp.milestones < 6) {if (user.ip.sac.gte(getPPChallengeGoal(c))) {completions = 1}}
   else {for (let i=user.pp.challenge[c].count; i<ppChallenge[c].goals.length; i++) {if (user.ip.sac.gte(getPPChallengeGoal(c, i))) {completions++}}}
   user.pp.challenge[c].count += completions;
-  user.pp.challenge[c].in = false;
+  (user.options.retryChallenges) ? enterPPChallenge(c) : user.pp.challenge[c].in = false;
 }
 
 //Get Data
@@ -76,16 +77,16 @@ function updatePPChallenges() {
     if (user.pp.challenge[i].count < ppChallenge[i].maxCompletions) {replaceClass("cantBuy", "canBuy", "ppChallenge"+i)}
     else {replaceClass("canBuy", "cantBuy", "ppChallenge"+i)}
     /*for (let k=0; k<ppChallenge[i].goals.length; k++) {
-      di("ppChallenge"+i+"Goal").textContent = e("d", nd(ppChallenge[i].goals[k]), 2, 0);
+      di("ppChallenge"+i+"Goal").textContent = e("d", nd(ppChallenge[i].goals[k]), "d", 0);
     }*/
     let goal = getPPChallengeGoal(i, undefined, true);
     /*if (goal.lt(1)) {goal = nd(0)}*/
     if (user.pp.challenge[i].count == ppChallenge[i].maxCompletions) {di("ppChallenge"+i+"Goal").textContent = e("d", "Infinite")}
-    else {di("ppChallenge"+i+"Goal").textContent = e("d", goal, 2, 0)}
+    else {di("ppChallenge"+i+"Goal").textContent = e("d", goal, "d", 0)}
     di("ppChallenge"+i+"Completions").textContent = e("d", nd(user.pp.challenge[i].count));
     di("ppChallenge"+i+"MaxCompletions").textContent = e("d", nd(ppChallenge[i].maxCompletions));
-    di("ppChallenge"+i+"Reward").textContent = e("d", getPPChallengeReward(i), 2, 2);
-    if (di("ppChallenge"+i+"Cap") != null) {di("ppChallenge"+i+"Cap").textContent = e("d", getPPChallengeCap(i), 2, 2)}
+    di("ppChallenge"+i+"Reward").textContent = e("d", getPPChallengeReward(i), "d", 2);
+    if (di("ppChallenge"+i+"Cap") != null) {di("ppChallenge"+i+"Cap").textContent = e("d", getPPChallengeCap(i), "d", 2)}
   }
 }
 function updatePPChallengeProgress() {
@@ -95,8 +96,8 @@ function updatePPChallengeProgress() {
       di("currentPPChallenge").textContent = i;
       let dif = goal.minus(user.ip.sac);
       if (dif.lt(0)) {dif = nd(0)}
-      if (dif.gt(0)) {di("currentPPChallengeProgress").textContent = e("d", dif, 2, 0)}
-      else {di("currentPPChallengeProgress").textContent = e("d", nd(0), 2, 0)}
+      if (dif.gt(0)) {di("currentPPChallengeProgress").textContent = e("d", dif, "d", 0)}
+      else {di("currentPPChallengeProgress").textContent = e("d", nd(0), "d", 0)}
       if (user.ip.sac.lt(goal)) {di("exitPPChallenge").textContent = "Exit Challenge"}
       else {di("exitPPChallenge").textContent = "Complete Challenge"}
     }

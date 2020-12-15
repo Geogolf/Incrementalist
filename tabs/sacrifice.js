@@ -1,7 +1,7 @@
 //Data
 const sacrifice = {
   IP: {
-    costs: ["1e7", "1e12", "1e19", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832", "1e2098", "1e9733", "e6.5e12"],
+    costs: ["1e7", "1e12", "1e19", "1e25", "1e28", "7e35", "8.2e41", "1e53", "1e71", "1e78", "1e92", "1e243", "1e458", "1e832", "1e2098", "1e9673", "e6.5e12"],
     unlocks: ["Variable M, P Multiplier", "Nothing", "M Multiplier", "Nothing", "Variable E", "Nothing", "E Multiplier", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing", "Nothing"],
     boosts: {
       P: {dec: 0},
@@ -11,7 +11,7 @@ const sacrifice = {
     goal: nd("ee3")
   },
   PP: {
-    costs: ["1e281", "1e1952"],
+    costs: [/*"1e281", "1e1952"*/"100000", "1e10"],
     unlocks: ["Variable T, <span class=\"ba blueText\">1</span> PP Milestone", "Variable T<sub>1</sub>"],
     boosts: {
       C2: {dec: 2}
@@ -53,7 +53,9 @@ function runSacrifice(layer, dontConfirm, bypassExploitFix) {
 function getSacrificeCost(layer, count) {
   if (typeof count == "undefined") {count = user.sacrifice[layer].count}
   if (typeof sacrifice[layer].costs[count] == "undefined") {return user[layer.toLowerCase()].infinite}
-  let cost = nd(sacrifice[layer].costs[count]).divide(getPPChallengeReward(2));
+  let cost;
+  if (layer == "IP") {cost = nd(sacrifice[layer].costs[count]).divide(getPPChallengeReward(2))}
+  else {cost = nd(sacrifice[layer].costs[count])}
   return cost;
 }
 function getSacrificeBoost(layer, boost) {
@@ -103,20 +105,20 @@ function updateSacrifices() {
 function updateSacrifice(layer) {
   /*for (let i=0; i<sacrifice[layer].boosts.length; i++) {di("sacrifice"+layer+sacrifice[layer].boosts[i]).textContent = e("d", getSacrificeBoost(layer, sacrifice[layer].boosts[i]), 2, 2)}*/
   for (let name in sacrifice[layer].boosts) {
-    di("sacrifice"+layer+name).textContent = e("d", getSacrificeBoost(layer, name), 2, sacrifice[layer].boosts[name].dec);
+    di("sacrifice"+layer+name).textContent = e("d", getSacrificeBoost(layer, name), "d", sacrifice[layer].boosts[name].dec);
   }
   (typeof sacrifice[layer].unlocks[user.sacrifice[layer].count] != "undefined") ? di("sacrifice"+layer+"Unlock").innerHTML = sacrifice[layer].unlocks[user.sacrifice[layer].count] : di("sacrifice"+layer+"Unlock").innerHTML = "Nothing";
   let cost = getSacrificeCost(layer);
-  if (cost.gte(user[layer.toLowerCase()].infinite) && showInfinite) {
-    di("sacrifice"+layer+"Cost").textContent = e("d", "Infinite", 2, 0);
+  if (cost.gte(user[layer.toLowerCase()].infinite) && showInfinite && false) {
+    di("sacrifice"+layer+"Cost").textContent = e("d", "Infinite", "d", 0);
     replaceClass("canBuy", "cantBuy", "sacrifice"+layer+"b");
   }
   else if (user[layer.toLowerCase()].sac.lt(cost)) {
-    di("sacrifice"+layer+"Cost").textContent = e("d", cost.minus(user[layer.toLowerCase()].sac), 2, 0);
+    di("sacrifice"+layer+"Cost").textContent = e("d", cost.minus(user[layer.toLowerCase()].sac), "d", 0);
     replaceClass("canBuy", "cantBuy", "sacrifice"+layer+"b");
   }
   else {
-    di("sacrifice"+layer+"Cost").textContent = nd("d", nd(0), 2, 0);
+    di("sacrifice"+layer+"Cost").textContent = nd("d", nd(0), "d", 0);
     replaceClass("cantBuy", "canBuy", "sacrifice"+layer+"b");
   }
 }
@@ -131,6 +133,7 @@ function resetSacrificeIP() {
   }
   if (!condition && user.ip.sac.gte(getSacrificeCost("IP", 0))) {giveAchievement("ach2-5", true)}
   if (user.pp.milestones.count >= 4 && user.ip.sac.gte(getSacrificeCost("IP", 0))) {giveAchievement("ach2-6", true)}
+  
   if (user.pp.milestones.count < 2) {
     for (let name in automation) {
       if (automation[name].currency == "ip") {
@@ -186,10 +189,11 @@ function resetSacrificePP() {
     user.pp.challenge[i].in = false;
     if (user.pp.milestones.count < 6) {user.pp.challenge[i].count = 0}
   }
-  user.pp.bestPPs = nd(0);
   
-  user.ip.current = getIPStart();
-  user.ip.sac = getIPStart();
-  user.pp.current = getPPStart();
-  user.pp.sac = getPPStart();
+  let ipStart = getIPStart();
+  let ppStart = getPPStart();
+  user.ip.current = ipStart;
+  user.ip.sac = ipStart;
+  user.pp.current = ppStart;
+  user.pp.sac = ppStart;
 }

@@ -1,5 +1,9 @@
 //Data
 const options = {
+  Decimals: {type: "Input", onclick: () => {setDecimals()}},
+  RetryChallenges: {type: "None", onclick: () => {toggleRetryChallenges()}},
+  ChangeTabOnChallenge: {type: "None", onclick: () => {toggleChangeTabOnChallenge()}},
+  ShowOffline: {type: "None", onclick: () => {toggleShowOffline()}},
   Notation: {type: "Dropdown", onclick: (note) => {setNotation(note)}, items: ["Scientific"/*, "Engineering"*/, "Logarithm"/*, "Letters"*/, "Infinity", "Blind"]},
   Confirmation: {type: "Dropdown", onclick: (con) => {toggleConfirmation(con)}, items: [/*"Reset", */"Sacrifice", "Prestige", "Challenge"]},
   Logpb: {type: "None", onclick: () => {toggleLogpb()}},
@@ -12,9 +16,7 @@ const options = {
 }
 for (let name in options) {
   let data = options[name];
-  /*if (data.type == "Input") {
-    di(name+"Input").addEventListener("input", () => {data.onclick()});
-  }*/
+  if (data.type == "Input") {di(name+"Input").addEventListener("input", () => {data.onclick()});}
   if (data.type == "Dropdown") {
     for (k=0; k<data.items.length; k++) {
       let item = data.items[k];
@@ -25,6 +27,13 @@ for (let name in options) {
 }
 
 //Functions
+function setDecimals(num) {
+  user.options.decimals = num || di("DecimalsInput").value;
+  updateDecimals();
+}
+function toggleRetryChallenges() {user.options.retryChallenges = !user.options.retryChallenges}
+function toggleChangeTabOnChallenge() {user.options.changeTabOnChallenge = !user.options.changeTabOnChallenge}
+function toggleShowOffline() {user.options.showOffline = !user.options.showOffline}
 function setNotation(note) {
   user.options.notation = note;
   setPrestigeAt(user.automation.Prestige.at);
@@ -81,14 +90,16 @@ function resetAll(notify) {
 
 //Update Data
 function updateOptions() {
+  updateDecimals();
+  updateRetryChallenges();
+  updateChangeTabOnChallenge();
+  updateShowOffline();
   updateNotation(user.options.notation);
-  for (let i=0; i<options.Confirmation.items.length; i++) {
-    updateConfirmation(options.Confirmation.items[i]);
-  }
+  for (let i=0; i<options.Confirmation.items.length; i++) {updateConfirmation(options.Confirmation.items[i])}
   updateLogpb();
   /*updateUIRate();*/
   updateSmartAutoPrestige();
-  di("notation"+options.Notation.items[0]).style.borderTopLeftRadius = "10px";
+  /*di("notation"+options.Notation.items[0]).style.borderTopLeftRadius = "10px";
   di("notation"+options.Notation.items[0]).style.borderTopRightRadius = "10px";
   di("notation"+options.Notation.items[options.Notation.items.length-1]).style.borderBottomLeftRadius = "10px";
   di("notation"+options.Notation.items[options.Notation.items.length-1]).style.borderBottomRightRadius = "10px";
@@ -107,28 +118,26 @@ function updateOptions() {
       array[i].style.borderBottomRightRadius = "10px";
       break;
     }
-  }
+  }*/
 }
 
+function updateDecimals() {
+  di("Decimalsx").textContent = e("d", nd(user.options.decimals), "d", 0);
+  di("DecimalsInput").value = user.options.decimals;
+}
+function updateRetryChallenges() {(user.options.retryChallenges) ? di("RetryChallenges").style.backgroundColor = "rgb(25, 85, 25)" : di("RetryChallenges").style.backgroundColor = "rgb(10, 15, 15)"}
+function updateChangeTabOnChallenge() {(user.options.changeTabOnChallenge) ? di("ChangeTabOnChallenge").style.backgroundColor = "rgb(25, 85, 25)" : di("ChangeTabOnChallenge").style.backgroundColor = "rgb(10, 15, 15)"}
+function updateShowOffline() {(user.options.showOffline) ? di("ShowOffline").style.backgroundColor = "rgb(25, 85, 25)" : di("ShowOffline").style.backgroundColor = "rgb(10, 15, 15)"}
 function updateNotation(note) {
-  for (let i=0; i<options.Notation.items.length; i++) {di("notation"+options.Notation.items[i]).style.backgroundColor = "rgb(0, 0, 0)"}
+  for (let i=0; i<options.Notation.items.length; i++) {di("notation"+options.Notation.items[i]).style.backgroundColor = "rgb(10, 15, 15)"}
   di("notation"+note).style.backgroundColor = "rgb(25, 85, 25)";
 }
-function updateConfirmation(con) {
-  if (user.options.confirmations.includes(con)) {di("confirmation"+con).style.backgroundColor = "rgb(25, 85, 25)"}
-  else {di("confirmation"+con).style.backgroundColor = "rgb(0, 0, 0)"}
-}
-function updateLogpb() {
-  if (user.options.logpb) {di("Logpb").style.backgroundColor = "rgb(25, 85, 25)"}
-  else {di("Logpb").style.backgroundColor = "rgb(0, 0, 0)"}
-}
+function updateConfirmation(con) {(user.options.confirmations.includes(con)) ? di("confirmation"+con).style.backgroundColor = "rgb(25, 85, 25)" : di("confirmation"+con).style.backgroundColor = "rgb(10, 15, 15)"}
+function updateLogpb() {(user.options.logpb) ? di("Logpb").style.backgroundColor = "rgb(25, 85, 25)" : di("Logpb").style.backgroundColor = "rgb(10, 15, 15)"}
 /*function updateUIRate() {
-  di("UIRatex").textContent = e("d", nd(user.options.uiRate), 2, 0);
+  di("UIRatex").textContent = e("d", nd(user.options.uiRate), "d", 0);
 }*/
-function updateSmartAutoPrestige() {
-  if (user.options.smartAutoPrestige) {di("SmartAutoPrestige").style.backgroundColor = "rgb(25, 85, 25)"}
-  else {di("SmartAutoPrestige").style.backgroundColor = "rgb(0, 0, 0)"}
-}
+function updateSmartAutoPrestige() {(user.options.smartAutoPrestige) ? di("SmartAutoPrestige").style.backgroundColor = "rgb(25, 85, 25)" : di("SmartAutoPrestige").style.backgroundColor = "rgb(10, 15, 15)"}
 
 //Broken Data
 di("brokenExport").addEventListener("click", () => {copyToClipboard(encode(brokenUser))});

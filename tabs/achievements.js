@@ -35,7 +35,7 @@ for (let id in achievements) {
 const eggs = {
   "egg1-1": {title: "That was quite a mistake", desc: "Remind Geo of his big mistake"},
   "egg1-2": {title: "EEEE", desc: "Only EEEE"}, //Removed cause of a bug
-  "egg1-3": {title: "I know \"enough\" code", desc: "Find Geo's coding weakness"}, //
+  "egg1-3": {title: "osu!", desc: "xzxzxzxzxz"}, //
   "egg1-4": {title: "Congrats?", desc: "There is literally nothing you have to do"},
   "egg1-5": {title: "Yep, it's there", desc: "Perform a pixel perfect click"},
   "egg1-6": {title: "Free money", desc: "Try to give yourself money"}

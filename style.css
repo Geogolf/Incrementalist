@@ -1,6 +1,6 @@
 /* Base Elements */
 body {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(10, 15, 15);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -22,7 +22,7 @@ canvas {
   left: 0px;
   z-index: -999;
 }
-span {color: rgb(150, 150, 150); font-family: "Georgia"; overflow-wrap: break-word}
+span {color: rgb(150, 150, 150); font-family: "typewriter"; overflow-wrap: break-word}
 input {
   color: rgb(127, 127, 127);
   background-color: rgb(50, 50, 50);
@@ -42,12 +42,12 @@ input {
 
 /* Text */
 /*.text {color: rgb(150, 150, 150); font-family: "Georgia"; overflow-wrap: break-word}*/
-.redText {color: rgb(220, 20, 60)}
-.orangeText {color: rgb(255, 165, 0)}
-.yellowText {color: rgb(222, 222, 0)}
-.greenText {color: rgb(150, 200, 50)}
-.blueText {color: rgb(50, 50, 250)}
-.purpleText {color: rgb(150, 0, 210)}
+.redText {color: rgb(220, 20, 60); text-shadow: 0px 0px 25px rgb(220, 20, 60)}
+.orangeText {color: rgb(255, 165, 0); text-shadow: 0px 0px 25px rgb(255, 165, 0)}
+.yellowText {color: rgb(222, 222, 0); text-shadow: 0px 0px 25px rgb(222, 222, 0)}
+.greenText {color: rgb(150, 200, 50); text-shadow: 0px 0px 25px rgb(150, 200, 50)}
+.blueText {color: rgb(50, 50, 250); text-shadow: 0px 0px 25px rgb(50, 50, 250)}
+.purpleText {color: rgb(150, 0, 210); text-shadow: 0px 0px 25px rgb(150, 0, 210)}
 .goldText {color: rgb(212, 175, 55)}
 .whiteText {color: rgb(255, 255, 255)}
 .ba {font-family: Book Antiqua}

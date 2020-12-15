@@ -149,15 +149,15 @@ function updatePrestigeTree() {
       else {removeClass("ppComplete", id); removeClass("cantBuy", id); addClass("canBuy", id)}
       if (user.pp.challenge[4].in) {removeClass("canBuy", id); removeClass("ppComplete", id); addClass("cantBuy", id)}
       
-      if (di(id+"x") != null) {di(id+"x").textContent = e("d", getPTReward(id), 2, 2)}
-      if (di(id+"Cap") != null) {di(id+"Cap").textContent = e("d", getPTCap(id), 2, 2)}
+      if (di(id+"x") != null) {di(id+"x").textContent = e("d", getPTReward(id), "d", 2)}
+      if (di(id+"Cap") != null) {di(id+"Cap").textContent = e("d", getPTCap(id), "d", 2)}
       if (cost.gte(user.pp.infinite) || user.pp.pt.cells.includes(id)) {cost = "Infinite"}
-      if (di(id+"Cost") != null) {di(id+"Cost").textContent = e("d", cost, 2, 0)}
+      if (di(id+"Cost") != null) {di(id+"Cost").textContent = e("d", cost, "d", 0)}
     }
   }
 }
 function updateRefundPT() {
   if (!user.pp.pt.refund) {replaceClass("cantBuy", "canBuy", "refundPT")}
   else {replaceClass("canBuy", "cantBuy", "refundPT")}
-  di("refundPTx").textContent = e("d", user.pp.pt.refundAmount, 2, 0);
+  di("refundPTx").textContent = e("d", user.pp.pt.refundAmount, "d", 0);
 }

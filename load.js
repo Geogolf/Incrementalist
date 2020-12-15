@@ -322,17 +322,25 @@ function loadData(data) {
     lastClicked = undefined;
     user.atEnd = false;
     user.version = "0.6.0";
+  }
+  if (user.version == "0.6.0") {
+    if (typeof user.pp.bestPPs != "undefined") {delete user.pp.bestPPs}
+    user.options.decimals = 2;
+    user.options.retryChallenges = false;
+    user.options.changeTabOnChallenge = false;
+    user.options.showOffline = true;
+    user.version = "0.6.1";
     updated = true;
   }
   for (let i=0; i<user.eggs.length; i++) {showId(user.eggs[i])}
   fixnd(user);
-  showTab(user.tab.main);
+  showTab((user.tab.main == "Options") ? "Increment" : user.tab.main);
   setPrestigeAt(user.automation.Prestige.at);
   updateAutomationStates();
   resizeCanvases();
   di("version").textContent = user.version + " (Beta)";
   console.log("Offline for "+showTime(nd(Date.now()-user.time.lastUpdate)));
-  simulateTime(Date.now()-user.time.lastUpdate);
+  simulateTime(Date.now()-user.time.lastUpdate, false, user.options.showOffline);
   /*setUIRate();*/
   save();
   setTimeout(() => {
