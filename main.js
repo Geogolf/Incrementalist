@@ -96,7 +96,7 @@ var lastClicked;
 
 const updateRate = 20;
 const updateMessages = {
-  "0.6.1": "- Nothing... yet",
+  "0.6.1": "- Added a bunch of options and qol features<br>- Changed some colors to hopefully make the numbers easier to read<br>- Lowered some of the major timewalls<br>- Fixed 4+ bugs",
   "0.6.0": "- More prestige challenges<br>- The UI and feedback is improved<br>- P variables no longer suck<br>- Fixed 4+ bugs and 2+ exploits",
   "0.5.5": "- Offline progress past 1 hour is now calculated instantly<br>- Buy max toggle has been removed, it is now automatically enabled upon unlock<br>- Tweaked a few costs and requirements, points have been refunded<br>- Game runs up to 20% smoother, and offline time is calculated 20% faster<br>- Fixed 10+ bugs",
   "0.5.4": "- Added options export/import/reset/discord to the loading screen<br>- Fixed 3+ bugs",
